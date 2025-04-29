@@ -21,12 +21,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        // movement
+        // inputs
         XInput = MoveAction.ReadValue<Vector2>().x;
         YInput = MoveAction.ReadValue<Vector2>().y;
 
         if (JumpAction.WasPressedThisFrame()) {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, JumpForce, rb.linearVelocity.z);
+            var grounded = Physics.Raycast(transform.position, Vector3.down, 2 * 0.5f + 0.3f);
+            if (grounded) {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, JumpForce, rb.linearVelocity.z);
+            }
         }
     }
 
