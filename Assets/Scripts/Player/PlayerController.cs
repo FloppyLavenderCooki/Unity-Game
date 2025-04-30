@@ -32,10 +32,6 @@ namespace Player
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
             }
-
-            if (rb.transform.position.y <= -50) {
-                rb.transform.position = Vector3.zero;
-            }
         }
 
         private void FixedUpdate() {
