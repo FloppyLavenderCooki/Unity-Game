@@ -9,16 +9,20 @@ namespace Player
 
         private InputAction _moveAction;
         private InputAction _jumpAction;
+        private InputAction _sprintAction;
 
         private float _xInput;
         private float _yInput;
 
         public float moveSpeed = 50f;
         public float jumpForce = 50f;
+        
+        private bool _sprinting = false;
 
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
+            _sprintAction = InputSystem.actions.FindAction("Sprint");
         }
 
         private void Update() {
@@ -31,6 +35,20 @@ namespace Player
                 if (grounded) {
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
+            }
+            
+            if (_sprintAction.WasPressedThisFrame()) {
+                if (_sprinting) {
+                    moveSpeed = 5f;
+                    _sprinting = false;
+                } else {
+                    moveSpeed = 10f;
+                    _sprinting = true;
+                }
+            }
+
+            if (rb.transform.position.y <= -50) {
+                rb.transform.position = Vector3.zero;
             }
         }
 
