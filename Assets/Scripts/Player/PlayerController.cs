@@ -1,55 +1,57 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour {
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private new Transform camera;
+namespace Player
+{
+    public class PlayerController : MonoBehaviour {
+        [SerializeField] private Rigidbody rb;
+        [SerializeField] private new Transform camera;
 
-    private InputAction MoveAction;
-    private InputAction JumpAction;
+        private InputAction _moveAction;
+        private InputAction _jumpAction;
 
-    private float XInput;
-    private float YInput;
+        private float _xInput;
+        private float _yInput;
 
-    public float MoveSpeed = 50f;
-    public float JumpForce = 50f;
-    
-    void Start() {
-        MoveAction = InputSystem.actions.FindAction("Move");
-        JumpAction = InputSystem.actions.FindAction("Jump");
-    }
+        public float moveSpeed = 50f;
+        public float jumpForce = 50f;
 
-    void Update() {
-        // inputs
-        XInput = MoveAction.ReadValue<Vector2>().x;
-        YInput = MoveAction.ReadValue<Vector2>().y;
+        private void Start() {
+            _moveAction = InputSystem.actions.FindAction("Move");
+            _jumpAction = InputSystem.actions.FindAction("Jump");
+        }
 
-        if (JumpAction.WasPressedThisFrame()) {
-            var grounded = Physics.Raycast(transform.position, Vector3.down, 2 * 0.5f + 0.3f);
-            if (grounded) {
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, JumpForce, rb.linearVelocity.z);
+        private void Update() {
+            // inputs
+            _xInput = _moveAction.ReadValue<Vector2>().x;
+            _yInput = _moveAction.ReadValue<Vector2>().y;
+
+            if (_jumpAction.WasPressedThisFrame()) {
+                var grounded = Physics.Raycast(transform.position, Vector3.down, 2 * 0.5f + 0.3f);
+                if (grounded) {
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+                }
             }
         }
-    }
 
-    private void FixedUpdate() {
-        // movement
-        rb.transform.rotation = Quaternion.Euler(0f, camera.eulerAngles.y, 0f);
+        private void FixedUpdate() {
+            // movement
+            rb.transform.rotation = Quaternion.Euler(0f, camera.eulerAngles.y, 0f);
 
-        float inputH = XInput * MoveSpeed;
-        float inputV = YInput * MoveSpeed;
+            var inputH = _xInput * moveSpeed;
+            var inputV = _yInput * moveSpeed;
 
-        Vector3 playerF = rb.transform.forward;
-        playerF.y = 0f;
-        Vector3 cameraR = camera.transform.right;
-        cameraR.y = 0f;
+            var playerF = rb.transform.forward;
+            playerF.y = 0f;
+            var cameraR = camera.transform.right;
+            cameraR.y = 0f;
 
-        Vector3 forwardRel = inputV * playerF;
-        Vector3 rightRel = inputH * cameraR;
+            var forwardRel = inputV * playerF;
+            var rightRel = inputH * cameraR;
 
-        Vector3 moveDir = forwardRel + rightRel;
+            var moveDir = forwardRel + rightRel;
 
-        rb.linearVelocity = new Vector3(moveDir.x, rb.linearVelocity.y, moveDir.z);
+            rb.linearVelocity = new Vector3(moveDir.x, rb.linearVelocity.y, moveDir.z);
+        }
     }
 }
