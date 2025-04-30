@@ -388,8 +388,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 4952019967173764337}
   camera: {fileID: 7926778493981567549}
-  MoveSpeed: 5
-  JumpForce: 7.5
+  moveSpeed: 5
+  jumpForce: 7.5
 --- !u!1 &945707038 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7953606483559150473, guid: 2026b1bed64db4a6fbacad3f9f5bc49f, type: 3}
