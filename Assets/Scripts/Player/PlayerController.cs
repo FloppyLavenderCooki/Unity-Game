@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -23,19 +24,18 @@ namespace Player
 
         public Transform groundCheck;
 
-        [Header("View Bobbing")]
-        [SerializeField] private float frequency = 3f;
-        [SerializeField] private float bobSpeed = 1f;
-        [SerializeField] private float bobAmplitude = 0.05f;
-        private float bobTimer = 0f;
-        private Vector3 cameraInitialLocalPos;
+        [SerializeField] private float _frequency = 3f;
+        [SerializeField] private float _bobSpeed = 1f;
+        [SerializeField] private float _bobAmplitude = 0.05f;
+        private float _bobTimer = 0f;
+        private Vector3 _cameraInitialLocalPos;
 
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
             _sprintAction = InputSystem.actions.FindAction("Sprint");
 
-            cameraInitialLocalPos = camera.localPosition;
+            _cameraInitialLocalPos = camera.localPosition;
         }
 
         void HandleViewBobbing()
@@ -46,18 +46,18 @@ namespace Player
 
             if (speed > 0.1f)
             {
-                bobTimer += Time.deltaTime * frequency * (speed * bobSpeed);
-                float bobOffsetY = Mathf.Sin(bobTimer) * bobAmplitude;
-                float bobOffsetX = Mathf.Cos(bobTimer * 0.5f) * bobAmplitude * 0.5f;
+                _bobTimer += Time.deltaTime * _frequency * (speed * _bobSpeed);
+                float bobOffsetY = Mathf.Sin(_bobTimer) * _bobAmplitude;
+                float bobOffsetX = Mathf.Cos(_bobTimer * 0.5f) * _bobAmplitude * 0.5f;
 
-                camera.localPosition = cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
+                camera.localPosition = _cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
             }
             else
             {
-                bobTimer = 0f;
+                _bobTimer = 0f;
                 camera.localPosition = Vector3.Lerp(
                     camera.localPosition,
-                    cameraInitialLocalPos,
+                    _cameraInitialLocalPos,
                     Time.deltaTime * 5f
                 );
             }
