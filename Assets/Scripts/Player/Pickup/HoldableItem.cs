@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NoLightHoldableItem : MonoBehaviour {
+public class HoldableItem : MonoBehaviour {
     private Vector3 _respawnPos;
     
     void Awake() {
