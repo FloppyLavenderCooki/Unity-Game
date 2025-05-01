@@ -19,6 +19,8 @@ namespace Player
         
         private bool _sprinting = false;
 
+        public Transform groundCheck;
+
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
@@ -29,10 +31,9 @@ namespace Player
             // inputs
             _xInput = _moveAction.ReadValue<Vector2>().x;
             _yInput = _moveAction.ReadValue<Vector2>().y;
-
+            
             if (_jumpAction.WasPressedThisFrame()) {
-                var grounded = Physics.Raycast(transform.position, Vector3.down, 2 * 0.5f + 0.3f);
-                if (grounded) {
+                if (Physics.SphereCast(groundCheck.position, 0.2f, Vector3.down, out var hit)) {
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
             }
