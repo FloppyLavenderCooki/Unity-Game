@@ -123,7 +123,7 @@ public class PickupController : MonoBehaviour {
         while (_grabObject.IsPressed()) {
             time += Time.deltaTime;
 
-            float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f); // normalize hold time past 0.3s
+            float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f); // normalise hold time past 0.3s
             float targetFOV = minFOV - (holdProgress * maxZoom);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 10f * Time.deltaTime);
 
