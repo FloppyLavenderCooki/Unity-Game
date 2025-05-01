@@ -560,15 +560,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 4952019967173764337}
   camera: {fileID: 7926778493981567549}
-  moveSpeed: 5
-  jumpForce: 7.5
   groundCheck: {fileID: 891703117}
-  _frequency: 3
-  _bobSpeed: 1
-  _bobAmplitude: 0.05
   mask:
     serializedVersion: 2
     m_Bits: 55
+  moveSpeed: 5
+  jumpForce: 7.5
+  _frequency: 3
+  _bobSpeed: 1
+  _bobAmplitude: 0.05
 --- !u!1 &891703116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,14 +1044,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 3d32df4a083ec449586deff460259aa7, type: 3}
+  m_Texture: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
