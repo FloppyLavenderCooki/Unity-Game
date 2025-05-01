@@ -1341,6 +1341,7 @@ MonoBehaviour:
   objectHold: {fileID: 956520055}
   pickupDistMax: 5
   throwForceMax: 10
+  camCon: {fileID: 8304270496462406186}
   heldObject: {fileID: 0}
   bookParent: {fileID: 1120869184}
 --- !u!1 &7806412660233839043

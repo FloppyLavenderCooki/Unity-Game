@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RotateHolding",
+                    "type": "Button",
+                    "id": "7e260cd4-2ac3-4f4d-8e51-0507749ea27f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -490,6 +499,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ClickAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e335696f-0d15-4053-9db8-fea1cbf55630",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RotateHolding",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

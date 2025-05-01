@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,33 +13,58 @@ public class PickupController : MonoBehaviour {
     public float pickupDistMax = 5f;
     
     public float throwForceMax = 10f;
-    private float throwForce;
+    private float _throwForce;
 
-    private InputAction grabObject;
-    private InputAction useObject;
-
-    public GameObject heldObject;
+    private InputAction _grabObject;
+    private InputAction _rotateObject;
     
-    private int noCastLayer;
-    private int layerMask;
+    private InputAction _lookAction;
+    
+    [Range(-90f, 90f)] private float _cameraY;
+    private float _cameraX;
+
+    public CameraController camCon;
+    
+    
+    public GameObject heldObject = null;
 
     public Transform bookParent;
 
 
     void Start() {
-        noCastLayer = LayerMask.NameToLayer("NoCast");
-        layerMask = ~(1 << noCastLayer);
-        
-        grabObject = InputSystem.actions.FindAction("ClickAction");
+        _grabObject = InputSystem.actions.FindAction("ClickAction");
+        _rotateObject = InputSystem.actions.FindAction("RotateHolding");
+        _lookAction = InputSystem.actions.FindAction("Look");
     }
 
     void Update() {
-        if (grabObject.WasPressedThisFrame()) {
+        if (_rotateObject.IsPressed()) {
+            if (heldObject != null) {
+                camCon.ToggleCameraMove(true);
+                Vector2 lookInput = _lookAction.ReadValue<Vector2>();
+
+                float inputY = lookInput.y;
+                float inputX = lookInput.x;
+
+                if (_cameraY - inputY < 90f && _cameraY - inputY > -90f) {
+                    _cameraY -= inputY;
+                }
+
+                _cameraX += inputX;
+
+                heldObject.transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
+            }
+        } else {
+            camCon.ToggleCameraMove(false);
+        }
+        
+        if (_grabObject.WasPressedThisFrame()) {
+            camCon.ToggleCameraMove(false);
             if (holding == EHoldingObject.empty) {
                 // grab
                 var ray = cam.ScreenPointToRay(Input.mousePosition);
                 
-                if (Physics.Raycast(ray, out RaycastHit hit, pickupDistMax, layerMask)) {
+                if (Physics.Raycast(ray, out RaycastHit hit, pickupDistMax)) {
                     if (hit.collider.gameObject.transform.parent == bookParent) {
                         holding = EHoldingObject.holding;
                         
@@ -62,7 +88,7 @@ public class PickupController : MonoBehaviour {
     private System.Collections.IEnumerator releaseObject(GameObject obj) {
         float time = 0f;
 
-        while (grabObject.IsPressed()) {
+        while (_grabObject.IsPressed()) {
             time += Time.deltaTime;
             yield return null;
         }
@@ -75,14 +101,14 @@ public class PickupController : MonoBehaviour {
         } else {
             // calculate throw force < x
             time = time - 0.3f;
-            throwForce = time * throwForceMax;
-            if (throwForce >= throwForceMax) {
-                throwForce = throwForceMax;
+            _throwForce = time * throwForceMax;
+            if (_throwForce >= throwForceMax) {
+                _throwForce = throwForceMax;
             }
             heldObject.transform.parent = bookParent;
             heldObject.GetComponent<Rigidbody>().isKinematic = false;
             heldObject.transform.GetComponent<Collider>().enabled = true;
-            heldObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * throwForce, ForceMode.Impulse);
+            heldObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
         }
         heldObject = null;
         holding = EHoldingObject.empty;
