@@ -116,30 +116,62 @@ public class PickupController : MonoBehaviour {
     
     private System.Collections.IEnumerator releaseObject(GameObject obj) {
         float time = 0f;
-
+        float minFOV = 60f;
+        float maxZoom = 10f; // How much to zoom in (lower FOV)
+    
+        // Zoom in while holding
         while (_grabObject.IsPressed()) {
             time += Time.deltaTime;
+
+            float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f); // normalize hold time past 0.3s
+            float targetFOV = minFOV - (holdProgress * maxZoom);
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 10f * Time.deltaTime);
+
             yield return null;
         }
 
         if (time < 0.3f) {
-            // release
+            // Light release
             heldObject.transform.parent = bookParent;
             heldObject.GetComponent<Rigidbody>().isKinematic = false;
             heldObject.transform.GetComponent<Collider>().enabled = true;
         } else {
-            // calculate throw force < x
-            time = time - 0.3f;
-            _throwForce = time * throwForceMax;
-            if (_throwForce >= throwForceMax) {
-                _throwForce = throwForceMax;
-            }
+            // Calculate throw force
+            time -= 0.3f;
+            _throwForce = Mathf.Min(time * throwForceMax, throwForceMax);
+
             heldObject.transform.parent = bookParent;
-            heldObject.GetComponent<Rigidbody>().isKinematic = false;
-            heldObject.transform.GetComponent<Collider>().enabled = true;
-            heldObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
+            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            heldObject.GetComponent<Collider>().enabled = true;
+            rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
+
+            // Boom-out effect based on force
+            float force = minFOV + (_throwForce * 2f);
+            StartCoroutine(boomFOV(force));
         }
+
         heldObject = null;
         holding = EHoldingObject.empty;
+    }
+
+    private System.Collections.IEnumerator boomFOV(float boomFOV) {
+        cam.fieldOfView = boomFOV;
+    
+        float duration = 0.5f;
+        float elapsed  = 0f;
+        float startFOV = boomFOV;
+        float endFOV   = 60f;
+    
+        while (elapsed < duration) {
+            float t = elapsed / duration;
+            t = t * t * (3f - 2f * t);
+            cam.fieldOfView = Mathf.Lerp(startFOV, endFOV, t);
+        
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    
+        cam.fieldOfView = endFOV;
     }
 }
