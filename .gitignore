@@ -178,7 +178,3 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
-Assets/Firebase-Secrets/google-services.json
-Assets/Firebase-Secrets/google-services.json.meta
-Assets/Firebase-Secrets/GoogleService-Info.plist
-Assets/Firebase-Secrets/GoogleService-Info.plist.meta
