@@ -5,6 +5,8 @@ namespace Player
 {
     public class CameraController : MonoBehaviour {
         private InputAction _lookAction;
+        private InputAction _cursorToggleAction;
+        private InputAction _clickAction;
     
         public float mouseSensitivity = 1f;
 
@@ -14,13 +16,25 @@ namespace Player
 
         [Range(-90f, 90f)] private float _cameraY;
         private float _cameraX;
+        
+        private Quaternion _camFreeze = Quaternion.identity;
 
         private void Start() {
             LockCursor();
             _lookAction = InputSystem.actions.FindAction("Look");
+            _cursorToggleAction = InputSystem.actions.FindAction("CursorToggle");
+            _clickAction = InputSystem.actions.FindAction("ClickAction");
         }
 
         private void Update() {
+            if (_cursorToggleAction.WasPressedThisFrame()) {
+                Cursor.lockState = CursorLockMode.None;
+                _camBlock = true;
+            } else if (_clickAction.WasPressedThisFrame()) {
+                LockCursor();
+                _camBlock = false;
+            }
+            
             if (!_camBlock) {
                 Vector2 lookInput = _lookAction.ReadValue<Vector2>();
 
@@ -34,6 +48,9 @@ namespace Player
                 _cameraX += inputX;
 
                 transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
+                _camFreeze = transform.rotation;
+            } else {
+                transform.rotation = _camFreeze;
             }
         }
 

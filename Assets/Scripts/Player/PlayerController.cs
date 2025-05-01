@@ -62,7 +62,7 @@ namespace Player
         }
 
         private bool IsGrounded() {
-            return Physics.CheckSphere(groundCheck.position, 0.5f, mask);
+            return Physics.CheckSphere(groundCheck.position, 0.4f, mask);
         }
 
 
