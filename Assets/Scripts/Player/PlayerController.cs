@@ -30,6 +30,8 @@ namespace Player
         private float _bobTimer = 0f;
         private Vector3 _cameraInitialLocalPos;
 
+        public LayerMask playerLayer;
+
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
@@ -70,7 +72,7 @@ namespace Player
             _yInput = _moveAction.ReadValue<Vector2>().y;
             
             if (_jumpAction.WasPressedThisFrame()) {
-                if (Physics.CheckSphere(groundCheck.position, 0.5f)) {
+                if (Physics.SphereCast(groundCheck.position, 0.5f, Vector3.down, out RaycastHit hit, 0.5f, playerLayer)) {
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
             }

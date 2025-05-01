@@ -514,6 +514,12 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 7.5
   groundCheck: {fileID: 891703117}
+  _frequency: 3
+  _bobSpeed: 1
+  _bobAmplitude: 0.05
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &891703116
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 891703117}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +560,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 956520055}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: book hold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,7 +1279,7 @@ GameObject:
   - component: {fileID: 3138703450949628667}
   - component: {fileID: 8304270496462406186}
   - component: {fileID: 8304270496462406187}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1316,7 +1322,7 @@ GameObject:
   - component: {fileID: 4952019967173764337}
   - component: {fileID: 738696457}
   - component: {fileID: 7780161269496729374}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
