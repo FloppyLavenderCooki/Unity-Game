@@ -13,6 +13,8 @@ namespace Player
 
         private float _xInput;
         private float _yInput;
+        private float _magnitude;
+
 
         public float moveSpeed = 50f;
         public float jumpForce = 50f;
@@ -21,11 +23,46 @@ namespace Player
 
         public Transform groundCheck;
 
+        [Header("View Bobbing")]
+        [SerializeField] private float frequency = 3f;
+        [SerializeField] private float bobSpeed = 1f;
+        [SerializeField] private float bobAmplitude = 0.05f;
+        private float bobTimer = 0f;
+        private Vector3 cameraInitialLocalPos;
+
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
             _sprintAction = InputSystem.actions.FindAction("Sprint");
+
+            cameraInitialLocalPos = camera.localPosition;
         }
+
+        void HandleViewBobbing()
+        {
+            // Get flat movement magnitude (ignore vertical)
+            Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            float speed = horizontalVelocity.magnitude;
+
+            if (speed > 0.1f)
+            {
+                bobTimer += Time.deltaTime * frequency * (speed * bobSpeed);
+                float bobOffsetY = Mathf.Sin(bobTimer) * bobAmplitude;
+                float bobOffsetX = Mathf.Cos(bobTimer * 0.5f) * bobAmplitude * 0.5f;
+
+                camera.localPosition = cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
+            }
+            else
+            {
+                bobTimer = 0f;
+                camera.localPosition = Vector3.Lerp(
+                    camera.localPosition,
+                    cameraInitialLocalPos,
+                    Time.deltaTime * 5f
+                );
+            }
+        }
+
 
         private void Update() {
             // inputs
@@ -36,6 +73,12 @@ namespace Player
                 if (Physics.CheckSphere(groundCheck.position, 0.5f)) {
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
+            }
+
+            _magnitude = new Vector3(_xInput, _yInput).magnitude;
+
+            if (_magnitude > 0) {
+                HandleViewBobbing();
             }
             
             if (_sprintAction.WasPressedThisFrame()) {
