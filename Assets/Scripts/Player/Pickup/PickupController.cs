@@ -126,6 +126,7 @@ public class PickupController : MonoBehaviour {
             heldObject.transform.parent = bookParent;
             heldObject.GetComponent<Rigidbody>().isKinematic = false;
             heldObject.transform.GetComponent<Collider>().enabled = true;
+            StartCoroutine(ResetFOV());
         } else {
             // Calculate throw force
             time -= 0.3f;
@@ -136,11 +137,22 @@ public class PickupController : MonoBehaviour {
             rb.isKinematic = false;
             heldObject.GetComponent<Collider>().enabled = true;
             rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
+            StartCoroutine(ResetFOV());
         }
 
         heldObject = null;
         holding = EHoldingObject.empty;
     }
+    
+    private System.Collections.IEnumerator ResetFOV() {
+        while (Mathf.Abs(cam.fieldOfView - 60f) > 0.01f) {
+            cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, 60f, 40f * Time.deltaTime);
+            yield return null;
+        }
+
+        cam.fieldOfView = 60f;
+    }
+
     
     private float _bobTimer = 0f;
     void HandleObjectBobbing() {
