@@ -136,33 +136,31 @@ public class PickupController : MonoBehaviour {
             rb.isKinematic = false;
             heldObject.GetComponent<Collider>().enabled = true;
             rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
-
-            // Boom-out effect based on force
-            float force = minFOV + (_throwForce * 2f);
-            StartCoroutine(boomFOV(force));
         }
 
         heldObject = null;
         holding = EHoldingObject.empty;
     }
+    
+    private float _bobTimer = 0f;
+    void HandleObjectBobbing() {
+        // Get flat movement magnitude (ignore vertical)
+        Vector3 horizontalVelocity = new Vector3(heldObject.GetComponent<Rigidbody>().linearVelocity.x, 0f, heldObject.GetComponent<Rigidbody>().linearVelocity.z);
+        float speed = horizontalVelocity.magnitude;
 
-    private System.Collections.IEnumerator boomFOV(float boomFOV) {
-        cam.fieldOfView = boomFOV;
-    
-        float duration = 0.5f;
-        float elapsed  = 0f;
-        float startFOV = boomFOV;
-        float endFOV   = 60f;
-    
-        while (elapsed < duration) {
-            float t = elapsed / duration;
-            t = t * t * (3f - 2f * t);
-            cam.fieldOfView = Mathf.Lerp(startFOV, endFOV, t);
-        
-            elapsed += Time.deltaTime;
-            yield return null;
+        if (speed > 0.1f) {
+            _bobTimer += Time.deltaTime * 3f * (speed * 1f);
+            float bobOffsetY = Mathf.Sin(_bobTimer) * 0.05f;
+            float bobOffsetX = Mathf.Cos(_bobTimer * 0.5f) * 0.05f * 0.5f;
+
+            // heldObject.transform.localPosition = _cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
+        } else {
+            _bobTimer = 0f;
+            heldObject.transform.localPosition = Vector3.Lerp(
+                heldObject.transform.localPosition,
+                heldObject.transform.position,
+                Time.deltaTime * 5f
+            );
         }
-    
-        cam.fieldOfView = endFOV;
     }
 }
