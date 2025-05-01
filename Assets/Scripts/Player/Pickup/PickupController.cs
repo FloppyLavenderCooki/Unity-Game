@@ -77,6 +77,7 @@ public class PickupController : MonoBehaviour {
                         holding = EHoldingObject.holding;
                         
                         heldObject = hit.collider.gameObject;
+                        heldObject.GetComponent<Collider>().enabled = false;
                         heldObject.transform.parent = objectHold;
                         heldObject.GetComponent<Rigidbody>().isKinematic = true;
                         heldObject.transform.position = objectHold.position;
