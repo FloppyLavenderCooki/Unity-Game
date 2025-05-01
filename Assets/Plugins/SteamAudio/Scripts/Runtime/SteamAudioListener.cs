@@ -240,7 +240,7 @@ namespace SteamAudio
 
         void CacheProbeBatchesUsed()
         {
-            mProbeBatchesUsed = (useAllProbeBatches) ? FindObjectsOfType<SteamAudioProbeBatch>() : probeBatches;
+            mProbeBatchesUsed = (useAllProbeBatches) ? FindObjectsByType<SteamAudioProbeBatch>(FindObjectsSortMode.None) : probeBatches;
         }
 #endif
     }

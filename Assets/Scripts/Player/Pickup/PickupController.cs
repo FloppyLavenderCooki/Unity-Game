@@ -71,7 +71,7 @@ public class PickupController : MonoBehaviour {
             camCon.ToggleCameraMove(false);
             if (holding == EHoldingObject.empty) {
                 // grab
-                var ray = cam.ScreenPointToRay(Input.mousePosition);
+                var ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
                 
                 if (Physics.Raycast(ray, out RaycastHit hit, pickupDistMax)) {
                     if (hit.collider.gameObject.transform.parent == bookParent) {
