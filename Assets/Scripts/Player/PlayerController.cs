@@ -45,7 +45,7 @@ namespace Player
             Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             float speed = horizontalVelocity.magnitude;
 
-            if (speed > 0.1f) {
+            if (speed > 0.1f && IsGrounded()) {
                 _bobTimer += Time.deltaTime * _frequency * (speed * _bobSpeed);
                 float bobOffsetY = Mathf.Sin(_bobTimer) * _bobAmplitude;
                 float bobOffsetX = Mathf.Cos(_bobTimer * 0.5f) * _bobAmplitude * 0.5f;
@@ -61,16 +61,17 @@ namespace Player
             }
         }
 
+        private bool IsGrounded() {
+            return Physics.CheckSphere(groundCheck.position, 0.5f, mask);
+        }
+
 
         private void Update() {
             // inputs
             _xInput = _moveAction.ReadValue<Vector2>().x;
             _yInput = _moveAction.ReadValue<Vector2>().y;
-            
-            
-            bool isGrounded = Physics.CheckSphere(groundCheck.position, 0.5f, mask);
 
-            if (_jumpAction.WasPressedThisFrame() && isGrounded) {
+            if (_jumpAction.WasPressedThisFrame() && IsGrounded()) {
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             }
 
