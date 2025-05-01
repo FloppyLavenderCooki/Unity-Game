@@ -33,7 +33,7 @@ namespace Player
             _yInput = _moveAction.ReadValue<Vector2>().y;
             
             if (_jumpAction.WasPressedThisFrame()) {
-                if (Physics.SphereCast(groundCheck.position, 0.2f, Vector3.down, out var hit)) {
+                if (Physics.CheckSphere(groundCheck.position, 0.5f)) {
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
                 }
             }
