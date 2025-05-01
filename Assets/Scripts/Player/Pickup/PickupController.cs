@@ -44,12 +44,14 @@ public class PickupController : MonoBehaviour {
                 camCon.ToggleCameraMove(true);
                 Vector2 lookInput = _lookAction.ReadValue<Vector2>();
 
-                float inputY = lookInput.y;
-                float inputX = lookInput.x;
+                float inputY = -lookInput.y;
+                float inputX = -lookInput.x;
 
-                if (_cameraY - inputY < 90f && _cameraY - inputY > -90f) {
+                /*if (_cameraY - inputY < 90f && _cameraY - inputY > -90f) {
                     _cameraY -= inputY;
-                }
+                }*/
+
+               _cameraY -= inputY;
 
                 _cameraX += inputX;
 
