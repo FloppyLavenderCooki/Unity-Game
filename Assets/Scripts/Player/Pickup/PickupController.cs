@@ -53,9 +53,13 @@ public class PickupController : MonoBehaviour {
                 _cameraX += inputX;
 
                 Quaternion yaw = Quaternion.AngleAxis(_cameraX, Vector3.up);
-                Quaternion pitch = Quaternion.AngleAxis(_cameraY, cam.transform.right);
+                
+                Vector3 flatRight = yaw * Vector3.right;
+
+                Quaternion pitch = Quaternion.AngleAxis(_cameraY, flatRight);
 
                 heldObject.transform.rotation = yaw * pitch;
+
 
             }
         } else {
