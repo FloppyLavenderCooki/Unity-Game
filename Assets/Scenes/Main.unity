@@ -517,9 +517,9 @@ MonoBehaviour:
   _frequency: 3
   _bobSpeed: 1
   _bobAmplitude: 0.05
-  playerLayer:
+  mask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 55
 --- !u!1 &891703116
 GameObject:
   m_ObjectHideFlags: 0

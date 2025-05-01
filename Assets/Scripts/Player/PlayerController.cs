@@ -30,7 +30,7 @@ namespace Player
         private float _bobTimer = 0f;
         private Vector3 _cameraInitialLocalPos;
 
-        public LayerMask playerLayer;
+        public LayerMask mask;
 
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
@@ -40,22 +40,18 @@ namespace Player
             _cameraInitialLocalPos = camera.localPosition;
         }
 
-        void HandleViewBobbing()
-        {
+        void HandleViewBobbing() {
             // Get flat movement magnitude (ignore vertical)
             Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             float speed = horizontalVelocity.magnitude;
 
-            if (speed > 0.1f)
-            {
+            if (speed > 0.1f) {
                 _bobTimer += Time.deltaTime * _frequency * (speed * _bobSpeed);
                 float bobOffsetY = Mathf.Sin(_bobTimer) * _bobAmplitude;
                 float bobOffsetX = Mathf.Cos(_bobTimer * 0.5f) * _bobAmplitude * 0.5f;
 
                 camera.localPosition = _cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
-            }
-            else
-            {
+            } else {
                 _bobTimer = 0f;
                 camera.localPosition = Vector3.Lerp(
                     camera.localPosition,
@@ -71,10 +67,11 @@ namespace Player
             _xInput = _moveAction.ReadValue<Vector2>().x;
             _yInput = _moveAction.ReadValue<Vector2>().y;
             
-            if (_jumpAction.WasPressedThisFrame()) {
-                if (Physics.SphereCast(groundCheck.position, 0.5f, Vector3.down, out RaycastHit hit, 0.5f, playerLayer)) {
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
-                }
+            
+            bool isGrounded = Physics.CheckSphere(groundCheck.position, 0.5f, mask);
+
+            if (_jumpAction.WasPressedThisFrame() && isGrounded) {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             }
 
             _magnitude = new Vector3(_xInput, _yInput).magnitude;
