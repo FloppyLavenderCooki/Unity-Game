@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using FMODUnity;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -90,6 +91,25 @@ public class PickupController : MonoBehaviour {
             if (holding == EHoldingObject.holding) {
                 heldObject.transform.position = objectHold.position;
                 heldObject.transform.rotation = objectHold.rotation;
+            }
+        }
+        
+        if (heldObject != null) {
+            bool isInContactWithWall = false;
+            Vector3 direction = heldObject.transform.forward;
+
+            if (Physics.Raycast(heldObject.transform.position, direction, out RaycastHit hit, 0.3f)) {
+                isInContactWithWall = true;
+            } else {
+                isInContactWithWall = false;
+            }
+
+            if (isInContactWithWall) {
+                heldObject.transform.position = Vector3.MoveTowards(heldObject.transform.position, transform.position, 2f * Time.deltaTime);
+            }
+            
+            else if (Vector3.Distance(heldObject.transform.position, objectHold.position) > 0.1f) {
+                heldObject.transform.position = Vector3.Lerp(heldObject.transform.position, objectHold.position, 2f * Time.deltaTime);
             }
         }
     }
