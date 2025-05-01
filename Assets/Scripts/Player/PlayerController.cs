@@ -19,8 +19,11 @@ namespace Player
         private float _magnitude;
 
         [Header("Player Movement")]
-        public float moveSpeed = 50f;
-        public float jumpForce = 50f;
+        public float walkSpeed = 5f;
+        public float jumpForce = 7.5f;
+        public float sprintSpeed = 10f;
+
+        private float moveSpeed = 5f;
         
         private bool _sprinting = false;
 
@@ -83,10 +86,10 @@ namespace Player
             
             if (_sprintAction.WasPressedThisFrame()) {
                 if (_sprinting) {
-                    moveSpeed = 5f;
+                    moveSpeed = walkSpeed;
                     _sprinting = false;
                 } else {
-                    moveSpeed = 10f;
+                    moveSpeed = sprintSpeed;
                     _sprinting = true;
                 }
             }
