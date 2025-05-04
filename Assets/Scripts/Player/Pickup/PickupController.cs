@@ -44,8 +44,8 @@ public class PickupController : MonoBehaviour {
                 camCon.ToggleCameraMove(true);
                 Vector2 lookInput = _lookAction.ReadValue<Vector2>();
 
-                float inputY = -lookInput.y;
-                float inputX = lookInput.x;
+                float inputY = lookInput.y;
+                float inputX = -lookInput.x;
                 
                 Quaternion yaw = Quaternion.AngleAxis(inputX, cam.transform.up);
                 Quaternion pitch = Quaternion.AngleAxis(inputY, cam.transform.right);

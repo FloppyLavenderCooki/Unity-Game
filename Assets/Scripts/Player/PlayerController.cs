@@ -64,6 +64,14 @@ namespace Player
             }
         }
 
+        /*
+        IsGrounded
+        ----------
+        Arguments: None
+        Returns: Boolean
+
+        Uses a Physics CheckSphere to check whether the player is currently touching the ground.
+        */
         private bool IsGrounded() {
             return Physics.CheckSphere(groundCheck.position, 0.4f, mask);
         }
@@ -82,6 +90,9 @@ namespace Player
 
             if (_magnitude > 0) {
                 HandleViewBobbing();
+            } else {
+                _sprinting = false;
+                moveSpeed = walkSpeed;
             }
             
             if (_sprintAction.WasPressedThisFrame()) {
