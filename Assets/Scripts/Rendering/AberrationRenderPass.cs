@@ -22,7 +22,7 @@ namespace Rendering
             this._defaultSettings = defaultSettings;
 
             _aberrationTextureDescriptor = new RenderTextureDescriptor(Screen.width, Screen.height,
-                RenderTextureFormat.ARGBHalf, 0);
+                RenderTextureFormat.BGRA32, 0);
         }
 
         private void UpdateAberrationSettings()
@@ -65,7 +65,7 @@ namespace Rendering
 
             renderGraph.AddBlitPass(
                 new RenderGraphUtils.BlitMaterialParameters(srcCamColor, workTexture, _material, 0),
-                "Blit to Temp");
+                "Pre-Blit");
             
             renderGraph.AddBlitPass(
                 new RenderGraphUtils.BlitMaterialParameters(workTexture, srcCamColor, _material, 0),

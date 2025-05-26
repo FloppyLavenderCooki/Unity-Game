@@ -1,3 +1,13 @@
-﻿fileFormatVersion: 2
+fileFormatVersion: 2
 guid: 8ad642f8c004493a95fa1de7eaa42794
-timeCreated: 1746065033
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - aberrationShader: {fileID: 4800000, guid: ea398998dec71ce439013463fad96f56, type: 3}
+  - outlineShader: {fileID: 4800000, guid: 1f266986504b483892e9cc31b8f94c12, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

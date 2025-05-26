@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: CustomRendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  settings:
+  aberrationSettings:
     enableAberration: 0
     aberration: 0
   aberrationShader: {fileID: 4800000, guid: ea398998dec71ce439013463fad96f56, type: 3}
+  outlineSettings:
+    enableOutline: 1
+    outline: 0.01
+  outlineShader: {fileID: 4800000, guid: 3b44f95593a3492db90ad42e3742ff44, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

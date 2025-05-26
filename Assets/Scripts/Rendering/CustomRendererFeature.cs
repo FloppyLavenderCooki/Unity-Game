@@ -1,37 +1,62 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace Rendering
 {
     public class CustomRendererFeature : ScriptableRendererFeature
     {
-        [SerializeField] private AberrationSettings settings;
+        [SerializeField] private AberrationSettings aberrationSettings;
         [SerializeField] private Shader aberrationShader;
-        private Material _material;
+        [SerializeField] private OutlineSettings outlineSettings;
+        [SerializeField] private Shader outlineShader;
+        private Material _aberrationMaterial;
         private AberrationRenderPass _aberrationRenderPass;
+        private Material _outlineMaterial;
+        private OutlineRenderPass _outlineRenderPass;
         private CustomVolumeComponent _volumeComponent;
 
         public override void Create()
         {
-            if (!aberrationShader)
-                return;
-
-            _material = new Material(aberrationShader);
-            _aberrationRenderPass = new AberrationRenderPass(_material, settings)
+            if (aberrationShader)
             {
-                renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing
-            };
+                _aberrationMaterial = new Material(aberrationShader);
+                _aberrationRenderPass = new AberrationRenderPass(_aberrationMaterial, aberrationSettings)
+                {
+                    renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing
+                };
+            }
+
+            if (outlineShader)
+            {
+                _outlineMaterial = new Material(outlineShader);
+                // _outlineRenderPass = new OutlineRenderPass(_outlineMaterial, outlineSettings)
+                // {
+                //     renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing
+                // };
+            }
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (_aberrationRenderPass == null)
-                return;
+            var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
+            var enableInEditor = volumeComponent.enableInEditor.overrideState && volumeComponent.enableInEditor.value;
 
-            if (renderingData.cameraData.cameraType == CameraType.Game)
+            if (_aberrationRenderPass != null)
             {
-                renderer.EnqueuePass(_aberrationRenderPass);
+                if (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game)
+                {
+                    renderer.EnqueuePass(_aberrationRenderPass);
+                }
+            }
+            
+            if (_outlineRenderPass != null)
+            {
+                if (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game)
+                {
+                    renderer.EnqueuePass(_outlineRenderPass);
+                }
             }
         }
 
@@ -39,11 +64,11 @@ namespace Rendering
         {
             if (Application.isPlaying)
             {
-                Destroy(_material);
+                Destroy(_aberrationMaterial);
             }
             else
             {
-                DestroyImmediate(_material);
+                DestroyImmediate(_aberrationMaterial);
             }
         }
     }
@@ -53,5 +78,12 @@ namespace Rendering
     {
         public bool enableAberration;
         [Range(0, 0.01f)] public float aberration;
+    }
+    
+    [Serializable]
+    public class OutlineSettings
+    {
+        public bool enableOutline;
+        [Range(0, 0.01f)] public float outline;
     }
 }

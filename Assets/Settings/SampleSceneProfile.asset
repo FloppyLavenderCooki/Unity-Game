@@ -106,12 +106,21 @@ MonoBehaviour:
   m_Name: CustomVolumeComponent
   m_EditorClassIdentifier: 
   active: 1
+  enableInEditor:
+    m_OverrideState: 1
+    m_Value: 1
   enableAberration:
     m_OverrideState: 1
     m_Value: 0
   aberration:
     m_OverrideState: 1
-    m_Value: 0.0005
+    m_Value: 0.001
+  enableOutline:
+    m_OverrideState: 1
+    m_Value: 1
+  outline:
+    m_OverrideState: 1
+    m_Value: 0.001
 --- !u!114 &849379129802519247
 MonoBehaviour:
   m_ObjectHideFlags: 3
