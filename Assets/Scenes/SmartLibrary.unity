@@ -439,6 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 333759190}
   camera: {fileID: 1189888313}
+  cam: {fileID: 0}
   groundCheck: {fileID: 1557656079}
   mask:
     serializedVersion: 2
