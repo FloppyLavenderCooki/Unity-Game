@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Main%20USS.uss?fileID=7433441132597879392&amp;guid=87ab4d9edb054794b81eec233208709d&amp;type=3#Main USS" />
+    <ui:VisualElement style="flex-grow: 1; align-items: flex-start; justify-content: flex-start;">
+        <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.5); color: rgb(245, 245, 245); min-width: auto; padding-left: 4px; padding-bottom: 4px;">
+            <ui:Label text="Objectives:" name="Label" style="font-size: 16px; margin-bottom: 0; padding-bottom: 0; -unity-font-style: bold;" />
+            <ui:VisualElement name="objectives" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
