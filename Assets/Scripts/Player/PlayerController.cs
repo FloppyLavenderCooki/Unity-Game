@@ -7,6 +7,7 @@ namespace Player
     public class PlayerController : MonoBehaviour {
         [SerializeField] private Rigidbody rb;
         [SerializeField] private new Transform camera;
+        [SerializeField] private Camera cam;
         public Transform groundCheck;
         public LayerMask mask;
 
@@ -34,7 +35,6 @@ namespace Player
         [SerializeField] private float _bobAmplitude = 0.05f;
         private float _bobTimer = 0f;
         private Vector3 _cameraInitialLocalPos;
-
         private void Start() {
             _moveAction = InputSystem.actions.FindAction("Move");
             _jumpAction = InputSystem.actions.FindAction("Jump");
