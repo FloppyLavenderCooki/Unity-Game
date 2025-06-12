@@ -38,9 +38,9 @@ namespace World
                 {
                     _bookshelves[y].Add(new Dictionary<string, bool>{
                         { "up", true },
-                        { "down", false },
+                        { "down", true },
                         { "left", true },
-                        { "right", false }
+                        { "right", true }
                     });
                 }
             }
@@ -83,7 +83,7 @@ namespace World
                 }
             }
             
-            transform.position = offset + new Vector3(_width * _widthOffset / 2, 0, _height * _widthOffset / 2);
+            transform.position = offset + new Vector3((_width - 0.75f) * -_widthOffset / 2, 0, _height * -_widthOffset / 2);
         }
         
         private void PlaceBookshelf(GameObject bookshelf, float x, float y, int angle = 0, GameObject bookshelfGroup = null)
