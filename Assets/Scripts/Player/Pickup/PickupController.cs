@@ -40,7 +40,7 @@ public class PickupController : MonoBehaviour {
 
     void Update() {
         if (_rotateObject.IsPressed()) {
-            if (heldObject != null) {
+            if (heldObject is not null) {
                 camCon.ToggleCameraMove(true);
                 Vector2 lookInput = _lookAction.ReadValue<Vector2>();
 
@@ -81,7 +81,6 @@ public class PickupController : MonoBehaviour {
 
             if (holding == EHoldingObject.holding) {
                 heldObject.transform.position = objectHold.position;
-                heldObject.transform.rotation = objectHold.rotation;
             }
         }
         
