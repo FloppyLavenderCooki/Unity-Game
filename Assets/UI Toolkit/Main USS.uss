@@ -1,5 +1,5 @@
 VisualElement {
-    -unity-font-definition: url("project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&amp;guid=5bdd180d791545f49bae49ab370d38db&amp;type=3#Main Pixel Font");
+    -unity-font-definition: url("project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&guid=5bdd180d791545f49bae49ab370d38db&type=3#Main Pixel Font");
 }
 
 Label.objective {
@@ -7,4 +7,8 @@ Label.objective {
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+Button:hover {
+    background-color: rgb(255, 0, 0);
 }
