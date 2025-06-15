@@ -95,11 +95,11 @@ public class PickupController : MonoBehaviour {
             }
 
             if (isInContactWithWall) {
-                heldObject.transform.position = Vector3.MoveTowards(heldObject.transform.position, transform.position, 2f * Time.deltaTime);
+                heldObject.transform.position = transform.position;
             }
             
             else if (Vector3.Distance(heldObject.transform.position, objectHold.position) > 0.1f) {
-                heldObject.transform.position = Vector3.Lerp(heldObject.transform.position, objectHold.position, 2f * Time.deltaTime);
+                heldObject.transform.position =  objectHold.position;
             }
         }
     }
