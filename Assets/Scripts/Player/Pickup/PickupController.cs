@@ -46,7 +46,7 @@ public class PickupController : MonoBehaviour {
 
                 float inputY = lookInput.y;
                 float inputX = -lookInput.x;
-                
+            
                 Quaternion yaw = Quaternion.AngleAxis(inputX, cam.transform.up);
                 Quaternion pitch = Quaternion.AngleAxis(inputY, cam.transform.right);
 
@@ -57,17 +57,16 @@ public class PickupController : MonoBehaviour {
         } else {
             camCon.ToggleCameraMove(false);
         }
-        
+    
         if (_grabObject.WasPressedThisFrame()) {
             camCon.ToggleCameraMove(false);
             if (holding == EHoldingObject.empty) {
-                // grab
                 var ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-                
+            
                 if (Physics.Raycast(ray, out RaycastHit hit, pickupDistMax)) {
                     if (hit.collider.gameObject.transform.parent == bookParent) {
                         holding = EHoldingObject.holding;
-                        
+                    
                         heldObject = hit.collider.gameObject;
                         heldObject.GetComponent<Collider>().enabled = false;
                         heldObject.transform.parent = objectHold;
@@ -83,23 +82,10 @@ public class PickupController : MonoBehaviour {
                 heldObject.transform.position = objectHold.position;
             }
         }
-        
+
         if (heldObject != null) {
-            bool isInContactWithWall = false;
-            Vector3 direction = heldObject.transform.forward;
-
-            if (Physics.Raycast(heldObject.transform.position, direction, out RaycastHit hit, 0.3f)) {
-                isInContactWithWall = true;
-            } else {
-                isInContactWithWall = false;
-            }
-
-            if (isInContactWithWall) {
-                heldObject.transform.position = transform.position;
-            }
-            
-            else if (Vector3.Distance(heldObject.transform.position, objectHold.position) > 0.1f) {
-                heldObject.transform.position =  objectHold.position;
+            if (Vector3.Distance(heldObject.transform.position, objectHold.position) > 0.1f) {
+                heldObject.transform.position = objectHold.position;
             }
         }
     }

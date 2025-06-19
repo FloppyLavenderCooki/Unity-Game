@@ -127,6 +127,14 @@ namespace Player
 
             var moveDir = forwardRel + rightRel;
 
+            if (moveDir.sqrMagnitude > 0.01f) {
+                if (Physics.SphereCast(transform.position, 0.4f, moveDir.normalized, out RaycastHit hit, 0.6f, ~0, QueryTriggerInteraction.Ignore)) {
+                    if (Vector3.Angle(hit.normal, Vector3.up) > 45f) {
+                        moveDir = Vector3.ProjectOnPlane(moveDir, hit.normal);
+                    }
+                }
+            }
+
             rb.linearVelocity = new Vector3(moveDir.x, rb.linearVelocity.y, moveDir.z);
         }
     }
