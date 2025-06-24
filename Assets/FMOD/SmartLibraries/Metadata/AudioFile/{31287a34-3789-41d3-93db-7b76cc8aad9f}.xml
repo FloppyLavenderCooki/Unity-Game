@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{31287a34-3789-41d3-93db-7b76cc8aad9f}">
+		<property name="assetPath">
+			<value>SmartBackground.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>130.79510204081632</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{faa8b2e9-55f1-40c7-a151-6eb93c61aee4}</destination>
+		</relationship>
+	</object>
+</objects>

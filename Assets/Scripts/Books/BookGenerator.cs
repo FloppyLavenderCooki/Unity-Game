@@ -111,8 +111,7 @@ public class BookGenerator : MonoBehaviour {
             tmp.text = bookName;
         }
         
-        finalBook.AddComponent<Rigidbody>();
-        finalBook.AddComponent<BoxCollider>();
+        // just make sure the object has a box-collider and a rigidbody! would lead to issues if i set this stuff here...
         
         FinalInstantiate(isReverse, i);
     }
