@@ -1390,6 +1390,9 @@ MonoBehaviour:
   bookshelfModel: {fileID: 306039082894574156, guid: 6feed99b30cd6344cbd393697b31f754, type: 3}
   size: {x: 8, y: 8}
   offset: {x: 0, y: 0, z: 2}
+  level: 3
+  stepSize: 1
+  startPosition: {x: 0, y: 0}
 --- !u!4 &1973138429
 Transform:
   m_ObjectHideFlags: 0
