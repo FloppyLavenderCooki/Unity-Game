@@ -88,8 +88,14 @@ public class BookGenerator : MonoBehaviour {
         
         finalBook.GetComponent<Renderer>().material.color = GenBookColour();
         finalBook.transform.localScale =  GenBookVariantSizing();
-        finalBook.transform.GetComponentInChildren<TextMeshProUGUI>().text = RandomiseName();
-
+        
+        TextMeshProUGUI[] tmpguis = finalBook.GetComponentsInChildren<TextMeshProUGUI>();
+        string bookName = RandomiseName();
+        
+        foreach (TextMeshProUGUI tmp in tmpguis) {
+            tmp.text = bookName;
+        }
+        
         finalBook.AddComponent<Rigidbody>();
         finalBook.AddComponent<BoxCollider>();
         
