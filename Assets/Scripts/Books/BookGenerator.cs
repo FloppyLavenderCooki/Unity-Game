@@ -72,7 +72,7 @@ public class BookGenerator : MonoBehaviour {
             finalBook.transform.rotation = Quaternion.Euler(0, 90, 0);
 
             if (i > 0) {
-                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.x / 2 + 0.075f;
+                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.075f;
             } else {
                 setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
             }
@@ -80,7 +80,7 @@ public class BookGenerator : MonoBehaviour {
             finalBook.transform.rotation = Quaternion.Euler(0, -90, 0);
             
             if (i > 0) {
-                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.x / 2 + 0.075f;
+                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.075f;
             } else {
                 setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
             }
