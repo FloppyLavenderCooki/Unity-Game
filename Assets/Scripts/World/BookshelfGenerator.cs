@@ -18,9 +18,9 @@ namespace World
         
         public void Awake()
         {
-            _hardbackBookRenderer = hardbackBook.GetComponent<Renderer>();
-            _paperbackBookRenderer = paperbackBook.GetComponent<Renderer>();
-            _thinStapledBookRenderer = thinStapledBook.GetComponent<Renderer>();
+            _hardbackBookRenderer = hardbackBook.GetComponentInChildren<Renderer>();
+            _paperbackBookRenderer = paperbackBook.GetComponentInChildren<Renderer>();
+            _thinStapledBookRenderer = thinStapledBook.GetComponentInChildren<Renderer>();
             _books = GameObject.Find("Books");
         }
         
@@ -42,11 +42,11 @@ namespace World
                 2 => _thinStapledBookRenderer.bounds.size,
                 _ => _bookSize
             };
-
-            _book.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-            _book.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+            
+            _book.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
+            // _book.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
             _book.transform.position = bookshelf.transform.position;
-            _book.transform.localPosition = new Vector3((_bookSize.z)/100.0f, 0.0f, (bookshelfSize.y - (_bookSize.y*1.15f))/100.0f);
+            _book.transform.localPosition = new Vector3(_bookSize.z, 0.0f, bookshelfSize.y - (_bookSize.y*1.15f));
             
             _book.transform.SetParent(_books.transform);
         }

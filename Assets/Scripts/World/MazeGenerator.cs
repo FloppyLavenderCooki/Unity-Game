@@ -51,7 +51,7 @@ namespace World
         {
             if (!Keyboard.current.rKey.wasPressedThisFrame) return;
             
-            Destroy(_books);
+            foreach (Transform child in _books.transform) { Destroy(child.gameObject); }
             foreach (Transform child in transform) { Destroy(child.gameObject); }
             GenerateEmptyBookshelves();
             GenerateHilbertMaze();

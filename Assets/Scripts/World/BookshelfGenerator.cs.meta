@@ -4,12 +4,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - hardbackBook: {fileID: 865578149958799266, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-  - hardbackBookRenderer: {fileID: 1658409666084728439, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-  - paperbackBook: {fileID: 449630707239177531, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-  - paperbackBookRenderer: {fileID: 2107003816648305902, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-  - thinStapledBook: {fileID: 6097927708073556405, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-  - thinStapledBookRenderer: {fileID: 5737810779945818208, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
+  - hardbackBook: {fileID: 1204049040239472098, guid: f6b41f3a820594943a3e78dae2aa108e, type: 3}
+  - paperbackBook: {fileID: 2548487733289057818, guid: 67f3ce8723550cc459d0549dbb3438bc, type: 3}
+  - thinStapledBook: {fileID: 3538867720146569401, guid: 7e0662769a658d9498e9a1e1e9a8448e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
