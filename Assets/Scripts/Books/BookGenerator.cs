@@ -73,11 +73,15 @@ public class BookGenerator : MonoBehaviour {
 
             if (i > 0) {
                 setPos.z += finalBook.transform.localScale.z / 2 + 0.075f;
+            } else {
+                setPos.y += finalBook.transform.localScale.y / 2 + 0.075f;
             }
         } else {
             finalBook.transform.rotation = new Quaternion(0, 180, 0, 0);
             if (i > 0) {
                 setPos.z -= finalBook.transform.localScale.z / 2 + 0.075f;
+            } else {
+                setPos.y += finalBook.transform.localScale.y / 2 + 0.075f;
             }
         }
         

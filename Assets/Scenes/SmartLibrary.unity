@@ -984,7 +984,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e0e10761fde81404eaaf9b954872b5ea, type: 2}
   bookParent: {fileID: 784301143}
   booksPerRowOld: 10
-  booksPerRowNew: 16
+  booksPerRowNew: 18
 --- !u!1 &834286092
 GameObject:
   m_ObjectHideFlags: 0
