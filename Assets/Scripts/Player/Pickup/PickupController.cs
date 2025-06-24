@@ -64,14 +64,14 @@ public class PickupController : MonoBehaviour {
                 var ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             
                 if (Physics.Raycast(ray, out RaycastHit hit, pickupDistMax)) {
-                    if (hit.collider.gameObject.transform.parent == bookParent) {
+                    if (hit.collider.gameObject.transform.parent.parent == bookParent) {
                         holding = EHoldingObject.holding;
                     
                         heldObject = hit.collider.gameObject;
                         heldObject.GetComponent<Collider>().enabled = false;
-                        heldObject.transform.parent = objectHold;
-                        heldObject.GetComponent<Rigidbody>().isKinematic = true;
-                        heldObject.transform.position = objectHold.position;
+                        heldObject.transform.parent.parent = objectHold;
+                        heldObject.transform.parent.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                        heldObject.transform.parent.position = objectHold.position;
                     }
                 }
             } else {
@@ -108,8 +108,8 @@ public class PickupController : MonoBehaviour {
 
         if (time < 0.3f) {
             // Light release
-            heldObject.transform.parent = bookParent;
-            heldObject.GetComponent<Rigidbody>().isKinematic = false;
+            heldObject.transform.parent.parent = bookParent;
+            heldObject.transform.parent.GetComponent<Rigidbody>().isKinematic = false;
             heldObject.transform.GetComponent<Collider>().enabled = true;
             StartCoroutine(ResetFOV());
         } else {
@@ -117,8 +117,8 @@ public class PickupController : MonoBehaviour {
             time -= 0.3f;
             _throwForce = Mathf.Min(time * throwForceMax, throwForceMax);
 
-            heldObject.transform.parent = bookParent;
-            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+            heldObject.transform.parent.parent = bookParent;
+            Rigidbody rb = heldObject.transform.parent.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;
             heldObject.GetComponent<Collider>().enabled = true;
             rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
