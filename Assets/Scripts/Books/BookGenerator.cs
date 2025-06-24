@@ -69,19 +69,19 @@ public class BookGenerator : MonoBehaviour {
         finalBook.transform.parent = bookParent;
 
         if (!isReverse) {
-            finalBook.transform.rotation = Quaternion.identity;
+            finalBook.transform.rotation = new Quaternion(-90, 90, 180,0);
 
             if (i > 0) {
-                setPos.z += finalBook.transform.localScale.z / 2 + 0.075f;
-            } else {
                 setPos.y += finalBook.transform.localScale.y / 2 + 0.075f;
+            } else {
+                setPos.z += finalBook.transform.localScale.z / 2 + 0.075f;
             }
         } else {
-            finalBook.transform.rotation = new Quaternion(0, 180, 0, 0);
+            finalBook.transform.rotation = new Quaternion(-90, 90, 0,0);
             if (i > 0) {
-                setPos.z -= (finalBook.transform.localScale.z / 2 + 0.075f) / 100;
+                setPos.y -= (finalBook.transform.localScale.y / 2 + 0.075f) / 100;
             } else {
-                setPos.y += (finalBook.transform.localScale.y / 2 + 0.075f) / 100;
+                setPos.z += (finalBook.transform.localScale.z / 2 + 0.075f) / 100;
             }
         }
         
