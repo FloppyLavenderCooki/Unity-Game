@@ -24,9 +24,11 @@ namespace World
         public float stepSize = 1f;
         public Vector2 startPosition = Vector2.zero;
         private HilbertCurve _hilbert;
+        private BookshelfGenerator _bookshelfGenerator;
 
         private void Start()
         {
+            _bookshelfGenerator = gameObject.GetComponent<BookshelfGenerator>();
             _width = size.x;
             _height = size.y;
             
@@ -71,7 +73,7 @@ namespace World
             }
         }
         
-        private void PlaceBookshelf(GameObject bookshelf, float x, float y, int angle = 0, GameObject bookshelfGroup = null)
+        private void PlaceBookshelf(GameObject bookshelf, float x, float y, int angle = 0, GameObject bookshelfGroup = null, string bookshelfTag = null)
         {
             if (!bookshelf) return;
 
@@ -80,6 +82,9 @@ namespace World
             rotation.y += angle;
 
             GameObject bookshelfInstance = Instantiate(bookshelf, position, Quaternion.Euler(rotation), transform);
+            bookshelfInstance.name += $"_{bookshelfTag}";
+            
+            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
 
             if (bookshelfGroup)
             {
@@ -175,7 +180,31 @@ namespace World
         {
             _bookshelves[0][(_width-1)/2]["down"] = false;
             _bookshelves[0][((_width-1)/2)+1]["down"] = false;
-            
+
+            // Remove overlapping bookshelves
+            for (int y = 0; y < _height; y++)
+            {
+                for (int x = 0; x < _width; x++)
+                {
+                    if (x < _width - 1 && _bookshelves[y][x]["right"] && _bookshelves[y][x + 1]["left"])
+                    {
+                        _bookshelves[y][x]["right"] = false;
+                    }
+                    if (y < _height - 1 && _bookshelves[y][x]["up"] && _bookshelves[y + 1][x]["down"])
+                    {
+                        _bookshelves[y][x]["up"] = false;
+                    }
+                    if (x > 0 && _bookshelves[y][x]["left"] && _bookshelves[y][x - 1]["right"])
+                    {
+                        _bookshelves[y][x]["left"] = false;
+                    }
+                    if (y > 0 && _bookshelves[y][x]["down"] && _bookshelves[y - 1][x]["up"])
+                    {
+                        _bookshelves[y][x]["down"] = false;
+                    }
+                }
+            }
+
             for (int y = 0; y < _height; y++)
             {
                 for (int x = 0; x < _width; x++)
@@ -184,22 +213,22 @@ namespace World
                     
                     if (_bookshelves[y][x]["up"])
                     {
-                        PlaceBookshelf(bookshelfModel, 0, 0 + _bookshelfSize.x, 90, bookshelfGroup);
+                        PlaceBookshelf(bookshelfModel, 0, 0 + _bookshelfSize.x, -90, bookshelfGroup, "up");
                     }
 
                     if (_bookshelves[y][x]["down"])
                     {
-                        PlaceBookshelf(bookshelfModel, 0, 0 - _bookshelfSize.x, -90, bookshelfGroup);
+                        PlaceBookshelf(bookshelfModel, 0, 0 - _bookshelfSize.x, 90, bookshelfGroup, "down");
                     }
 
                     if (_bookshelves[y][x]["left"])
                     {
-                        PlaceBookshelf(bookshelfModel, 0 - _bookshelfSize.x, 0, 0, bookshelfGroup);
+                        PlaceBookshelf(bookshelfModel, 0 - _bookshelfSize.x, 0, 0, bookshelfGroup, "left");
                     }
 
                     if (_bookshelves[y][x]["right"])
                     {
-                        PlaceBookshelf(bookshelfModel, 0 + _bookshelfSize.x, 0, 180, bookshelfGroup);
+                        PlaceBookshelf(bookshelfModel, 0 + _bookshelfSize.x, 0, 180, bookshelfGroup, "right");
                     }
                     
                     if (bookshelfGroup.transform.childCount > 0)

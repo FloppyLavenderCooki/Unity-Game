@@ -1,2 +1,12 @@
 fileFormatVersion: 2
 guid: a7f302fc259006a44842256ce2d8a4b8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bookshelfModel: {fileID: 306039082894574156, guid: 6feed99b30cd6344cbd393697b31f754, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
