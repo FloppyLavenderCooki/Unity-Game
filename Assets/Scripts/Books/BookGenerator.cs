@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
-using Random = UnityEngine.Random;
 
 public class BookGenerator : MonoBehaviour {
     // singleton class might be best case here
@@ -32,25 +31,13 @@ public class BookGenerator : MonoBehaviour {
     
     [SerializeField] private int booksPerRowOld; // old bookshelf style
     [SerializeField] private int booksPerRowNew; // new bookshelf style, 
-
-    public void GenerateBooks() {
+    
+    // other
+    private Vector3 setPos;
+    
+    public void GenerateBooks(Transform basePosition) {
         // CALL THIS FUNCTION WHEN A SHELF IS INSTANTIATED!
         // can call this on Start() for the smart library. Will have to do something about that LAG though!
-        
-        // plan
-        // go down the books being made (10 per row? adding variability to the amount per row will take too long!)
-        // make a book
-        // decide if it's a special (premade, objective) book
-        
-        // if NOT
-        // randomise variant (hard, soft, staple)
-        // randomise colour
-        // randomise size a bit
-        // randomise thickness
-        // randomise name
-        
-        // if YES
-        // place book :)
         
         foreach (int i in Enumerable.Range(0, 11)) {
             int isSpecial = Random.Range(0, 2);
@@ -61,19 +48,15 @@ public class BookGenerator : MonoBehaviour {
                 int specialChosen = Random.Range(0, specialBookPrefabs.Count);
                 finalBook = Instantiate(specialBookPrefabs[specialChosen], transform);
                 specialBookPrefabs.RemoveAt(specialChosen);
-                FinishInstantiation();
+                finalBook.transform.parent = bookParent;
+                finalBook.transform.position = basePosition.position;
             } else {
-                CreateBook();
+                CreateBook(basePosition);
             }
         }
     }
 
-    private void FinishInstantiation() {
-        finalBook.transform.parent = bookParent;
-        finalBook.transform.position = transform.position;
-    }
-
-    private void CreateBook() {
+    private void CreateBook(Transform basePosition) {
         int randInt = Random.Range(0, 3);
         
         if (randInt == 0) {
@@ -99,7 +82,8 @@ public class BookGenerator : MonoBehaviour {
         finalBook.AddComponent<Rigidbody>();
         finalBook.AddComponent<BoxCollider>();
         
-        FinishInstantiation();
+        finalBook.transform.parent = bookParent;
+        finalBook.transform.position = basePosition.position;
     }
 
     private Color GenBookColour() {
