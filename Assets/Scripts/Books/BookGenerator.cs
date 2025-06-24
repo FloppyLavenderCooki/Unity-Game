@@ -101,7 +101,7 @@ public class BookGenerator : MonoBehaviour {
             // finalBook = ... wait a minute
         }
         
-        finalBook.GetComponent<Renderer>().material.color = GenBookColour();
+        finalBook.GetComponent<Renderer>().material = GenBookColour();
         finalBook.transform.localScale =  GenBookVariantSizing();
         
         TextMeshProUGUI[] tmpguis = finalBook.GetComponentsInChildren<TextMeshProUGUI>();
@@ -116,9 +116,9 @@ public class BookGenerator : MonoBehaviour {
         FinalInstantiate(isReverse, i);
     }
 
-    private Color GenBookColour() {
+    private Material GenBookColour() {
         int chosenColour = Random.Range(0, bookMaterials.Length);
-        return bookMaterials[chosenColour].color;
+        return bookMaterials[chosenColour];
     }
 
     private Vector3 GenBookVariantSizing() {
