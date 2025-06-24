@@ -72,17 +72,17 @@ public class BookGenerator : MonoBehaviour {
             finalBook.transform.rotation = Quaternion.Euler(0, 90, 0);
 
             if (i > 0) {
-                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.075f;
+                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.045f;
             } else {
-                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
+                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.045f;
             }
         } else {
             finalBook.transform.rotation = Quaternion.Euler(0, -90, 0);
             
             if (i > 0) {
-                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.075f;
+                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.045f;
             } else {
-                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
+                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.045f;
             }
         }
         
@@ -103,7 +103,7 @@ public class BookGenerator : MonoBehaviour {
         }
         
         finalBook.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = GenBookColour();
-        finalBook.transform.localScale =  GenBookVariantSizing();
+        finalBook.transform.localScale =  GenBookVariantSizing(randInt);
         
         TextMeshProUGUI[] tmpguis = finalBook.GetComponentsInChildren<TextMeshProUGUI>();
         string bookName = RandomiseName();
@@ -122,8 +122,14 @@ public class BookGenerator : MonoBehaviour {
         return bookMaterials[chosenColour];
     }
 
-    private Vector3 GenBookVariantSizing() {
-        float changeValue = 0.015f;
+    private Vector3 GenBookVariantSizing(int v) {
+        float changeValue = 0f;
+        if (v < 2) {
+            changeValue = 0.025f;
+        } else {
+            changeValue = 0.01f;
+        }
+        
         
         float thickness = Random.Range(finalBook.transform.localScale.x - changeValue, finalBook.transform.localScale.x + changeValue);
         float sizeY = Random.Range(finalBook.transform.localScale.y - changeValue, finalBook.transform.localScale.y + changeValue);
