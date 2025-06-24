@@ -137,6 +137,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book_HardbackChild
       objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Size.x
+      value: 0.034500003
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Size.y
+      value: 0.28002506
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Size.z
+      value: 0.44275013
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Center.x
+      value: -0.0000000027939677
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0048875003
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: m_Center.z
+      value: 0.22137506
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

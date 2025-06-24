@@ -81,6 +81,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3047934534959567940}
     m_Modifications:
+    - target: {fileID: -7248696452814146589, guid: a395e719a57871c4289725956db7fd3d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.08280001
+      objectReference: {fileID: 0}
+    - target: {fileID: -7248696452814146589, guid: a395e719a57871c4289725956db7fd3d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.28002506
+      objectReference: {fileID: 0}
+    - target: {fileID: -7248696452814146589, guid: a395e719a57871c4289725956db7fd3d, type: 3}
+      propertyPath: m_Size.z
+      value: 0.44275013
+      objectReference: {fileID: 0}
+    - target: {fileID: -7248696452814146589, guid: a395e719a57871c4289725956db7fd3d, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0048875003
+      objectReference: {fileID: 0}
+    - target: {fileID: -7248696452814146589, guid: a395e719a57871c4289725956db7fd3d, type: 3}
+      propertyPath: m_Center.z
+      value: 0.22137506
+      objectReference: {fileID: 0}
     - target: {fileID: 449630707239177531, guid: a395e719a57871c4289725956db7fd3d, type: 3}
       propertyPath: m_Name
       value: Book_PaperbackChild
