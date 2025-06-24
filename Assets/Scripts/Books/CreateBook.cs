@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class CreateBook : MonoBehaviour {
 
-    private void Start() {
-        BookGenerator.instance.GenerateBooks(transform.parent);
-    }
+    public bool isNew;
+    public bool isReverse;
 
+    private void Start() {
+        BookGenerator.instance.GenerateBooks(transform, isNew, isReverse);
+    }
 }
