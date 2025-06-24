@@ -25,9 +25,12 @@ namespace World
         public Vector2 startPosition = Vector2.zero;
         private HilbertCurve _hilbert;
         private BookshelfGenerator _bookshelfGenerator;
+        private GameObject _books;
 
         private void Start()
         {
+            _books = GameObject.Find("Books");
+            
             _bookshelfGenerator = gameObject.GetComponent<BookshelfGenerator>();
             _width = size.x;
             _height = size.y;
@@ -48,7 +51,7 @@ namespace World
         {
             if (!Keyboard.current.rKey.wasPressedThisFrame) return;
             
-            Debug.Log("Regenerating maze...");
+            Destroy(_books);
             foreach (Transform child in transform) { Destroy(child.gameObject); }
             GenerateEmptyBookshelves();
             GenerateHilbertMaze();

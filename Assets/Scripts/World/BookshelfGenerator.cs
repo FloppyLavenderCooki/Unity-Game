@@ -14,12 +14,14 @@ namespace World
 
         private GameObject _book;
         private Vector3 _bookSize;
+        private GameObject _books;
         
         public void Awake()
         {
             _hardbackBookRenderer = hardbackBook.GetComponent<Renderer>();
             _paperbackBookRenderer = paperbackBook.GetComponent<Renderer>();
             _thinStapledBookRenderer = thinStapledBook.GetComponent<Renderer>();
+            _books = GameObject.Find("Books");
         }
         
         public void GenerateBookshelf(GameObject bookshelf, Vector3 bookshelfSize)
@@ -43,8 +45,10 @@ namespace World
 
             _book.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             _book.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-            
+            _book.transform.position = bookshelf.transform.position;
             _book.transform.localPosition = new Vector3((_bookSize.z)/100.0f, 0.0f, (bookshelfSize.y - (_bookSize.y*1.15f))/100.0f);
+            
+            _book.transform.SetParent(_books.transform);
         }
     }
 }
