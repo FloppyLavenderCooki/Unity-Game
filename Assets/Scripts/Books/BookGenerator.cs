@@ -20,10 +20,6 @@ public class BookGenerator : MonoBehaviour {
     [SerializeField] private GameObject softBookPrefab;
     [SerializeField] private GameObject stapleBookPrefab;
     private GameObject finalBook;
-    
-    private GameObject hardBookBook;
-    private GameObject softBookBook;
-    private GameObject stapleBookBook;
 
     [SerializeField] private List<GameObject> specialBookPrefabs;
     private int specialsUsed;
@@ -38,12 +34,6 @@ public class BookGenerator : MonoBehaviour {
     
     // other
     private Vector3 setPos;
-
-    private void Start() {
-        hardBookBook = hardBookPrefab.transform.GetChild(0).gameObject;
-        softBookBook = softBookPrefab.transform.GetChild(0).gameObject;
-        stapleBookBook = stapleBookPrefab.transform.GetChild(0).gameObject;
-    }
     
     public void GenerateBooks(Transform basePosition, bool isNew, bool isReverse) {
         // CALL THIS FUNCTION WHEN A SHELF IS INSTANTIATED!
@@ -82,17 +72,17 @@ public class BookGenerator : MonoBehaviour {
             finalBook.transform.rotation = Quaternion.Euler(0, 90, 0);
 
             if (i > 0) {
-                setPos.z += finalBook.transform.localScale.z / 2 + 0.075f;
+                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.x / 2 + 0.075f;
             } else {
-                setPos.y += finalBook.transform.localScale.y / 2 + 0.075f;
+                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
             }
         } else {
             finalBook.transform.rotation = Quaternion.Euler(0, -90, 0);
             
             if (i > 0) {
-                setPos.z -= finalBook.transform.localScale.z / 2 + 0.075f;
+                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.x / 2 + 0.075f;
             } else {
-                setPos.y += finalBook.transform.localScale.y / 2 + 0.075f;
+                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.075f;
             }
         }
         
