@@ -45,6 +45,7 @@ namespace World
             GenerateEmptyBookshelves();
             GenerateHilbertMaze();
             PlaceBookshelves();
+            Destroy(GameObject.Find("Loading UI"));
         }
 
         private void Update()

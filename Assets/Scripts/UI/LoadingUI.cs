@@ -40,7 +40,7 @@ namespace UI
             while (!operation.isDone)
             {
                 loadingCover.style.translate =
-                    new StyleTranslate(new Translate(Length.Percent(90 + operation.progress * 35), 0));
+                    new StyleTranslate(new Translate(Length.Percent(90 + (operation.progress / 2 * 35)), 0));
 
                 yield return null;
             }
