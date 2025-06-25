@@ -42,15 +42,21 @@ namespace World
                 2 => _thinStapledBookRenderer.bounds.size,
                 _ => _bookSize
             };
-            
-            _book.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
-            // _book.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+
+            _book.transform.localRotation = Quaternion.Euler(
+                bookshelf.transform.rotation.x,
+                bookshelf.transform.rotation.y - 90.0f,
+                bookshelf.transform.rotation.z - 90.0f
+            );
             
             _book.transform.position = new Vector3(
-                bookshelf.transform.position.x+_bookSize.z,
-                bookshelf.transform.position.y,
-                bookshelf.transform.position.z + (bookshelfSize.y - (_bookSize.y*1.15f))
+                bookshelf.transform.position.x,
+                bookshelf.transform.position.y + (bookshelfSize.y - (_bookSize.y * 0.8f)),
+                bookshelf.transform.position.z
             );
+            _book.transform.position += bookshelf.transform.right * _bookSize.x;
+            
+            _book.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
             
             _book.transform.SetParent(_books.transform);
         }

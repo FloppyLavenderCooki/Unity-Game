@@ -95,8 +95,6 @@ namespace World
             {
                 bookshelfInstance.transform.SetParent(transform);
             }
-            
-            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
         }
 
         private void GenerateHilbertMaze()
@@ -247,6 +245,14 @@ namespace World
             }
             
             transform.position = offset + new Vector3((_width - 0.75f) * -_widthOffset / 2, 0, _height * -_widthOffset / 2);
+            
+            foreach (Transform bookshelfGroup in transform)
+            {
+                foreach (Transform bookshelf in bookshelfGroup)
+                {
+                    _bookshelfGenerator.GenerateBookshelf(bookshelf.gameObject, _bookshelfSize);
+                }
+            }
         }
     }
 }
