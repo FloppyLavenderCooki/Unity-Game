@@ -49,7 +49,7 @@ public class BookGenerator : MonoBehaviour {
         }
         
         foreach (int i in Enumerable.Range(0, randomAmount)) {
-            int isSpecial = Random.Range(0, 2);
+            int isSpecial = Random.Range(0, 5);
 
             specialsUsed = specialBookPrefabs.Count;
 
