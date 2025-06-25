@@ -8,8 +8,9 @@
                 <ui:Label text="GROUP 2&#10;&lt;b&gt;INTERACTIVE&lt;/b&gt;" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Inter.asset?fileID=11400000&amp;guid=f127b09f58ad77e468e318002298f3e2&amp;type=2#Inter&quot;); -unity-font-style: normal; color: rgb(255, 255, 255); font-size: 50px; margin-left: 16px; align-self: center;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; width: 100%; min-width: 100%; max-width: 100%;">
-                <ui:VisualElement style="flex-grow: 1; width: 80%; min-width: 80%; max-width: 80%; align-self: center; height: 80%; min-height: 80%; max-height: 80%; margin-top: 2.5%; background-color: rgba(0, 0, 0, 0.5);">
-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(217, 217, 217, 0.25); height: 90%; min-height: 90%; max-height: 90%; width: 50%; min-width: 50%; max-width: 50%; align-self: flex-end; margin-top: 2.5%; margin-right: 2.5%;" />
+                <ui:VisualElement style="flex-grow: 1; width: 80%; min-width: 80%; max-width: 80%; align-self: center; height: 80%; min-height: 80%; max-height: 80%; margin-top: 2.5%; background-color: rgba(0, 0, 0, 0.5); flex-direction: row;">
+                    <ui:ListView name="button-list" style="flex-grow: 1;" />
+                    <ui:VisualElement name="image" style="flex-grow: 1; background-color: rgba(217, 217, 217, 0.25); height: 90%; min-height: 90%; max-height: 90%; width: 50%; min-width: 50%; max-width: 50%; align-self: stretch; margin-top: 2.5%; margin-right: 2.5%; background-image: none;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

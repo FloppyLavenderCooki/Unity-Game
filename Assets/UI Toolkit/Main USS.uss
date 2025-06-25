@@ -8,7 +8,3 @@ Label.objective {
     padding-top: 0;
     padding-bottom: 0;
 }
-
-Button:hover {
-    background-color: rgb(255, 0, 0);
-}
