@@ -902,8 +902,7 @@ Transform:
   m_LocalPosition: {x: 0.27262, y: 0.10394, z: 0.13718}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 867583122}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &784301144
@@ -922,7 +921,8 @@ MonoBehaviour:
   softBookPrefab: {fileID: 4697077846631163422, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
   stapleBookPrefab: {fileID: 6199424116816374132, guid: 00306018939454b2385aba065aca9f1b, type: 3}
   specialBookPrefabs:
-  - {fileID: 867583123}
+  - {fileID: 2618791693437868297, guid: e5056a1e0a99b4169b53f5c6cd2a7281, type: 3}
+  - {fileID: 2618791693437868297, guid: ea72c1d946c8e49a286a66c9b74cd6b1, type: 3}
   bookMaterials:
   - {fileID: 2100000, guid: d993f17012aa243cdb2b59aef5138f10, type: 2}
   - {fileID: 2100000, guid: c27df94e898b14e3fa52338d4ec021a7, type: 2}
@@ -1046,85 +1046,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834286092}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &867583121
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 784301143}
-    m_Modifications:
-    - target: {fileID: 3864759841856089939, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_text
-      value: Henrietta's Day Out!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4697077846631163422, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_Name
-      value: HDO
-      objectReference: {fileID: 0}
-    - target: {fileID: 4785291227535825425, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: d3bba914a1f4f46dd86603fa3ce2c4b6, type: 2}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.8200133
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 15.14606
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.358483
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7255933879692096713, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-      propertyPath: m_text
-      value: Henrietta's Day Out!
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
---- !u!4 &867583122 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5205355444331465792, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-  m_PrefabInstance: {fileID: 867583121}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &867583123 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4697077846631163422, guid: df942684212414b66bbd9f89795b4ef0, type: 3}
-  m_PrefabInstance: {fileID: 867583121}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &878624450
 PrefabInstance:
   m_ObjectHideFlags: 0

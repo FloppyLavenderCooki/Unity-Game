@@ -48,16 +48,28 @@ public class BookGenerator : MonoBehaviour {
             randomAmount = booksPerRowOld + 1;
         }
         
-        foreach (int i in Enumerable.Range(0, randomAmount)) {
-            int isSpecial = Random.Range(0, 5);
+        List<int> specialIndexes = new();
+        int totalBooks = randomAmount;
+        int numSpecials = Mathf.Min(specialBookPrefabs.Count, totalBooks);
+        int minSpacing = 2;
 
-            specialsUsed = specialBookPrefabs.Count;
+        while (specialIndexes.Count < numSpecials) {
+            int index = Random.Range(0, totalBooks);
 
-            if (isSpecial == 1 && specialBookPrefabs.Count != 0) {
+            bool tooClose = specialIndexes.Any(i => Mathf.Abs(i - index) < minSpacing);
+            if (!tooClose) {
+                specialIndexes.Add(index);
+            }
+        }
+        
+        for (int i = 0; i < totalBooks; i++) {
+            bool isSpecial = specialIndexes.Contains(i);
+
+            if (isSpecial && specialBookPrefabs.Count > 0) {
                 int specialChosen = Random.Range(0, specialBookPrefabs.Count);
                 finalBook = Instantiate(specialBookPrefabs[specialChosen], transform);
                 specialBookPrefabs.RemoveAt(specialChosen);
-                
+
                 FinalInstantiate(isReverse, i);
             } else {
                 CreateBook(isReverse, i);
