@@ -86,8 +86,6 @@ namespace World
 
             GameObject bookshelfInstance = Instantiate(bookshelf, position, Quaternion.Euler(rotation), transform);
             bookshelfInstance.name += $"_{bookshelfTag}";
-            
-            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
 
             if (bookshelfGroup)
             {
@@ -97,6 +95,8 @@ namespace World
             {
                 bookshelfInstance.transform.SetParent(transform);
             }
+            
+            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
         }
 
         private void GenerateHilbertMaze()

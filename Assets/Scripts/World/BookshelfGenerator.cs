@@ -45,8 +45,12 @@ namespace World
             
             _book.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
             // _book.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-            _book.transform.position = bookshelf.transform.position;
-            _book.transform.localPosition = new Vector3(_bookSize.z, 0.0f, bookshelfSize.y - (_bookSize.y*1.15f));
+            
+            _book.transform.position = new Vector3(
+                bookshelf.transform.position.x+_bookSize.z,
+                bookshelf.transform.position.y,
+                bookshelf.transform.position.z + (bookshelfSize.y - (_bookSize.y*1.15f))
+            );
             
             _book.transform.SetParent(_books.transform);
         }

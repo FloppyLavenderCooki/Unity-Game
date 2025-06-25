@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="container" style="flex-grow: 1; background-color: rgb(255, 255, 255); padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; flex-direction: column-reverse; visibility: hidden;">
+        <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: space-between; align-self: stretch; align-items: center;">
+            <ui:Label text="&lt;gradient=&quot;Loading Text Gradient&quot;&gt;LOADING...&lt;/gradient&gt;" style="font-size: 64px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Rubik.asset?fileID=11400000&amp;guid=039b913186f52554e8622a8294bc7014&amp;type=2#Rubik&quot;);" />
+            <ui:VisualElement enabled="true" name="loading-cover" style="flex-grow: 1; position: absolute; width: 1000px; min-width: 1000px; max-width: 1000px; height: 1000px; min-height: 1000px; max-height: 1000px; background-color: rgb(255, 255, 255); rotate: 45deg; transform-origin: 90% top;" />
+            <ui:Label text="&lt;gradient=&quot;Loading Text Gradient&quot;&gt;LOADING...&lt;/gradient&gt;" style="font-size: 64px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Rubik.asset?fileID=11400000&amp;guid=039b913186f52554e8622a8294bc7014&amp;type=2#Rubik&quot;); position: absolute; color: rgba(27, 27, 27, 0.5);" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 100px; min-height: 100px; max-height: 100px; justify-content: flex-start; align-self: flex-end; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 300px; min-width: 300px; max-width: 300px;">
+                <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/App%20Icon%20Square.png?fileID=2800000&amp;guid=0cb95d9be2ac34172985bdbc5414ef4d&amp;type=3#App Icon Square&quot;); width: 100px; height: 100px; align-items: center; max-width: 100px; max-height: 100px; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; min-width: 100px; min-height: 100px;" />
+                <ui:Label text="GROUP 2&#10;&lt;b&gt;INTERACTIVE&lt;/b&gt;" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Inter.asset?fileID=11400000&amp;guid=f127b09f58ad77e468e318002298f3e2&amp;type=2#Inter&quot;); -unity-font-style: normal; color: rgb(0, 0, 0); font-size: 25px; margin-left: 16px; height: auto; align-self: center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
