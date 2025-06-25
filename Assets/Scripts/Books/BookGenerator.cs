@@ -139,8 +139,62 @@ public class BookGenerator : MonoBehaviour {
     }
 
     private string RandomiseName() {
-        return "amazing book!";
+        int pattern = Random.Range(0, 4);
+        switch (pattern) {
+            case 0: return $"The {RandomFrom(adjectives)} {RandomFrom(nouns)}";
+            case 1: return $"{RandomFrom(verbs)} of the {RandomFrom(nouns)}";
+            case 2: return $"{RandomFrom(names)}'s {RandomFrom(nouns)}";
+            case 3: return $"The {RandomFrom(nouns)} of {RandomFrom(places)}";
+            default: return "Untitled Book";
+        }
     }
     
-    // jarvis can you add your book gen stuff here ⬇! then feed it into the RandomiseName() function!
+    string RandomFrom(string[] list) => list[Random.Range(0, list.Length)];
+    
+    
+    // thanks chatgpt for generating most of these goofy ahh words!
+    string[] adjectives = {
+        "Dark", "Hidden", "Mysterious", "Lost", "Ancient",
+        "Silent", "Burning", "Twisted", "Forbidden", "Eternal",
+        "Shattered", "Crimson", "Fallen", "Golden", "Wicked",
+        "Enchanted", "Broken", "Lonely", "Frozen", "Sacred",
+        "Bloody", "Timeless", "Shadowed", "Ghostly", "Cursed",
+        "Brilliant", "Forsaken", "Forgotten", "Radiant", "Hollow"
+    };
+    
+    string[] nouns = {
+        "Forest", "Empire", "Book", "Secret", "Shadow",
+        "Flame", "Crown", "Blade", "Curse", "Dream",
+        "Throne", "Path", "Fury", "Whisper", "Star",
+        "Gate", "Mask", "Truth", "Key", "Storm",
+        "Song", "Hollow", "Stone", "Rift", "Scroll",
+        "Memory", "Moon", "Heart", "Light", "Night"
+    };
+
+    string[] verbs = {
+        "Rise", "Fall", "Return", "Curse", "Whispers",
+        "Burn", "Shatter", "Wander", "Escape", "Search",
+        "Break", "Unveil", "Summon", "Haunt", "Awaken",
+        "Forge", "Reveal", "Guard", "Chase", "Claim",
+        "Follow", "Embrace", "Silence", "Cross", "Tear",
+        "Remember", "Call", "Bind", "Hide", "Rule"
+    };
+
+    string[] names = {
+        "Arav", "Kieran", "Jarvis", "Paul Crawford", "Kael",
+        "Nora", "Thorne", "Lyra", "Dorian", "Vera",
+        "Rowan", "Elias", "Zara", "Corwin", "Iris",
+        "Soren", "Mira", "Jude", "Alaric", "Lira",
+        "Orin", "Maeve", "Cassian", "Nyra", "Lucien",
+        "Bryn", "Ezra", "Vanya", "Calen", "Riven"
+    };
+
+    string[] places = {
+        "New Zealand", "Elaria", "Midreach", "The North", "Valemire",
+        "Duskwatch", "Thornfell", "Ashmere", "Drakethorn", "Frostmoor",
+        "Silvershore", "Nightspire", "Redreach", "Ebonvale", "Stormhold",
+        "Blackridge", "Hollowmere", "Brightfen", "Dreadhollow", "Wyrmwood",
+        "Suncrest", "Ironkeep", "Glimmerdeep", "Mistpeak", "Shadowfen",
+        "Ravenmark", "Crystalrun", "Moonspire", "Greywatch", "Fallowbrook"
+    };
 }
