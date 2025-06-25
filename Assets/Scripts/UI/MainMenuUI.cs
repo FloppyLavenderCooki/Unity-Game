@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UIButton = UnityEngine.UI.Button;
@@ -23,6 +24,14 @@ namespace UI
             _quitButton = _kioskUI.transform.Find("Quit Button").GetComponent<UIButton>();
             
             _playButton.onClick.AddListener(() => LoadingUI.LoadScene("Scenes/NormalLibrary"));
+            _quitButton.onClick.AddListener(() =>
+            {
+#if UNITY_EDITOR
+                EditorApplication.ExitPlaymode();
+#else
+                Application.Quit();
+#endif
+            });
             
             var uiDocument = GetComponent<UIDocument>();
             if (!uiDocument) return;
