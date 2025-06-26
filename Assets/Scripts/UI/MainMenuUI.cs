@@ -32,17 +32,6 @@ namespace UI
                 PlayList();
                 
                 _image.style.backgroundImage = new StyleBackground();
-
-                _buttonList.selectionChanged += selectedItems =>
-                {
-                    var enumerable = selectedItems.ToList();
-                    if (enumerable.Count == 0) return;
-
-                    var selectedButton = (Button)enumerable[0];
-                    LoadingUI.LoadScene(selectedButton.text == "Normal Library"
-                        ? "Scenes/NormalLibrary"
-                        : "Scenes/SmartLibrary");
-                };
             });
             _quitButton.onClick.AddListener(() =>
             {
@@ -50,26 +39,6 @@ namespace UI
 
                 _image.style.backgroundImage = new StyleBackground(
                     Resources.Load<Sprite>("Images/areyousure"));
-
-                _buttonList.selectionChanged += selectedItems =>
-                {
-                    var enumerable = selectedItems.ToList();
-                    if (enumerable.Count == 0) return;
-
-                    var selectedButton = (Button)enumerable[0];
-                    if (selectedButton.text == "Yes")
-                    {
-#if UNITY_EDITOR
-                        EditorApplication.ExitPlaymode();
-#else
-                            Application.Quit();
-#endif
-                    }
-                    else
-                    {
-                        _buttonList.ClearSelection();
-                    }
-                };
             });
             
             var uiDocument = GetComponent<UIDocument>();
@@ -91,7 +60,16 @@ namespace UI
             var buttonItems = new List<string> { "Normal Library", "Smart Library" };
             
             _buttonList.makeItem = () => new Button();
-            _buttonList.bindItem = (element, i) => ((Button)element).text = buttonItems[i];
+            _buttonList.bindItem = (element, i) => {
+                var button = (Button)element;
+                button.text = buttonItems[i];
+                button.clicked += () =>
+                {
+                    LoadingUI.LoadScene(button.text == "Normal Library"
+                        ? "Scenes/NormalLibrary"
+                        : "Scenes/SmartLibrary");
+                };
+            };
             _buttonList.itemsSource = buttonItems;
         }
 
@@ -102,7 +80,24 @@ namespace UI
             var buttonItems = new List<string> { "Yes", "No" };
             
             _buttonList.makeItem = () => new Button();
-            _buttonList.bindItem = (element, i) => ((Button)element).text = buttonItems[i];
+            _buttonList.bindItem = (element, i) => {
+                var button = (Button)element;
+                button.text = buttonItems[i];
+                button.clicked += () => {
+                    if (button.text == "Yes")
+                    {
+#if UNITY_EDITOR
+                        EditorApplication.ExitPlaymode();
+#else
+            Application.Quit();
+#endif
+                    }
+                    else
+                    {
+                        _buttonList.ClearSelection();
+                    }
+                };
+            };
             _buttonList.itemsSource = buttonItems;
         }
     }

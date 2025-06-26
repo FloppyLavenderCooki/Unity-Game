@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace UI
@@ -25,7 +26,7 @@ namespace UI
             _root.Q<VisualElement>("container").style.visibility = Visibility.Visible;
             _loadingCover = _root.Q<VisualElement>("loading-cover");
 
-            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+            var loading = SceneManager.LoadSceneAsync(sceneName);
             if (loading == null) return;
 
             MonoBehaviour currentInstance = FindAnyObjectByType<LoadingUI>();
