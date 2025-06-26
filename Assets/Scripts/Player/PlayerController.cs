@@ -1,5 +1,7 @@
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace Player
@@ -107,6 +109,11 @@ namespace Player
 
             if (rb.transform.position.y <= -50) {
                 rb.transform.position = Vector3.zero;
+            }
+
+            if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+                SceneManager.LoadSceneAsync("Scenes/Main Menu");
+                
             }
         }
 

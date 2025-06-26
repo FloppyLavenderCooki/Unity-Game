@@ -120,18 +120,27 @@ public class BookGenerator : MonoBehaviour
     private void FinalInstantiate(bool isReverse, int i)
     {
         finalBook.transform.parent = bookParent;
+        
+        // Set rotation based on direction
+        finalBook.transform.rotation = Quaternion.Euler(0, isReverse ? -90 : 90, 0);
+
+        Vector3 forward = finalBook.transform.right;
+
+        Renderer renderer = finalBook.GetComponentInChildren<Renderer>();
+        float spacing = renderer.bounds.size.z / 2 + 0.045f;
 
         if (!isReverse)
         {
             finalBook.transform.rotation = Quaternion.Euler(0, 90, 0);
+            forward = -finalBook.transform.right;
 
             if (i > 0)
             {
-                setPos.z += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.045f;
+                setPos += forward * spacing;
             }
             else
             {
-                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.045f;
+                setPos.y += renderer.bounds.size.y / 2 + 0.045f;
             }
         }
         else
@@ -140,11 +149,11 @@ public class BookGenerator : MonoBehaviour
 
             if (i > 0)
             {
-                setPos.z -= finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.z / 2 + 0.045f;
+                setPos -= forward * spacing;
             }
             else
             {
-                setPos.y += finalBook.transform.GetComponentInChildren<Renderer>().bounds.size.y / 2 + 0.045f;
+                setPos.y += renderer.bounds.size.y / 2 + 0.045f;
             }
         }
 
@@ -221,51 +230,4 @@ public class BookGenerator : MonoBehaviour
 
         return book_formatted;
     }
-
-
-    // thanks chatgpt for generating most of these goofy ahh words!
-    string[] adjectives = {
-        "Dark", "Hidden", "Mysterious", "Lost", "Ancient",
-        "Silent", "Burning", "Twisted", "Forbidden", "Eternal",
-        "Shattered", "Crimson", "Fallen", "Golden", "Wicked",
-        "Enchanted", "Broken", "Lonely", "Frozen", "Sacred",
-        "Bloody", "Timeless", "Shadowed", "Ghostly", "Cursed",
-        "Brilliant", "Forsaken", "Forgotten", "Radiant", "Hollow"
-    };
-
-    string[] nouns = {
-        "Forest", "Empire", "Book", "Secret", "Shadow",
-        "Flame", "Crown", "Blade", "Curse", "Dream",
-        "Throne", "Path", "Fury", "Whisper", "Star",
-        "Gate", "Mask", "Truth", "Key", "Storm",
-        "Song", "Hollow", "Stone", "Rift", "Scroll",
-        "Memory", "Moon", "Heart", "Light", "Night"
-    };
-
-    string[] verbs = {
-        "Rise", "Fall", "Return", "Curse", "Whispers",
-        "Burn", "Shatter", "Wander", "Escape", "Search",
-        "Break", "Unveil", "Summon", "Haunt", "Awaken",
-        "Forge", "Reveal", "Guard", "Chase", "Claim",
-        "Follow", "Embrace", "Silence", "Cross", "Tear",
-        "Remember", "Call", "Bind", "Hide", "Rule"
-    };
-
-    string[] names = {
-        "Arav", "Kieran", "Jarvis", "Paul Crawford", "Kael",
-        "Nora", "Thorne", "Lyra", "Dorian", "Vera",
-        "Rowan", "Elias", "Zara", "Corwin", "Iris",
-        "Soren", "Mira", "Jude", "Alaric", "Lira",
-        "Orin", "Maeve", "Cassian", "Nyra", "Lucien",
-        "Bryn", "Ezra", "Vanya", "Calen", "Riven"
-    };
-
-    string[] places = {
-        "New Zealand", "Elaria", "Midreach", "The North", "Valemire",
-        "Duskwatch", "Thornfell", "Ashmere", "Drakethorn", "Frostmoor",
-        "Silvershore", "Nightspire", "Redreach", "Ebonvale", "Stormhold",
-        "Blackridge", "Hollowmere", "Brightfen", "Dreadhollow", "Wyrmwood",
-        "Suncrest", "Ironkeep", "Glimmerdeep", "Mistpeak", "Shadowfen",
-        "Ravenmark", "Crystalrun", "Moonspire", "Greywatch", "Fallowbrook"
-    };
 }
