@@ -8,7 +8,7 @@ namespace Player
         private InputAction _cursorToggleAction;
         private InputAction _clickAction;
     
-        public float mouseSensitivity = 1f;
+        public float mouseSensitivity = 0.25f;
 
         [SerializeField] private Camera playerCam;
 

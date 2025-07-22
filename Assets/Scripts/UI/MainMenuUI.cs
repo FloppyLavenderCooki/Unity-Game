@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,13 +29,21 @@ namespace UI
             _playButton.onClick.AddListener(() =>
             {
                 PlayList();
-                
+                _image.style.backgroundImage = new StyleBackground();
+            });
+            _optionsButton.onClick.AddListener(() =>
+            {
+                OptionsList();
+                _image.style.backgroundImage = new StyleBackground();
+            });
+            _aboutButton.onClick.AddListener(() =>
+            {
+                AboutList();
                 _image.style.backgroundImage = new StyleBackground();
             });
             _quitButton.onClick.AddListener(() =>
             {
                 QuitList();
-
                 _image.style.backgroundImage = new StyleBackground(
                     Resources.Load<Sprite>("Images/areyousure"));
             });
@@ -51,11 +58,15 @@ namespace UI
             _root.Q<VisualElement>("kiosk").pickingMode = PickingMode.Ignore;
             
             _buttonList = _root.Q<ListView>("button-list");
+            
+            Resources.UnloadUnusedAssets();
         }
         
         private void PlayList()
         {
             _buttonList.Clear();
+            _buttonList.itemsSource = null;
+            SetImageRadius(0);
             
             var buttonItems = new List<string> { "Normal Library", "Smart Library" };
             
@@ -72,10 +83,52 @@ namespace UI
             };
             _buttonList.itemsSource = buttonItems;
         }
+        
+        private void OptionsList()
+        {
+            _buttonList.Clear();
+            _buttonList.itemsSource = null;
+            
+            var buttonItems = new List<string> { "Mouse Sensitivity", "Target Frame Rate", "Resolution" };
+            
+            _buttonList.makeItem = () => new Button();
+            _buttonList.bindItem = (element, i) => {
+                var button = (Button)element;
+                button.text = buttonItems[i];
+                button.clicked += () => {
+                    _image.style.backgroundImage = new StyleBackground(
+                        Resources.Load<Sprite>("Images/" + button.text.Replace("@", "")));
+                    SetImageRadius(50);
+                };
+            };
+            _buttonList.itemsSource = buttonItems;
+        }
+        
+        private void AboutList()
+        {
+            _buttonList.Clear();
+            _buttonList.itemsSource = null;
+            
+            var buttonItems = new List<string> { "@SunnyFloppyDiskStudios", "@Cooki-Studios", "@salping" };
+            
+            _buttonList.makeItem = () => new Button();
+            _buttonList.bindItem = (element, i) => {
+                var button = (Button)element;
+                button.text = buttonItems[i];
+                button.clicked += () => {
+                    _image.style.backgroundImage = new StyleBackground(
+                        Resources.Load<Sprite>("Images/" + button.text.Replace("@", "")));
+                    SetImageRadius(50);
+                };
+            };
+            _buttonList.itemsSource = buttonItems;
+        }
 
         private void QuitList()
         {
             _buttonList.Clear();
+            _buttonList.itemsSource = null;
+            SetImageRadius(0);
             
             var buttonItems = new List<string> { "Yes", "No" };
             
@@ -89,7 +142,7 @@ namespace UI
 #if UNITY_EDITOR
                         EditorApplication.ExitPlaymode();
 #else
-            Application.Quit();
+                        Application.Quit();
 #endif
                     }
                     else
@@ -99,6 +152,14 @@ namespace UI
                 };
             };
             _buttonList.itemsSource = buttonItems;
+        }
+        
+        private void SetImageRadius(float radius)
+        {
+            _image.style.borderTopLeftRadius = new StyleLength(Length.Percent(radius));
+            _image.style.borderTopRightRadius = new StyleLength(Length.Percent(radius));
+            _image.style.borderBottomLeftRadius = new StyleLength(Length.Percent(radius));
+            _image.style.borderBottomRightRadius = new StyleLength(Length.Percent(radius));
         }
     }
 }
