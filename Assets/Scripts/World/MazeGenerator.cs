@@ -101,7 +101,7 @@ namespace World
         private void GenerateHilbertMaze()
         {
             _hilbert = new HilbertCurve(startPosition, stepSize);
-            _hilbert.GenerateHilbert(level, HilbertCurve.Direction.Up);
+            _hilbert.GenerateHilbert(level, HilbertCurve.Direction.Left);
 
             Dictionary<Vector2Int, int> pointIndices = new Dictionary<Vector2Int, int>();
             for (int i = 0; i < _hilbert.Points.Count; i++)

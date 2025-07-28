@@ -7,6 +7,7 @@ MonoImporter:
   - hardbackBook: {fileID: 1204049040239472098, guid: f6b41f3a820594943a3e78dae2aa108e, type: 3}
   - paperbackBook: {fileID: 2548487733289057818, guid: 67f3ce8723550cc459d0549dbb3438bc, type: 3}
   - thinStapledBook: {fileID: 3538867720146569401, guid: 7e0662769a658d9498e9a1e1e9a8448e, type: 3}
+  - bookshelfPillar: {fileID: 4702083786274211625, guid: 90f02d22a76a23940a5870d783ead75f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
