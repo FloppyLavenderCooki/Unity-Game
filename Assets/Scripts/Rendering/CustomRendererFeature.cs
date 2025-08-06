@@ -31,10 +31,10 @@ namespace Rendering
             if (outlineShader)
             {
                 _outlineMaterial = new Material(outlineShader);
-                // _outlineRenderPass = new OutlineRenderPass(_outlineMaterial, outlineSettings)
-                // {
-                //     renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing
-                // };
+                _outlineRenderPass = new OutlineRenderPass(_outlineMaterial, outlineSettings)
+                {
+                    renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing
+                };
             }
         }
 
@@ -53,7 +53,7 @@ namespace Rendering
             
             if (_outlineRenderPass != null)
             {
-                if (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game)
+                if ((enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
                 {
                     renderer.EnqueuePass(_outlineRenderPass);
                 }

@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Scripts/Rendering/OutlineMaskRT.renderTexture?fileID=8400000&amp;guid=25b26f82503b65c449b6fc2a573a1175&amp;type=2#OutlineMaskRT&quot;);" />
+</ui:UXML>

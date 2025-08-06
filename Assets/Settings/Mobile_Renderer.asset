@@ -20,7 +20,7 @@ MonoBehaviour:
   outlineSettings:
     enableOutline: 1
     outline: 0.01
-  outlineShader: {fileID: 4800000, guid: 3b44f95593a3492db90ad42e3742ff44, type: 3}
+  outlineShader: {fileID: 4800000, guid: 1f266986504b483892e9cc31b8f94c12, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

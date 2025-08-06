@@ -108,7 +108,7 @@ MonoBehaviour:
   active: 1
   enableInEditor:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   enableAberration:
     m_OverrideState: 1
     m_Value: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     m_Value: 0.001
   enableOutline:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   outline:
     m_OverrideState: 1
     m_Value: 0.001
