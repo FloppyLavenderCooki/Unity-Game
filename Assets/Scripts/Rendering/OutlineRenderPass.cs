@@ -53,6 +53,7 @@ namespace Rendering
             _outlineTextureDescriptor.width = cameraData.cameraTargetDescriptor.width;
             _outlineTextureDescriptor.height = cameraData.cameraTargetDescriptor.height;
             _outlineTextureDescriptor.depthBufferBits = 0;
+            _outlineTextureDescriptor.colorFormat = RenderTextureFormat.ARGB32;
 
             var srcCamColor = resourceData.activeColorTexture;
 
