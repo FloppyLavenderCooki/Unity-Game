@@ -120,7 +120,10 @@ MonoBehaviour:
     m_Value: 1
   outline:
     m_OverrideState: 1
-    m_Value: 0.001
+    m_Value: 0.0025
+  outlineColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &849379129802519247
 MonoBehaviour:
   m_ObjectHideFlags: 3

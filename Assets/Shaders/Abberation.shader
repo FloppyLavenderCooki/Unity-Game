@@ -16,7 +16,7 @@ Shader "CustomEffects/Aberration"
                 SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).g,
                 SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord + _Aberration).b);
 
-            return float4(colour, 1);
+            return float4(colour, SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a);
         }
     
     ENDHLSL

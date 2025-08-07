@@ -19,5 +19,7 @@ namespace Rendering
             new BoolParameter(true);
         public ClampedFloatParameter outline =
             new ClampedFloatParameter(0.0f, 0, 1.0f);
+        public ColorParameter outlineColor =
+            new ColorParameter(Color.white);
     }
 }

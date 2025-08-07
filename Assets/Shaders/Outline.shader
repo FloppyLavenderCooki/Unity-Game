@@ -6,7 +6,7 @@
         #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
         float _Outline;
-        float4 _OutlineColor = float4(1, 0, 0, 1);
+        float4 _OutlineColor = float4(1, 1, 1, 1);
         float _OutlineThreshold = 0.01;
 
         float4 Outline(Varyings input) : SV_Target
@@ -28,10 +28,15 @@
                 maxAlphaDiff = max(maxAlphaDiff, abs(centerAlpha - neighbourAlpha));
             }
 
+            if (SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a != 0)
+            {
+                return SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord);
+            }
+
             if (maxAlphaDiff > _OutlineThreshold) 
             {
-                return float4(0, 0, 0, 1);
-                return _OutlineColor; 
+                // return float4(1, 1, 0, 1);
+                return _OutlineColor;
             }
             return float4(0, 0, 0, 0);
         }

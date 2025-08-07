@@ -6,6 +6,7 @@ MonoImporter:
   defaultReferences:
   - aberrationShader: {fileID: 4800000, guid: ea398998dec71ce439013463fad96f56, type: 3}
   - outlineShader: {fileID: 4800000, guid: 1f266986504b483892e9cc31b8f94c12, type: 3}
+  - renderTexture: {fileID: 8400000, guid: 25b26f82503b65c449b6fc2a573a1175, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

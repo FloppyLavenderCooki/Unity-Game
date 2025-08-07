@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 namespace Rendering
 {
@@ -16,6 +17,25 @@ namespace Rendering
         private Material _outlineMaterial;
         private OutlineRenderPass _outlineRenderPass;
         private CustomVolumeComponent _volumeComponent;
+        private RenderTexture _outlineRT;
+
+        private void OnEnable()
+        {
+            CreateRenderTexture();
+        }
+
+        private void CreateRenderTexture()
+        {
+            if (_outlineRT)
+            {
+                _outlineRT.Release();
+            }
+
+            _outlineRT = new RenderTexture(Screen.width, Screen.height, 24);
+            _outlineRT.Create();
+            
+            Debug.Log(Screen.width+", "+Screen.height);
+        }
 
         public override void Create()
         {
@@ -43,19 +63,20 @@ namespace Rendering
             var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
             var enableInEditor = volumeComponent.enableInEditor.overrideState && volumeComponent.enableInEditor.value;
 
+            if (_outlineRenderPass != null)
+            {
+                if ((enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
+                {
+                    CreateRenderTexture();
+                    renderer.EnqueuePass(_outlineRenderPass);
+                }
+            }
+            
             if (_aberrationRenderPass != null)
             {
                 if (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game)
                 {
                     renderer.EnqueuePass(_aberrationRenderPass);
-                }
-            }
-            
-            if (_outlineRenderPass != null)
-            {
-                if ((enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
-                {
-                    renderer.EnqueuePass(_outlineRenderPass);
                 }
             }
         }
@@ -85,5 +106,6 @@ namespace Rendering
     {
         public bool enableOutline;
         [Range(0, 0.01f)] public float outline;
+        public Color outlineColor = Color.white;
     }
 }
