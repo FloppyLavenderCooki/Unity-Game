@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace Rendering
 {
@@ -31,10 +31,15 @@ namespace Rendering
                 _outlineRT.Release();
             }
 
-            _outlineRT = new RenderTexture(Screen.width, Screen.height, 24);
+            _outlineRT = new RenderTexture(Screen.width, Screen.height, 24)
+            {
+                name = "OutlineRT"
+            };
             _outlineRT.Create();
             
-            Debug.Log(Screen.width+", "+Screen.height);
+            GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture = _outlineRT;
+            GameObject.Find("Outline UI").GetComponent<UIDocument>().rootVisualElement
+                .Q<VisualElement>("main").style.backgroundImage = Background.FromRenderTexture(_outlineRT);
         }
 
         public override void Create()
