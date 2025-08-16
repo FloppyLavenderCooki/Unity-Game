@@ -19,11 +19,6 @@ namespace Rendering
         private CustomVolumeComponent _volumeComponent;
         private RenderTexture _outlineRT;
 
-        private void OnEnable()
-        {
-            CreateRenderTexture();
-        }
-
         private void CreateRenderTexture()
         {
             if (_outlineRT)

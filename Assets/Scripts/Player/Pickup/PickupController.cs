@@ -72,6 +72,15 @@ public class PickupController : MonoBehaviour {
                         heldObject.transform.parent.parent = objectHold;
                         heldObject.transform.parent.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                         heldObject.transform.parent.position = objectHold.position;
+                        
+                        heldObject.layer = LayerMask.NameToLayer("OutlineTarget");
+                        foreach (Transform child in heldObject.transform)
+                        {
+                            if (child.gameObject.name.StartsWith("Canvas"))
+                            {
+                                child.gameObject.layer = LayerMask.NameToLayer("OutlineTarget");
+                            }
+                        }
                     }
                 }
             } else {
@@ -123,6 +132,15 @@ public class PickupController : MonoBehaviour {
             heldObject.GetComponent<Collider>().enabled = true;
             rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
             StartCoroutine(ResetFOV());
+        }
+        
+        heldObject.layer = LayerMask.NameToLayer("Default");
+        foreach (Transform child in heldObject.transform)
+        {
+            if (child.gameObject.name.StartsWith("Canvas"))
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("UI");
+            }
         }
 
         heldObject = null;

@@ -16,9 +16,6 @@ namespace Rendering
         private readonly Material _material;
 
         private RenderTextureDescriptor _aberrationTextureDescriptor;
-        
-        private readonly UIDocument _outlineUI = GameObject.Find("Outline UI").GetComponent<UIDocument>();
-        private readonly Camera _outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
 
         public AberrationRenderPass(Material material, AberrationSettings defaultSettings)
         {
@@ -46,17 +43,23 @@ namespace Rendering
                 volumeComponent.enableAberration.value : _defaultSettings.enableAberration;
             var enableOutline = volumeComponent.enableOutline.value;
 
-            if (enableOutline)
+            if (GameObject.Find("Outline UI") && GameObject.Find("Outline Camera"))
             {
-                _outlineUI.enabled = true;
-                _outlineCamera.enabled = true;
+                UIDocument outlineUI = GameObject.Find("Outline UI").GetComponent<UIDocument>();
+                Camera outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
+
+                if (enableOutline)
+                {
+                    outlineUI.enabled = true;
+                    outlineCamera.enabled = true;
+                }
+                else
+                {
+                    outlineUI.enabled = false;
+                    outlineCamera.enabled = false;
+                }
             }
-            else
-            {
-                _outlineUI.enabled = false;
-                _outlineCamera.enabled = false;
-            }
-            
+
             if (!enableAberration)
             {
                 return;
