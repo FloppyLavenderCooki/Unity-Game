@@ -13,20 +13,15 @@ namespace World
             Right
         }
 
-        public List<Vector2> Points { get; set; }
+        public List<Vector2> Points { get; }
         private Vector2 _currentPosition;
         private readonly float _stepSize;
 
         public HilbertCurve(Vector2 startPosition, float stepSize)
         {
-            this._currentPosition = startPosition;
-            this._stepSize = stepSize;
+            _currentPosition = startPosition;
+            _stepSize = stepSize;
             Points = new List<Vector2> { _currentPosition };
-        }
-
-        public HilbertCurve(List<Vector2> points)
-        {
-            Points = points;
         }
 
         public void GenerateHilbert(int level, Direction direction)
