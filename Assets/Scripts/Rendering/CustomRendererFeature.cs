@@ -31,9 +31,16 @@ namespace Rendering
             var textures = Resources.FindObjectsOfTypeAll<RenderTexture>();
             foreach (var rt in textures)
             {
-                if (rt.name != "OutlineRT" || rt == _outlineRT) continue;
+                if (rt == GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture || rt.name != "OutlineRT" || rt == _outlineRT) continue;
                 rt.Release();
-                Destroy(rt);
+                if (Application.isPlaying)
+                {
+                    Destroy(rt);
+                }
+                else
+                {
+                    DestroyImmediate(rt);
+                }
             }
             
             GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture = _outlineRT;
@@ -91,13 +98,11 @@ namespace Rendering
             {
                 Destroy(_aberrationMaterial);
                 Destroy(_outlineMaterial);
-                _outlineRT.Release();
             }
             else
             {
                 DestroyImmediate(_aberrationMaterial);
                 DestroyImmediate(_outlineMaterial);
-                _outlineRT.Release();
             }
         }
     }
