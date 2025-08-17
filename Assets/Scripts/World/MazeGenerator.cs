@@ -79,7 +79,8 @@ namespace World
                 {
                     _array[y, x] = new Dictionary<string, bool>
                     {
-                        { "pillar", false }
+                        { "pillar", false },
+                        { "bookshelf", false }
                     };
                 }
             }
@@ -96,13 +97,15 @@ namespace World
             _array[(position.x) * 2, (position.y) * 2]["pillar"] = _hilbert.Points.Contains(position);
 
             Vector2Int[] directions = { Vector2Int.up,Vector2Int.down, Vector2Int.left, Vector2Int.right };
-            Vector2Int newPosition = position + directions[Random.Range(0, directions.Length)];
+            Vector2Int direction = directions[Random.Range(0, directions.Length)];
+            Vector2Int newPosition = position + direction;
             
             int positionHilbert = _hilbert.Points.FindIndex(p => p == position);
             int newPositionHilbert = _hilbert.Points.FindIndex(p => p == newPosition);
             
             if (_hilbert.Points.Contains(newPosition) && positionHilbert > newPositionHilbert)
             {
+                _array[((position.x)*2)+direction.x, ((position.y)*2)+direction.y]["bookshelf"] = true;
                 GenerateMaze(newPosition);
             }
             else
@@ -121,6 +124,12 @@ namespace World
                     {
                         GameObject pillarInstance = Instantiate(pillarModel, transform);
                         pillarInstance.transform.position += new Vector3(x, 0, -y);
+                    }
+                    else if (_array[y, x]["bookshelf"])
+                    {
+                        GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
+                        bookshelfInstance.transform.position += new Vector3(x, 0, -y);
+                        _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
                     }
                 }
             }
