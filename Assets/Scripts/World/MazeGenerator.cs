@@ -69,6 +69,9 @@ namespace World
             _rows = (maxY + 1) * 2;
             _cols = (maxX + 1) * 2;
             
+            startPosition = new Vector2Int(maxY, maxX);
+            Debug.Log(startPosition);
+            
             _array = new Dictionary<string, bool>[_rows, _cols];
             for (int y = 0; y < _rows; y++)
             {
@@ -84,11 +87,28 @@ namespace World
         
         private void GenerateMaze(Vector2Int position)
         {
-            _array[position.x * 2, position.y * 2]["pillar"] = _hilbert.Points.Contains(position);
-            // Debug.Log(_array);
-            Debug.Log(_rows+", "+_cols);
+            if (position == Vector2Int.zero)
+            {
+                CreateMazeObjects();
+                return;
+            }
             
-            CreateMazeObjects();
+            _array[(position.x) * 2, (position.y) * 2]["pillar"] = _hilbert.Points.Contains(position);
+
+            Vector2Int[] directions = { Vector2Int.up,Vector2Int.down, Vector2Int.left, Vector2Int.right };
+            Vector2Int newPosition = position + directions[Random.Range(0, directions.Length)];
+            
+            int positionHilbert = _hilbert.Points.FindIndex(p => p == position);
+            int newPositionHilbert = _hilbert.Points.FindIndex(p => p == newPosition);
+            
+            if (_hilbert.Points.Contains(newPosition) && positionHilbert > newPositionHilbert)
+            {
+                GenerateMaze(newPosition);
+            }
+            else
+            {
+                GenerateMaze(position);
+            }
         }
 
         private void CreateMazeObjects()
@@ -100,7 +120,7 @@ namespace World
                     if (_array[y, x]["pillar"])
                     {
                         GameObject pillarInstance = Instantiate(pillarModel, transform);
-                        pillarInstance.transform.position += new Vector3(y, 0, x);
+                        pillarInstance.transform.position += new Vector3(x, 0, -y);
                     }
                 }
             }
