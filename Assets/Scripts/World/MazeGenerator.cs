@@ -20,6 +20,14 @@ namespace World
         private HilbertCurve _hilbert;
         private BookshelfGenerator _bookshelfGenerator;
         private GameObject _books;
+        
+        private readonly Dictionary<Vector2Int, string> _bookshelfMap = new()
+        {
+            { Vector2Int.up, "bookshelf_up" },
+            { Vector2Int.down, "bookshelf_down" },
+            { Vector2Int.left, "bookshelf_left" },
+            { Vector2Int.right, "bookshelf_right" }
+        };
 
         private void Start()
         {
@@ -80,7 +88,10 @@ namespace World
                     _array[y, x] = new Dictionary<string, bool>
                     {
                         { "pillar", false },
-                        { "bookshelf", false }
+                        { "bookshelf_up", false },
+                        { "bookshelf_down", false },
+                        { "bookshelf_left", false },
+                        { "bookshelf_right", false }
                     };
                 }
             }
@@ -105,7 +116,10 @@ namespace World
             
             if (_hilbert.Points.Contains(newPosition) && positionHilbert > newPositionHilbert)
             {
-                _array[((position.x)*2)+direction.x, ((position.y)*2)+direction.y]["bookshelf"] = true;
+                if (_bookshelfMap.TryGetValue(direction, out var key))
+                {
+                    _array[((position.x)*2)+direction.x, ((position.y)*2)+direction.y][key] = true;
+                }
                 GenerateMaze(newPosition);
             }
             else
@@ -125,11 +139,26 @@ namespace World
                         GameObject pillarInstance = Instantiate(pillarModel, transform);
                         pillarInstance.transform.position += new Vector3(x, 0, -y);
                     }
-                    else if (_array[y, x]["bookshelf"])
+                    else
                     {
-                        GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
-                        bookshelfInstance.transform.position += new Vector3(x, 0, -y);
-                        _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
+                        foreach (var dir in _bookshelfMap)
+                        {
+                            if (!_array[y, x][dir.Value]) continue;
+                            GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
+                            bookshelfInstance.transform.position += new Vector3(x, 0, -y);
+                            Debug.Log(bookshelfInstance.transform.rotation.eulerAngles);
+
+                            if (dir.Key == Vector2Int.up)
+                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 270, 0);
+                            else if (dir.Key == Vector2Int.down)
+                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 90, 0);
+                            else if (dir.Key == Vector2Int.left)
+                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
+                            else if (dir.Key == Vector2Int.right)
+                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 0, 0);
+
+                            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
+                        }
                     }
                 }
             }
