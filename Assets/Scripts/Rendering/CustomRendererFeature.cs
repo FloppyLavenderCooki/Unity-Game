@@ -21,16 +21,20 @@ namespace Rendering
 
         private void CreateRenderTexture()
         {
-            if (_outlineRT)
-            {
-                _outlineRT.Release();
-            }
-
             _outlineRT = new RenderTexture(Screen.width, Screen.height, 24)
             {
-                name = "OutlineRT"
+                name = "OutlineRT",
+                filterMode = FilterMode.Point
             };
             _outlineRT.Create();
+            
+            var textures = Resources.FindObjectsOfTypeAll<RenderTexture>();
+            foreach (var rt in textures)
+            {
+                if (rt.name != "OutlineRT" || rt == _outlineRT) continue;
+                rt.Release();
+                Destroy(rt);
+            }
             
             GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture = _outlineRT;
             GameObject.Find("Outline UI").GetComponent<UIDocument>().rootVisualElement
@@ -86,10 +90,14 @@ namespace Rendering
             if (Application.isPlaying)
             {
                 Destroy(_aberrationMaterial);
+                Destroy(_outlineMaterial);
+                _outlineRT.Release();
             }
             else
             {
                 DestroyImmediate(_aberrationMaterial);
+                DestroyImmediate(_outlineMaterial);
+                _outlineRT.Release();
             }
         }
     }
