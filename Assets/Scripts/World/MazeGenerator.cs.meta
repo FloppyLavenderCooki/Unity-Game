@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - bookshelfModel: {fileID: 306039082894574156, guid: 6feed99b30cd6344cbd393697b31f754, type: 3}
+  - pillarModel: {fileID: 4702083786274211625, guid: 90f02d22a76a23940a5870d783ead75f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
