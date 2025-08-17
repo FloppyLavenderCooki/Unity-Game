@@ -111,10 +111,9 @@ namespace Player
                 rb.transform.position = Vector3.zero;
             }
 
-            if (Keyboard.current.escapeKey.wasPressedThisFrame) {
-                SceneManager.LoadSceneAsync("Scenes/Main Menu");
-                
-            }
+            // if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+            //     SceneManager.LoadSceneAsync("Scenes/Main Menu");
+            // }
         }
 
         private void FixedUpdate() {
