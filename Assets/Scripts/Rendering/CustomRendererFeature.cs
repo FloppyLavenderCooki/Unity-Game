@@ -76,7 +76,7 @@ namespace Rendering
 
             if (_outlineRenderPass != null)
             {
-                if ((enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
+                if ((Screen.width + Screen.height != 0) && (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
                 {
                     CreateRenderTexture();
                     renderer.EnqueuePass(_outlineRenderPass);
