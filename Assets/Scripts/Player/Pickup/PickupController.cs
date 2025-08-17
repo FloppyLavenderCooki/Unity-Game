@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PickupController : MonoBehaviour {
     public GameObject player;
     public Camera cam;
+    public Camera outlineCam;
     public EHoldingObject holding;
 
     public Transform objectHold;
@@ -111,6 +112,7 @@ public class PickupController : MonoBehaviour {
             float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f); // normalise hold time past 0.3s
             float targetFOV = minFOV - (holdProgress * maxZoom);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 10f * Time.deltaTime);
+            if (outlineCam) outlineCam.fieldOfView = Mathf.Lerp(outlineCam.fieldOfView, targetFOV, 10f * Time.deltaTime);
 
             yield return null;
         }
@@ -150,10 +152,12 @@ public class PickupController : MonoBehaviour {
     private System.Collections.IEnumerator ResetFOV() {
         while (Mathf.Abs(cam.fieldOfView - 60f) > 0.01f) {
             cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, 60f, 40f * Time.deltaTime);
+            if (outlineCam) outlineCam.fieldOfView = Mathf.MoveTowards(outlineCam.fieldOfView, 60f, 40f * Time.deltaTime);
             yield return null;
         }
 
         cam.fieldOfView = 60f;
+        if (outlineCam) outlineCam.fieldOfView = 60f;
     }
 
     
