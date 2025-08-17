@@ -13,15 +13,15 @@ namespace World
             Right
         }
 
-        public List<Vector2> Points { get; }
-        private Vector2 _currentPosition;
-        private readonly float _stepSize;
+        public List<Vector2Int> Points { get; }
+        private Vector2Int _currentPosition;
+        private readonly int _stepSize;
 
-        public HilbertCurve(Vector2 startPosition, float stepSize)
+        public HilbertCurve(Vector2Int startPosition, int stepSize)
         {
             _currentPosition = startPosition;
             _stepSize = stepSize;
-            Points = new List<Vector2> { _currentPosition };
+            Points = new List<Vector2Int> { _currentPosition };
         }
 
         public void GenerateHilbert(int level, Direction direction)
@@ -101,18 +101,18 @@ namespace World
             switch (direction)
             {
                 case Direction.Up:
-                    _currentPosition += Vector2.up * _stepSize;
+                    _currentPosition += Vector2Int.up * _stepSize;
                     if (_currentPosition.y < 0) _currentPosition.y = 0;
                     break;
                 case Direction.Down:
-                    _currentPosition += Vector2.down * _stepSize;
+                    _currentPosition += Vector2Int.down * _stepSize;
                     if (_currentPosition.y < 0) _currentPosition.y = 0;
                     break;
                 case Direction.Left:
-                    _currentPosition += Vector2.left * _stepSize;
+                    _currentPosition += Vector2Int.left * _stepSize;
                     break;
                 case Direction.Right:
-                    _currentPosition += Vector2.right * _stepSize;
+                    _currentPosition += Vector2Int.right * _stepSize;
                     break;
             }
             Points.Add(_currentPosition);
