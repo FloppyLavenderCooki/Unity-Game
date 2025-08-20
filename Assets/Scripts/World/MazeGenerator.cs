@@ -13,6 +13,8 @@ namespace World
         private Dictionary<string,bool>[,] _array;
         private int _rows;
         private int _cols;
+        private int _maxX;
+        private int _maxY;
 
         public int level = 3;
         public int stepSize = 1;
@@ -49,8 +51,10 @@ namespace World
                 if (p.y < 0) p.y = -p.y;
                 _hilbert.Points[i] = p;
             }
+            _hilbert.Points.Reverse();
 
             GenerateEmptyArray();
+            GenerateHilbertShelves();
             GenerateMaze(startPosition);
             
             Destroy(GameObject.Find("Loading UI"));
@@ -66,24 +70,23 @@ namespace World
 
         private void GenerateEmptyArray()
         {
-            int maxX = 0;
-            int maxY = 0;
+            _maxX = 0;
+            _maxY = 0;
             foreach (var p in _hilbert.Points)
             {
-                if (p.x > maxX) maxX = p.x;
-                if (p.y > maxY) maxY = p.y;
+                if (p.x > _maxX) _maxX = p.x;
+                if (p.y > _maxY) _maxY = p.y;
             }
             
-            _rows = (maxY + 1) * 2;
-            _cols = (maxX + 1) * 2;
+            _rows = (_maxY + 2) * 2;
+            _cols = (_maxX + 2) * 2;
             
-            startPosition = new Vector2Int(maxY, maxX);
-            Debug.Log(startPosition);
+            startPosition = new Vector2Int(_maxY, _maxX);
             
-            _array = new Dictionary<string, bool>[_rows, _cols];
-            for (int y = 0; y < _rows; y++)
+            _array = new Dictionary<string, bool>[_rows+1, _cols+1];
+            for (int y = 0; y < _rows+1; y++)
             {
-                for (int x = 0; x < _cols; x++)
+                for (int x = 0; x < _cols+1; x++)
                 {
                     _array[y, x] = new Dictionary<string, bool>
                     {
@@ -96,36 +99,86 @@ namespace World
                 }
             }
         }
+
+        private void GenerateHilbertShelves()
+        {
+            for (int y = 0; y < _rows; y += 2)
+            {
+                for (int x = 0; x < _cols; x += 2)
+                {
+                    if (!_array[y, x].ContainsValue(true))
+                    {
+                        _array[y, x]["pillar"] = true;
+                    }
+                }
+            }
+
+            // Generate grid
+            foreach (var point in _hilbert.Points)
+            {
+                int x = point.x * 2+1;
+                int y = point.y * 2+1;
+
+                if (_array[y + 1, x] == null || _array[y - 1, x] == null || _array[y, x - 1] == null ||
+                    _array[y, x + 1] == null) continue;
+                
+                _array[y - 1, x]["bookshelf_up"] = true;
+                _array[y, x - 1]["bookshelf_left"] = true;
+                
+                if (x == _maxX * 2+1) _array[y, x + 1]["bookshelf_right"] = true;
+                if (y == _maxY * 2+1) _array[y + 1, x]["bookshelf_down"] = true;
+            }
+            
+            // Generate Hilbert curve
+            for (int i = 0; i < _hilbert.Points.Count; i++)
+            {
+                Vector2Int point = _hilbert.Points[i];
+                Vector2Int dirNormalized;
+                if ((i + 1) < _hilbert.Points.Count)
+                {
+                    Vector2Int point2 = _hilbert.Points[i + 1];
+            
+                    Vector2Int direction = point2 - point;
+                    dirNormalized = new Vector2Int(
+                        Mathf.Clamp(direction.x, -1, 1),
+                        Mathf.Clamp(direction.y, -1, 1)
+                    );
+                }
+                else
+                {
+                    return;
+                }
+                
+                Debug.Log(dirNormalized);
+            
+                // int x = point.x * 2+1;
+                // int y = point.y * 2+1;
+                //
+                // if (_bookshelfMap.TryGetValue(dirNormalized, out string bookshelfKey))
+                // {
+                //     switch (bookshelfKey)
+                //     {
+                //         case "bookshelf_up":
+                //             _array[y-1, x]["bookshelf_up"] = false;
+                //             break;
+                //         case "bookshelf_down":
+                //             _array[y+1, x]["bookshelf_down"] = false;
+                //             break;
+                //         case "bookshelf_left":
+                //             _array[y, x-1]["bookshelf_left"] = false;
+                //             break;
+                //         case "bookshelf_right":
+                //             _array[y, x+1]["bookshelf_right"] = false;
+                //             break;
+                //     }
+                // }
+            }
+        }
         
         private void GenerateMaze(Vector2Int position)
         {
-            if (position == Vector2Int.zero)
-            {
-                CreateMazeObjects();
-                return;
-            }
-            
-            _array[(position.x) * 2, (position.y) * 2]["pillar"] = _hilbert.Points.Contains(position);
-
-            Vector2Int[] directions = { Vector2Int.up,Vector2Int.down, Vector2Int.left, Vector2Int.right };
-            Vector2Int direction = directions[Random.Range(0, directions.Length)];
-            Vector2Int newPosition = position + direction;
-            
-            int positionHilbert = _hilbert.Points.FindIndex(p => p == position);
-            int newPositionHilbert = _hilbert.Points.FindIndex(p => p == newPosition);
-            
-            if (_hilbert.Points.Contains(newPosition) && positionHilbert > newPositionHilbert)
-            {
-                if (_bookshelfMap.TryGetValue(direction, out var key))
-                {
-                    _array[((position.x)*2)+direction.x, ((position.y)*2)+direction.y][key] = true;
-                }
-                GenerateMaze(newPosition);
-            }
-            else
-            {
-                GenerateMaze(position);
-            }
+            // TODO
+            CreateMazeObjects();
         }
 
         private void CreateMazeObjects()
@@ -139,26 +192,23 @@ namespace World
                         GameObject pillarInstance = Instantiate(pillarModel, transform);
                         pillarInstance.transform.position += new Vector3(x, 0, -y);
                     }
-                    else
+                    
+                    foreach (var dir in _bookshelfMap)
                     {
-                        foreach (var dir in _bookshelfMap)
-                        {
-                            if (!_array[y, x][dir.Value]) continue;
-                            GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
-                            bookshelfInstance.transform.position += new Vector3(x, 0, -y);
-                            Debug.Log(bookshelfInstance.transform.rotation.eulerAngles);
+                        if (!_array[y, x][dir.Value]) continue;
+                        GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
+                        bookshelfInstance.transform.position += new Vector3(x, 0, -y);
 
-                            if (dir.Key == Vector2Int.up)
-                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 270, 0);
-                            else if (dir.Key == Vector2Int.down)
-                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 90, 0);
-                            else if (dir.Key == Vector2Int.left)
-                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
-                            else if (dir.Key == Vector2Int.right)
-                                bookshelfInstance.transform.rotation = Quaternion.Euler(270, 0, 0);
+                        if (dir.Key == Vector2Int.up)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 270, 0);
+                        else if (dir.Key == Vector2Int.down)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 90, 0);
+                        else if (dir.Key == Vector2Int.left)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
+                        else if (dir.Key == Vector2Int.right)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 0, 0);
 
-                            _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
-                        }
+                        _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
                     }
                 }
             }
