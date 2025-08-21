@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-namespace Player
-{
+namespace Player {
     public class CameraController : MonoBehaviour {
         private InputAction _lookAction;
         private InputAction _cursorToggleAction;
@@ -12,13 +12,12 @@ namespace Player
 
         [SerializeField] private Camera playerCam;
 
+        public bool gamePaused = false;
         private bool _camBlock = false;
 
         [Range(-90f, 90f)] private float _cameraY;
         private float _cameraX;
         
-        private Quaternion _camFreeze = Quaternion.identity;
-
         private void Start() {
             LockCursor();
             _lookAction = InputSystem.actions.FindAction("Look");
@@ -28,11 +27,15 @@ namespace Player
 
         private void Update() {
             if (_cursorToggleAction.WasPressedThisFrame()) {
-                Cursor.lockState = CursorLockMode.None;
-                _camBlock = true;
-            } else if (_clickAction.WasPressedThisFrame()) {
+                gamePaused = !_camBlock;
+                _camBlock = !_camBlock;
+                ToggleCameraMove(_camBlock);
+                ToggleCursor(_camBlock);
+                // toggle pause menu UI here <--- !
+            }
+            
+            if (_clickAction.WasPressedThisFrame() & !_camBlock) {
                 LockCursor();
-                _camBlock = false;
             }
             
             if (!_camBlock) {
@@ -48,9 +51,8 @@ namespace Player
                 _cameraX += inputX;
 
                 transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
-                _camFreeze = transform.rotation;
             } else {
-                transform.rotation = _camFreeze;
+                transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
             }
         }
 
@@ -58,7 +60,16 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        public void ToggleCursor(bool locked) {
+            if (!locked) {
+                Cursor.lockState = CursorLockMode.None;
+            } else {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
         public void ToggleCameraMove(bool block) {
+            print(block);
             _camBlock = block;
         }
     }

@@ -56,7 +56,9 @@ public class PickupController : MonoBehaviour {
                 heldObject.transform.rotation = rotationDelta * heldObject.transform.rotation;
             }
         } else {
-            camCon.ToggleCameraMove(false);
+            if (!camCon.gamePaused) {
+                camCon.ToggleCameraMove(false);
+            }
         }
     
         if (_grabObject.WasPressedThisFrame()) {
