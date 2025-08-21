@@ -48,7 +48,8 @@ namespace World
             {
                 var p = _hilbert.Points[i];
                 if (p.x < 0) p.x = -p.x;
-                if (p.y < 0) p.y = -p.y;
+                // if (p.y < 0) p.y = -p.y;
+                p.y = (level * 2 + 1) - p.y;
                 _hilbert.Points[i] = p;
             }
             _hilbert.Points.Reverse();
@@ -128,10 +129,18 @@ namespace World
                 if (x == _maxX * 2+1) _array[y, x + 1]["bookshelf_right"] = true;
                 if (y == _maxY * 2+1) _array[y + 1, x]["bookshelf_down"] = true;
             }
-            
-            // Generate Hilbert curve
-            for (int i = 0; i < _hilbert.Points.Count; i++)
+        }
+        
+        private void GenerateMaze(Vector2Int position)
+        {
+            // TODO
+            for (int j = 0; j < _hilbert.Points.Count-1; j++)
             {
+                int x = position.x * 2+1;
+                int y = position.y * 2+1;
+            
+                int i = _hilbert.Points.FindIndex(v => v == position);
+            
                 Vector2Int point = _hilbert.Points[i];
                 Vector2Int dirNormalized;
                 if ((i + 1) < _hilbert.Points.Count)
@@ -150,34 +159,31 @@ namespace World
                 }
                 
                 Debug.Log(dirNormalized);
-            
-                // int x = point.x * 2+1;
-                // int y = point.y * 2+1;
-                //
-                // if (_bookshelfMap.TryGetValue(dirNormalized, out string bookshelfKey))
-                // {
-                //     switch (bookshelfKey)
-                //     {
-                //         case "bookshelf_up":
-                //             _array[y-1, x]["bookshelf_up"] = false;
-                //             break;
-                //         case "bookshelf_down":
-                //             _array[y+1, x]["bookshelf_down"] = false;
-                //             break;
-                //         case "bookshelf_left":
-                //             _array[y, x-1]["bookshelf_left"] = false;
-                //             break;
-                //         case "bookshelf_right":
-                //             _array[y, x+1]["bookshelf_right"] = false;
-                //             break;
-                //     }
-                // }
+                
+                if (_bookshelfMap.TryGetValue(dirNormalized, out string bookshelfKey))
+                {
+                    Debug.Log(bookshelfKey);
+                
+                    switch (bookshelfKey)
+                    {
+                        case "bookshelf_up":
+                            _array[y+1, x]["bookshelf_up"] = false;
+                            break;
+                        case "bookshelf_down":
+                            _array[y-1, x]["bookshelf_up"] = false;
+                            break;
+                        case "bookshelf_left":
+                            _array[y, x-1]["bookshelf_left"] = false;
+                            break;
+                        case "bookshelf_right":
+                            _array[y, x+1]["bookshelf_left"] = false;
+                            break;
+                    }
+                }
+                
+                position += dirNormalized;
             }
-        }
-        
-        private void GenerateMaze(Vector2Int position)
-        {
-            // TODO
+            
             CreateMazeObjects();
         }
 
