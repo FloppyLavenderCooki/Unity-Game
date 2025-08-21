@@ -56,7 +56,7 @@ namespace World
 
             GenerateEmptyArray();
             GenerateHilbertShelves();
-            GenerateMaze(startPosition);
+            GenerateMaze();
             
             Destroy(GameObject.Find("Loading UI"));
         }
@@ -67,6 +67,10 @@ namespace World
             
             foreach (Transform child in _books.transform) { Destroy(child.gameObject); }
             foreach (Transform child in transform) { Destroy(child.gameObject); }
+            
+            GenerateEmptyArray();
+            GenerateHilbertShelves();
+            GenerateMaze();
         }
 
         private void GenerateEmptyArray()
@@ -82,7 +86,7 @@ namespace World
             _rows = (_maxY + 2) * 2;
             _cols = (_maxX + 2) * 2;
             
-            startPosition = new Vector2Int(_maxY, _maxX);
+            // startPosition = new Vector2Int(_maxY, _maxX);
             
             _array = new Dictionary<string, bool>[_rows+1, _cols+1];
             for (int y = 0; y < _rows+1; y++)
@@ -131,59 +135,47 @@ namespace World
             }
         }
         
-        private void GenerateMaze(Vector2Int position)
+        private void GenerateMaze()
         {
-            // TODO
-            for (int j = 0; j < _hilbert.Points.Count-1; j++)
+            foreach (var point in _hilbert.Points)
             {
-                int x = position.x * 2+1;
-                int y = position.y * 2+1;
-            
-                int i = _hilbert.Points.FindIndex(v => v == position);
-            
-                Vector2Int point = _hilbert.Points[i];
-                Vector2Int dirNormalized;
-                if ((i + 1) < _hilbert.Points.Count)
+                int x = point.x * 2 + 1;
+                int y = point.y * 2 + 1;
+
+                int i = _hilbert.Points.FindIndex(v => v == point);
+                int i2 = -1;
+                Vector2Int direction = Vector2Int.zero;
+
+                while (i2 == -1)
                 {
-                    Vector2Int point2 = _hilbert.Points[i + 1];
-            
-                    Vector2Int direction = point2 - point;
-                    dirNormalized = new Vector2Int(
-                        Mathf.Clamp(direction.x, -1, 1),
-                        Mathf.Clamp(direction.y, -1, 1)
-                    );
+                    List<Vector2Int> directions =
+                        new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+                    direction = directions[Random.Range(0, directions.Count)];
+
+                    i2 = _hilbert.Points.FindIndex(v => v == point + direction);
+                    if (i2 != _hilbert.Points.Count-4 && i2 <= i) i2 = -1;
                 }
-                else
+
+                if (_bookshelfMap.TryGetValue(direction, out string bookshelfKey))
                 {
-                    return;
-                }
-                
-                Debug.Log(dirNormalized);
-                
-                if (_bookshelfMap.TryGetValue(dirNormalized, out string bookshelfKey))
-                {
-                    Debug.Log(bookshelfKey);
-                
                     switch (bookshelfKey)
                     {
                         case "bookshelf_up":
-                            _array[y+1, x]["bookshelf_up"] = false;
+                            _array[y + 1, x]["bookshelf_up"] = false;
                             break;
                         case "bookshelf_down":
-                            _array[y-1, x]["bookshelf_up"] = false;
+                            _array[y - 1, x]["bookshelf_up"] = false;
                             break;
                         case "bookshelf_left":
-                            _array[y, x-1]["bookshelf_left"] = false;
+                            _array[y, x - 1]["bookshelf_left"] = false;
                             break;
                         case "bookshelf_right":
-                            _array[y, x+1]["bookshelf_left"] = false;
+                            _array[y, x + 1]["bookshelf_left"] = false;
                             break;
                     }
                 }
-                
-                position += dirNormalized;
             }
-            
+
             CreateMazeObjects();
         }
 
