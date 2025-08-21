@@ -120,5 +120,6 @@ namespace Rendering
         public bool enableOutline;
         [Range(0, 0.01f)] public float outline;
         public Color outlineColor = Color.white;
+        public bool includeObject = true;
     }
 }

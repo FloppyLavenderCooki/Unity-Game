@@ -11,6 +11,7 @@ namespace Rendering
         private static readonly int OutlineId = Shader.PropertyToID("_Outline");
         private const string KOutlinePassName = "OutlineRenderPass";
         private static readonly int OutlineColorId = Shader.PropertyToID("_OutlineColor");
+        private static readonly int IncludeObjectId = Shader.PropertyToID("_IncludeObject");
 
         private readonly OutlineSettings _defaultSettings;
         private readonly Material _material;
@@ -38,6 +39,10 @@ namespace Rendering
             var outlineColor = volumeComponent.outlineColor.overrideState ?
                 volumeComponent.outlineColor.value : _defaultSettings.outlineColor;
             _material.SetColor(OutlineColorId, outlineColor);
+            
+            var includeObject = volumeComponent.includeObject.overrideState ?
+                volumeComponent.includeObject.value : _defaultSettings.includeObject;
+            _material.SetInt(IncludeObjectId, includeObject ? 1 : 0);
         }
 
         public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)

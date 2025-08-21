@@ -21,5 +21,7 @@ namespace Rendering
             new ClampedFloatParameter(0.0f, 0, 1.0f);
         public ColorParameter outlineColor =
             new ColorParameter(Color.white);
+        public BoolParameter includeObject =
+            new BoolParameter(true);
     }
 }

@@ -8,6 +8,7 @@
         float _Outline;
         float4 _OutlineColor = float4(1, 1, 1, 1);
         float _OutlineThreshold = 0.01;
+        bool _IncludeObject = true;
 
         float4 Outline(Varyings input) : SV_Target
         {
@@ -28,16 +29,17 @@
                 maxAlphaDiff = max(maxAlphaDiff, abs(centerAlpha - neighbourAlpha));
             }
 
-            if (SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a != 0)
-            {
-                return SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord);
-            }
-
-            if (maxAlphaDiff > _OutlineThreshold) 
+            if (maxAlphaDiff > _OutlineThreshold && SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a != 0) 
             {
                 // return float4(1, 1, 0, 1);
                 return _OutlineColor;
             }
+
+            if (_IncludeObject && SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a != 0)
+            {
+                return SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord);
+            }
+            
             return float4(0, 0, 0, 0);
         }
 
