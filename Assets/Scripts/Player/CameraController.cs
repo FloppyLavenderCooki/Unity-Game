@@ -19,7 +19,7 @@ namespace Player {
         private float _cameraX;
         
         private void Start() {
-            LockCursor();
+            ToggleCursor(true);
             _lookAction = InputSystem.actions.FindAction("Look");
             _cursorToggleAction = InputSystem.actions.FindAction("CursorToggle");
             _clickAction = InputSystem.actions.FindAction("ClickAction");
@@ -27,15 +27,14 @@ namespace Player {
 
         private void Update() {
             if (_cursorToggleAction.WasPressedThisFrame()) {
-                gamePaused = !_camBlock;
-                _camBlock = !_camBlock;
+                gamePaused = !gamePaused;
+                _camBlock = gamePaused;
                 ToggleCameraMove(_camBlock);
-                ToggleCursor(_camBlock);
                 // toggle pause menu UI here <--- !
             }
             
-            if (_clickAction.WasPressedThisFrame() & !_camBlock) {
-                LockCursor();
+            if (_clickAction.WasPressedThisFrame() && !gamePaused) {
+                ToggleCursor(true);
             }
             
             if (!_camBlock) {
@@ -56,10 +55,6 @@ namespace Player {
             }
         }
 
-        public void LockCursor() {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
         public void ToggleCursor(bool locked) {
             if (!locked) {
                 Cursor.lockState = CursorLockMode.None;
@@ -69,6 +64,7 @@ namespace Player {
         }
 
         public void ToggleCameraMove(bool block) {
+            ToggleCursor(block);
             print(block);
             _camBlock = block;
         }
