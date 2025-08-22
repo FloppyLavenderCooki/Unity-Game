@@ -29,6 +29,7 @@ namespace Player {
             if (_cursorToggleAction.WasPressedThisFrame()) {
                 gamePaused = !gamePaused;
                 ToggleCameraMove(gamePaused);
+                ToggleCursor(!gamePaused);
                 // toggle pause menu UI here <--- !
             }
             
@@ -59,7 +60,6 @@ namespace Player {
         public void ToggleCameraMove(bool block) {
             if (_camBlock == block) return;
             _camBlock = block;
-            ToggleCursor(block);
         }
     }
 }
