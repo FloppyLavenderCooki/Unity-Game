@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 namespace Player {
     public class CameraController : MonoBehaviour {
+        public PauseMenuManager pmm;
+        
         private InputAction _lookAction;
         private InputAction _cursorToggleAction;
         private InputAction _clickAction;
@@ -30,7 +32,12 @@ namespace Player {
                 gamePaused = !gamePaused;
                 ToggleCameraMove(gamePaused);
                 ToggleCursor(!gamePaused);
-                // toggle pause menu UI here <--- !
+                
+                if (gamePaused) {
+                    pmm.PauseGame();
+                } else {
+                    pmm.ResumeGame();
+                }
             }
             
             if (_clickAction.WasPressedThisFrame() && !gamePaused) {
