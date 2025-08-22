@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using FMODUnity;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,25 +11,16 @@ public class PickupController : MonoBehaviour {
     public Transform objectHold;
     
     public float pickupDistMax = 5f;
-    
     public float throwForceMax = 10f;
     private float _throwForce;
 
     private InputAction _grabObject;
     private InputAction _rotateObject;
-    
     private InputAction _lookAction;
     
-    [Range(-90f, 90f)] private float _cameraY;
-    private float _cameraX;
-
     public CameraController camCon;
-    
-    
     public GameObject heldObject = null;
-
     public Transform bookParent;
-
 
     void Start() {
         _grabObject = InputSystem.actions.FindAction("ClickAction");
@@ -40,29 +29,28 @@ public class PickupController : MonoBehaviour {
     }
 
     void Update() {
-        if (_rotateObject.IsPressed()) {
-            if (heldObject is not null) {
-                camCon.ToggleCameraMove(true);
-                Vector2 lookInput = _lookAction.ReadValue<Vector2>();
+        bool rotating = _rotateObject.IsPressed() && heldObject != null;
+        bool shouldBlockCam = camCon.gamePaused || rotating;
 
-                float inputY = lookInput.y;
-                float inputX = -lookInput.x;
-            
-                Quaternion yaw = Quaternion.AngleAxis(inputX, cam.transform.up);
-                Quaternion pitch = Quaternion.AngleAxis(inputY, cam.transform.right);
+        if (camCon.IsBlocked != shouldBlockCam) {
+            camCon.ToggleCameraMove(shouldBlockCam);
+        }
 
-                Quaternion rotationDelta = yaw * pitch;
+        if (rotating) {
+            Vector2 lookInput = _lookAction.ReadValue<Vector2>();
 
-                heldObject.transform.rotation = rotationDelta * heldObject.transform.rotation;
-            }
-        } else {
-            if (!camCon.gamePaused) {
-                camCon.ToggleCameraMove(false);
-            }
+            float inputY = lookInput.y;
+            float inputX = -lookInput.x;
+        
+            Quaternion yaw = Quaternion.AngleAxis(inputX, cam.transform.up);
+            Quaternion pitch = Quaternion.AngleAxis(inputY, cam.transform.right);
+            Quaternion rotationDelta = yaw * pitch;
+
+            heldObject.transform.rotation = rotationDelta * heldObject.transform.rotation;
         }
     
         if (_grabObject.WasPressedThisFrame()) {
-            camCon.ToggleCameraMove(false);
+            // camCon.ToggleCameraMove(false);
             if (holding == EHoldingObject.empty) {
                 var ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
             
@@ -77,10 +65,8 @@ public class PickupController : MonoBehaviour {
                         heldObject.transform.parent.position = objectHold.position;
                         
                         heldObject.layer = LayerMask.NameToLayer("OutlineTarget");
-                        foreach (Transform child in heldObject.transform)
-                        {
-                            if (child.gameObject.name.StartsWith("Canvas"))
-                            {
+                        foreach (Transform child in heldObject.transform) {
+                            if (child.gameObject.name.StartsWith("Canvas")) {
                                 child.gameObject.layer = LayerMask.NameToLayer("OutlineTarget");
                             }
                         }
@@ -105,13 +91,12 @@ public class PickupController : MonoBehaviour {
     private System.Collections.IEnumerator releaseObject(GameObject obj) {
         float time = 0f;
         float minFOV = 60f;
-        float maxZoom = 10f; // How much to zoom in (lower FOV)
+        float maxZoom = 10f;
     
-        // Zoom in while holding
         while (_grabObject.IsPressed()) {
             time += Time.deltaTime;
 
-            float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f); // normalise hold time past 0.3s
+            float holdProgress = Mathf.Clamp01((time - 0.3f) / 1f);
             float targetFOV = minFOV - (holdProgress * maxZoom);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 10f * Time.deltaTime);
             if (outlineCam) outlineCam.fieldOfView = Mathf.Lerp(outlineCam.fieldOfView, targetFOV, 10f * Time.deltaTime);
@@ -120,35 +105,35 @@ public class PickupController : MonoBehaviour {
         }
 
         if (time < 0.3f) {
-            // Light release
-            heldObject.transform.parent.parent = bookParent;
-            heldObject.transform.parent.GetComponent<Rigidbody>().isKinematic = false;
-            heldObject.transform.GetComponent<Collider>().enabled = true;
-            StartCoroutine(ResetFOV());
+            obj.transform.parent.parent = bookParent;
+            obj.transform.parent.GetComponent<Rigidbody>().isKinematic = false;
+            obj.transform.GetComponent<Collider>().enabled = true;
         } else {
-            // Calculate throw force
             time -= 0.3f;
             _throwForce = Mathf.Min(time * throwForceMax, throwForceMax);
 
-            heldObject.transform.parent.parent = bookParent;
-            Rigidbody rb = heldObject.transform.parent.gameObject.GetComponent<Rigidbody>();
+            obj.transform.parent.parent = bookParent;
+            Rigidbody rb = obj.transform.parent.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;
-            heldObject.GetComponent<Collider>().enabled = true;
+            obj.GetComponent<Collider>().enabled = true;
             rb.AddForce(cam.transform.forward * _throwForce, ForceMode.Impulse);
-            StartCoroutine(ResetFOV());
         }
         
-        heldObject.layer = LayerMask.NameToLayer("Default");
-        foreach (Transform child in heldObject.transform)
-        {
-            if (child.gameObject.name.StartsWith("Canvas"))
-            {
+        StartCoroutine(ResetFOV());
+        
+        obj.layer = LayerMask.NameToLayer("Default");
+        foreach (Transform child in obj.transform) {
+            if (child.gameObject.name.StartsWith("Canvas")) {
                 child.gameObject.layer = LayerMask.NameToLayer("UI");
             }
         }
 
         heldObject = null;
         holding = EHoldingObject.empty;
+
+        // if (!camCon.gamePaused) {
+        //     camCon.ToggleCameraMove(false);
+        // }
     }
     
     private System.Collections.IEnumerator ResetFOV() {
@@ -160,28 +145,5 @@ public class PickupController : MonoBehaviour {
 
         cam.fieldOfView = 60f;
         if (outlineCam) outlineCam.fieldOfView = 60f;
-    }
-
-    
-    private float _bobTimer = 0f;
-    void HandleObjectBobbing() {
-        // Get flat movement magnitude (ignore vertical)
-        Vector3 horizontalVelocity = new Vector3(heldObject.GetComponent<Rigidbody>().linearVelocity.x, 0f, heldObject.GetComponent<Rigidbody>().linearVelocity.z);
-        float speed = horizontalVelocity.magnitude;
-
-        if (speed > 0.1f) {
-            _bobTimer += Time.deltaTime * 3f * (speed * 1f);
-            float bobOffsetY = Mathf.Sin(_bobTimer) * 0.05f;
-            float bobOffsetX = Mathf.Cos(_bobTimer * 0.5f) * 0.05f * 0.5f;
-
-            // heldObject.transform.localPosition = _cameraInitialLocalPos + new Vector3(bobOffsetX, bobOffsetY, 0f);
-        } else {
-            _bobTimer = 0f;
-            heldObject.transform.localPosition = Vector3.Lerp(
-                heldObject.transform.localPosition,
-                heldObject.transform.position,
-                Time.deltaTime * 5f
-            );
-        }
     }
 }

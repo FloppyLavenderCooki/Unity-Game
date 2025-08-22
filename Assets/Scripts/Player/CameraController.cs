@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Player {
     public class CameraController : MonoBehaviour {
@@ -9,11 +8,12 @@ namespace Player {
         private InputAction _clickAction;
     
         public float mouseSensitivity = 0.25f;
-
         [SerializeField] private Camera playerCam;
 
         public bool gamePaused = false;
         private bool _camBlock = false;
+
+        public bool IsBlocked => _camBlock;
 
         [Range(-90f, 90f)] private float _cameraY;
         private float _cameraX;
@@ -28,8 +28,7 @@ namespace Player {
         private void Update() {
             if (_cursorToggleAction.WasPressedThisFrame()) {
                 gamePaused = !gamePaused;
-                _camBlock = gamePaused;
-                ToggleCameraMove(_camBlock);
+                ToggleCameraMove(gamePaused);
                 // toggle pause menu UI here <--- !
             }
             
@@ -48,25 +47,19 @@ namespace Player {
                 }
 
                 _cameraX += inputX;
-
-                transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
-            } else {
-                transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
             }
+
+            transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
         }
 
         public void ToggleCursor(bool locked) {
-            if (!locked) {
-                Cursor.lockState = CursorLockMode.None;
-            } else {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         }
 
         public void ToggleCameraMove(bool block) {
-            ToggleCursor(block);
-            print(block);
+            if (_camBlock == block) return;
             _camBlock = block;
+            ToggleCursor(block);
         }
     }
 }
