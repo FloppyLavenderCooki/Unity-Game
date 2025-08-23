@@ -86,7 +86,7 @@ namespace World
                 book.transform.localRotation = Quaternion.Euler(
                     bookshelf.transform.rotation.x,
                     bookshelf.transform.rotation.y + 90.0f,
-                    bookshelf.transform.rotation.z - 90.0f
+                    bookshelf.transform.rotation.z + 90.0f
                 );
             }
             else

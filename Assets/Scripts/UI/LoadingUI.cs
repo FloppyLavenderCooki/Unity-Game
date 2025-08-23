@@ -7,24 +7,24 @@ namespace UI
 {
     public class LoadingUI : MonoBehaviour
     {
-        private static VisualElement _root;
-        private static VisualElement _loadingCover;
+        private static VisualElement root;
+        private static VisualElement loadingCover;
 
         private void OnEnable()
         {
             var uiDocument = GetComponent<UIDocument>();
             if (uiDocument)
             {
-                _root = uiDocument.rootVisualElement;
+                root = uiDocument.rootVisualElement;
             }
         }
 
         public static void LoadScene(string sceneName)
         {
-            if (_root == null) return;
+            if (root == null) return;
 
-            _root.Q<VisualElement>("container").style.visibility = Visibility.Visible;
-            _loadingCover = _root.Q<VisualElement>("loading-cover");
+            root.Q<VisualElement>("container").style.visibility = Visibility.Visible;
+            loadingCover = root.Q<VisualElement>("loading-cover");
 
             var loading = SceneManager.LoadSceneAsync(sceneName);
             if (loading == null) return;
@@ -32,11 +32,11 @@ namespace UI
             MonoBehaviour currentInstance = FindAnyObjectByType<LoadingUI>();
             if (currentInstance)
             {
-                currentInstance.StartCoroutine(UpdateLoadingText(loading, _loadingCover));
+                currentInstance.StartCoroutine(UpdateLoadingText(loading));
             }
         }
 
-        private static IEnumerator UpdateLoadingText(AsyncOperation operation, VisualElement loadingCover)
+        private static IEnumerator UpdateLoadingText(AsyncOperation operation)
         {
             while (!operation.isDone)
             {
