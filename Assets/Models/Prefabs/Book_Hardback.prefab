@@ -57,7 +57,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -136,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 865578149958799266, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
       propertyPath: m_Name
       value: Book_HardbackChild
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658409666084728439, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
       propertyPath: m_Size.x

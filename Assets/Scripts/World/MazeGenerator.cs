@@ -187,26 +187,35 @@ namespace World
                 {
                     if (_array[y, x]["pillar"])
                     {
+                        if ((y == _rows - 2 && x == _cols / 2 - 1)) continue;
+                        
                         GameObject pillarInstance = Instantiate(pillarModel, transform);
+                        pillarInstance.name = $"P ({x}, {y})";
                         pillarInstance.transform.position += new Vector3(x, 0, -y);
                     }
                     
                     foreach (var dir in _bookshelfMap)
                     {
-                        if (!_array[y, x][dir.Value]) continue;
+                        if (!_array[y, x][dir.Value] || 
+                            (y == _rows - 2 && x == _cols / 2 - 2) || 
+                            (y == _rows - 2 && x == _cols / 2)
+                        ) continue;
+                        
                         GameObject bookshelfInstance = Instantiate(bookshelfModel, transform);
+                        bookshelfInstance.name = $"B{dir.Value.Replace("bookshelf","")} ({x}, {y})";
                         bookshelfInstance.transform.position += new Vector3(x, 0, -y);
 
                         if (dir.Key == Vector2Int.up)
-                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 270, 0);
-                        else if (dir.Key == Vector2Int.down)
                             bookshelfInstance.transform.rotation = Quaternion.Euler(270, 90, 0);
+                        else if (dir.Key == Vector2Int.down)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 270, 0);
                         else if (dir.Key == Vector2Int.left)
-                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
-                        else if (dir.Key == Vector2Int.right)
                             bookshelfInstance.transform.rotation = Quaternion.Euler(270, 0, 0);
+                        else if (dir.Key == Vector2Int.right)
+                            bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
 
-                        _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize);
+                        bool outerShelves = (y == 0);
+                        _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize, outerShelves);
                     }
                 }
             }
