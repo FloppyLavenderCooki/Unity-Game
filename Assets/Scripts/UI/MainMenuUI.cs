@@ -2,51 +2,52 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UIButton = UnityEngine.UI.Button;
 
 namespace UI
 {
     public class MainMenuUI : MonoBehaviour
     {
         private GameObject _kioskUI;
-        private UIButton _playButton;
-        private UIButton _optionsButton;
-        private UIButton _aboutButton;
-        private UIButton _quitButton;
+        private VisualElement _kioskRoot;
+        private Button _playButton;
+        private Button _optionsButton;
+        private Button _aboutButton;
+        private Button _quitButton;
         private VisualElement _root;
         private ListView _buttonList;
         private VisualElement _image;
 
         private void Start()
         {
-            _kioskUI = GameObject.Find("Kiosk Screen (Canvas)/Panel");
+            _kioskUI = GameObject.Find("Kiosk UI");
+            _kioskRoot = _kioskUI.GetComponent<UIDocument>().rootVisualElement;
             
-            _playButton = _kioskUI.transform.Find("Start Button").GetComponent<UIButton>();
-            _optionsButton = _kioskUI.transform.Find("Options Button").GetComponent<UIButton>();
-            _aboutButton = _kioskUI.transform.Find("About Button").GetComponent<UIButton>();
-            _quitButton = _kioskUI.transform.Find("Quit Button").GetComponent<UIButton>();
+            _playButton = _kioskRoot.Q<Button>("start");
+            _optionsButton = _kioskRoot.Q<Button>("options");
+            _aboutButton = _kioskRoot.Q<Button>("about");
+            _quitButton = _kioskRoot.Q<Button>("quit");
             
-            _playButton.onClick.AddListener(() =>
+            _playButton.clicked += () =>
             {
                 PlayList();
                 _image.style.backgroundImage = new StyleBackground();
-            });
-            _optionsButton.onClick.AddListener(() =>
+            };
+            _optionsButton.clicked += () =>
             {
                 OptionsList();
                 _image.style.backgroundImage = new StyleBackground();
-            });
-            _aboutButton.onClick.AddListener(() =>
+            };
+            _aboutButton.clicked += () =>
             {
                 AboutList();
                 _image.style.backgroundImage = new StyleBackground();
-            });
-            _quitButton.onClick.AddListener(() =>
+            };
+            _quitButton.clicked += () =>
             {
                 QuitList();
                 _image.style.backgroundImage = new StyleBackground(
                     Resources.Load<Sprite>("Images/areyousure"));
-            });
+            };
             
             var uiDocument = GetComponent<UIDocument>();
             if (!uiDocument) return;

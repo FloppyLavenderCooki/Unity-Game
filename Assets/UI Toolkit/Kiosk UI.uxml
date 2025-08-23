@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Kiosk%20UI.uss?fileID=7433441132597879392&amp;guid=9b72d6e08e98b3b449ea1c9304fb7b83&amp;type=3#Kiosk UI" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(255, 255, 255); justify-content: center; align-self: stretch; align-items: stretch;">
+        <ui:Button text="START&#10;" name="start" />
+        <ui:Button text="OPTIONS" name="options" />
+        <ui:Button text="ABOUT" name="about" />
+        <ui:Button text="QUIT&#10;" name="quit" />
+    </ui:VisualElement>
+</ui:UXML>
