@@ -31,19 +31,34 @@ namespace World
         
         public void GenerateBookshelf(GameObject bookshelf, Vector3 bookshelfSize, bool oneSided)
         {
+            zOffset = 0.12f;
             yOffset = 0.725f;
             for (int i = 0; i < 4; i++)
             {
                 xOffset = 0;
                 while (xOffset < bookshelfSize.z*0.675f)
                 {
-                    GenerateBook(bookshelf, bookshelfSize, oneSided);
+                    GenerateBook(bookshelf, bookshelfSize);
                 }
                 yOffset += bookshelfSize.y/2;
             }
+
+            if (oneSided) return;
+            zOffset = -0.12f;
+            yOffset = 0.725f;
+            for (int i = 0; i < 4; i++)
+            {
+                xOffset = 0;
+                while (xOffset < bookshelfSize.z * 0.675f)
+                {
+                    GenerateBook(bookshelf, bookshelfSize, true);
+                }
+
+                yOffset += bookshelfSize.y / 2;
+            }
         }
 
-        private void GenerateBook(GameObject bookshelf, Vector3 bookshelfSize, bool oneSided)
+        private void GenerateBook(GameObject bookshelf, Vector3 bookshelfSize, bool flip = false)
         {
             int bookType = Random.Range(0, 3);
             GameObject book = bookType switch
@@ -66,11 +81,22 @@ namespace World
             bookRenderer.material = new Material(bookRenderer.sharedMaterial)
                 { color = Random.ColorHSV() };
 
-            book.transform.localRotation = Quaternion.Euler(
-                bookshelf.transform.rotation.x,
-                bookshelf.transform.rotation.y - 90.0f,
-                bookshelf.transform.rotation.z - 90.0f
-            );
+            if (flip)
+            {
+                book.transform.localRotation = Quaternion.Euler(
+                    bookshelf.transform.rotation.x,
+                    bookshelf.transform.rotation.y + 90.0f,
+                    bookshelf.transform.rotation.z - 90.0f
+                );
+            }
+            else
+            {
+                book.transform.localRotation = Quaternion.Euler(
+                    bookshelf.transform.rotation.x,
+                    bookshelf.transform.rotation.y - 90.0f,
+                    bookshelf.transform.rotation.z - 90.0f
+                );
+            }
 
             book.transform.position = new Vector3(
                 bookshelf.transform.position.x,
