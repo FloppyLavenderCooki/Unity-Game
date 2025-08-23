@@ -137,10 +137,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book_HardbackChild
       objectReference: {fileID: 0}
-    - target: {fileID: 1658409666084728439, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8196542737409311675, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
       propertyPath: m_Size.x
       value: 0.034500003

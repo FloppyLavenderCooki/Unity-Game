@@ -9,7 +9,6 @@ namespace World
         public GameObject hardbackBook;
         public GameObject paperbackBook;
         public GameObject thinStapledBook;
-        public Material bookMaterial;
         
         private Renderer _hardbackBookRenderer;
         private Renderer _paperbackBookRenderer;
@@ -32,10 +31,15 @@ namespace World
         
         public void GenerateBookshelf(GameObject bookshelf, Vector3 bookshelfSize, bool oneSided)
         {
-            xOffset = 0;
-            while (xOffset < bookshelfSize.z*0.65f)
+            yOffset = 0.725f;
+            for (int i = 0; i < 4; i++)
             {
-                GenerateBook(bookshelf, bookshelfSize, oneSided);
+                xOffset = 0;
+                while (xOffset < bookshelfSize.z*0.675f)
+                {
+                    GenerateBook(bookshelf, bookshelfSize, oneSided);
+                }
+                yOffset += bookshelfSize.y/2;
             }
         }
 
@@ -49,6 +53,7 @@ namespace World
                 2 => Instantiate(thinStapledBook, bookshelf.transform),
                 _ => throw new ArgumentOutOfRangeException()
             };
+            Renderer bookRenderer = book.GetComponentInChildren<Renderer>();
             
             _bookSize = bookType switch
             {
@@ -58,21 +63,8 @@ namespace World
                 _ => throw new ArgumentOutOfRangeException()
             };
             
-            switch(bookType)
-            {
-                case 0:
-                    _hardbackBookRenderer.material = new Material(_hardbackBookRenderer.sharedMaterial)
-                        { color = Random.ColorHSV() };
-                    break;
-                case 1:
-                    _paperbackBookRenderer.material = new Material(_paperbackBookRenderer.sharedMaterial)
-                        { color = Random.ColorHSV() };
-                    break;
-                case 2:
-                    _thinStapledBookRenderer.material = new Material(_thinStapledBookRenderer.sharedMaterial)
-                        { color = Random.ColorHSV() };
-                    break;
-            };
+            bookRenderer.material = new Material(bookRenderer.sharedMaterial)
+                { color = Random.ColorHSV() };
 
             book.transform.localRotation = Quaternion.Euler(
                 bookshelf.transform.rotation.x,
@@ -80,21 +72,15 @@ namespace World
                 bookshelf.transform.rotation.z - 90.0f
             );
 
+            book.transform.position = new Vector3(
+                bookshelf.transform.position.x,
+                bookshelf.transform.position.y + (bookshelfSize.y - (_bookSize.y * yOffset)),
+                bookshelf.transform.position.z
+            );
+            
             if (bookType == 0)
             {
-                book.transform.position = new Vector3(
-                    bookshelf.transform.position.x,
-                    bookshelf.transform.position.y + (bookshelfSize.y - ((_bookSize.y+0.018f) * yOffset)),
-                    bookshelf.transform.position.z
-                );
-            }
-            else
-            {
-                book.transform.position = new Vector3(
-                    bookshelf.transform.position.x,
-                    bookshelf.transform.position.y + (bookshelfSize.y - (_bookSize.y * yOffset)),
-                    bookshelf.transform.position.z
-                );
+                book.transform.position -= new Vector3(0, 0.01305f, 0);
             }
 
             book.transform.position += bookshelf.transform.up * (bookshelfSize.x - xOffset);

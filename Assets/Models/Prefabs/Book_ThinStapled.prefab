@@ -81,10 +81,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2113609888685102319}
     m_Modifications:
-    - target: {fileID: 5737810779945818208, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6097927708073556405, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
       propertyPath: m_Name
       value: Book_ThinStapledChild

@@ -21,7 +21,7 @@ namespace World
         public Vector2Int startPosition = Vector2Int.zero;
         private HilbertCurve _hilbert;
         private BookshelfGenerator _bookshelfGenerator;
-        private GameObject _books;
+        // private GameObject _books;
         
         private readonly Dictionary<Vector2Int, string> _bookshelfMap = new()
         {
@@ -33,7 +33,7 @@ namespace World
 
         private void Start()
         {
-            _books = GameObject.Find("Books");
+            // _books = GameObject.Find("Books");
             
             _bookshelfGenerator = gameObject.GetComponent<BookshelfGenerator>();
             
@@ -61,17 +61,17 @@ namespace World
             Destroy(GameObject.Find("Loading UI"));
         }
 
-        private void Update()
-        {
-            if (!Keyboard.current.rKey.wasPressedThisFrame) return;
-            
-            foreach (Transform child in _books.transform) { Destroy(child.gameObject); }
-            foreach (Transform child in transform) { Destroy(child.gameObject); }
-            
-            GenerateEmptyArray();
-            GenerateHilbertShelves();
-            GenerateMaze();
-        }
+        // private void Update()
+        // {
+        //     if (!Keyboard.current.rKey.wasPressedThisFrame) return;
+        //     
+        //     foreach (Transform child in _books.transform) { Destroy(child.gameObject); }
+        //     foreach (Transform child in transform) { Destroy(child.gameObject); }
+        //     
+        //     GenerateEmptyArray();
+        //     GenerateHilbertShelves();
+        //     GenerateMaze();
+        // }
 
         private void GenerateEmptyArray()
         {
