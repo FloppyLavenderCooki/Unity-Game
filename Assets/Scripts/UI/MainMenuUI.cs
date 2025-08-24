@@ -16,6 +16,7 @@ namespace UI
         private VisualElement _root;
         private ListView _buttonList;
         private VisualElement _image;
+        private Label _info;
 
         private void Start()
         {
@@ -29,24 +30,31 @@ namespace UI
             
             _playButton.clicked += () =>
             {
+                SelectKioskButton(_playButton);
                 PlayList();
-                _image.style.backgroundImage = new StyleBackground();
+                ResetImage();
+                _info.text = "Scene Select";
             };
             _optionsButton.clicked += () =>
             {
+                SelectKioskButton(_optionsButton);
                 OptionsList();
-                _image.style.backgroundImage = new StyleBackground();
+                ResetImage();
+                _info.text = "Game Settings";
             };
             _aboutButton.clicked += () =>
             {
+                SelectKioskButton(_aboutButton);
                 AboutList();
-                _image.style.backgroundImage = new StyleBackground();
+                ResetImage();
+                _info.text = "Credits (github.com/)";
             };
             _quitButton.clicked += () =>
             {
+                SelectKioskButton(_quitButton);
                 QuitList();
-                _image.style.backgroundImage = new StyleBackground(
-                    Resources.Load<Sprite>("Images/areyousure"));
+                SetImage("Images/thanks");
+                _info.text = "Quit Game?";
             };
             
             var uiDocument = GetComponent<UIDocument>();
@@ -54,6 +62,7 @@ namespace UI
             
             _root = uiDocument.rootVisualElement;
             _image = _root.Q<VisualElement>("image");
+            _info = _root.Q<Label>("info");
 
             _root.Q<VisualElement>("background").pickingMode = PickingMode.Ignore;
             _root.Q<VisualElement>("kiosk").pickingMode = PickingMode.Ignore;
@@ -62,18 +71,25 @@ namespace UI
             
             Resources.UnloadUnusedAssets();
         }
+
+        private void Update()
+        {
+            if (!float.IsNaN(_image.resolvedStyle.width) && _image.resolvedStyle.height == 0)
+                _image.style.height = _image.resolvedStyle.width;
+        }
         
         private void PlayList()
         {
-            _buttonList.Clear();
-            _buttonList.itemsSource = null;
-            SetImageRadius(0);
+            ClearList();
             
             var buttonItems = new List<string> { "Normal Library", "Smart Library" };
             
-            _buttonList.makeItem = () => new Button();
+            _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
-                var button = (Button)element;
+                element.AddToClassList("list-item");
+                
+                var button = new Button();
+                element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () =>
                 {
@@ -87,19 +103,19 @@ namespace UI
         
         private void OptionsList()
         {
-            _buttonList.Clear();
-            _buttonList.itemsSource = null;
+            ClearList();
             
             var buttonItems = new List<string> { "Mouse Sensitivity", "Target Frame Rate", "Resolution" };
             
-            _buttonList.makeItem = () => new Button();
+            _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
-                var button = (Button)element;
+                element.AddToClassList("list-item");
+                
+                var button = new Button();
+                element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
-                    _image.style.backgroundImage = new StyleBackground(
-                        Resources.Load<Sprite>("Images/" + button.text.Replace("@", "")));
-                    SetImageRadius(50);
+                    SetImage("Images/" + button.text);
                 };
             };
             _buttonList.itemsSource = buttonItems;
@@ -107,18 +123,19 @@ namespace UI
         
         private void AboutList()
         {
-            _buttonList.Clear();
-            _buttonList.itemsSource = null;
+            ClearList();
             
-            var buttonItems = new List<string> { "@SunnyFloppyDiskStudios", "@Cooki-Studios", "@salping" };
+            var buttonItems = new List<string> { "SunnyFloppyDiskStudios", "Cooki-Studios", "salping" };
             
-            _buttonList.makeItem = () => new Button();
+            _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
-                var button = (Button)element;
+                element.AddToClassList("list-item");
+                
+                var button = new Button();
+                element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
-                    _image.style.backgroundImage = new StyleBackground(
-                        Resources.Load<Sprite>("Images/" + button.text.Replace("@", "")));
+                    SetImage("Images/" + button.text);
                     SetImageRadius(50);
                 };
             };
@@ -127,15 +144,16 @@ namespace UI
 
         private void QuitList()
         {
-            _buttonList.Clear();
-            _buttonList.itemsSource = null;
-            SetImageRadius(0);
+            ClearList();
             
             var buttonItems = new List<string> { "Yes", "No" };
             
-            _buttonList.makeItem = () => new Button();
+            _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
-                var button = (Button)element;
+                element.AddToClassList("list-item");
+                
+                var button = new Button();
+                element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
                     if (button.text == "Yes")
@@ -148,11 +166,20 @@ namespace UI
                     }
                     else
                     {
-                        _buttonList.ClearSelection();
+                        ClearList();
                     }
                 };
             };
             _buttonList.itemsSource = buttonItems;
+        }
+
+        private void ClearList()
+        {
+            _info.text = "Select\u0020a button from the left";
+            ResetImage();
+            _buttonList.ClearSelection();
+            _buttonList.Clear();
+            _buttonList.itemsSource = null;
         }
         
         private void SetImageRadius(float radius)
@@ -161,6 +188,33 @@ namespace UI
             _image.style.borderTopRightRadius = new StyleLength(Length.Percent(radius));
             _image.style.borderBottomLeftRadius = new StyleLength(Length.Percent(radius));
             _image.style.borderBottomRightRadius = new StyleLength(Length.Percent(radius));
+        }
+
+        private void ResetImage()
+        {
+            SetImageRadius(0);
+            _image.style.backgroundImage = new StyleBackground();
+            Resources.UnloadUnusedAssets();
+        }
+
+        private void SetImage(string imagePath)
+        {
+            _image.style.backgroundImage = new StyleBackground(Resources.Load<Sprite>(imagePath));
+        }
+        
+        // private void SetImage(Sprite image)
+        // {
+        //     _image.style.backgroundImage = new StyleBackground(image);
+        // }
+
+        private void SelectKioskButton(Button button)
+        {
+            _playButton.RemoveFromClassList("selected");
+            _optionsButton.RemoveFromClassList("selected");
+            _aboutButton.RemoveFromClassList("selected");
+            _quitButton.RemoveFromClassList("selected");
+            
+            button.AddToClassList("selected");
         }
     }
 }

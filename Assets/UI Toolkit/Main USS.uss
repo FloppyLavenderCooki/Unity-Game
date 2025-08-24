@@ -10,7 +10,50 @@ Label.objective {
 }
 
 Button {
-    background-color: white;
     border-width: 0;
     -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&guid=5bdd180d791545f49bae49ab370d38db&type=3#Main Pixel Font");
+    font-size: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 8px;
+    padding-right: 0;
+    padding-bottom: 8px;
+    padding-left: 0;
+    background-color: rgb(229, 229, 229);
+    -unity-font-style: bold;
+}
+
+Button:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+Button:focus {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.list-item {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    justify-content: space-between;
+    align-self: stretch;
+    align-content: stretch;
 }

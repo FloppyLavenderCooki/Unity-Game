@@ -45,6 +45,7 @@ namespace UI
 
                 yield return null;
             }
+            Resources.UnloadUnusedAssets();
         }
     }
 }
