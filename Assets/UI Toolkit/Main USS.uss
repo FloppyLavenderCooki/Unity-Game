@@ -30,7 +30,7 @@ Button:hover {
     background-color: rgb(204, 204, 204);
 }
 
-Button:focus {
+Button.selected {
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
@@ -41,6 +41,10 @@ Button:focus {
     border-bottom-color: rgb(0, 0, 0);
     padding-top: 6px;
     padding-bottom: 6px;
+}
+
+Button:active {
+    background-color: rgb(178, 178, 178);
 }
 
 .list-item {

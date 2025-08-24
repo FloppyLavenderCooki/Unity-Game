@@ -104,6 +104,7 @@ namespace UI
                 button.text = buttonItems[i];
                 button.clicked += () =>
                 {
+                    SelectListButton(button);
                     LoadingUI.LoadScene(button.text == "Normal Library"
                         ? "Scenes/NormalLibrary"
                         : "Scenes/SmartLibrary");
@@ -126,6 +127,7 @@ namespace UI
                 element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
+                    SelectListButton(button);
                     SetImage("Images/" + button.text);
                 };
             };
@@ -146,6 +148,7 @@ namespace UI
                 element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
+                    SelectListButton(button);
                     SetImage("Images/" + button.text);
                     SetImageRadius(50);
                 };
@@ -167,6 +170,7 @@ namespace UI
                 element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
+                    SelectListButton(button);
                     if (button.text == "Yes")
                     {
 #if UNITY_EDITOR
@@ -224,6 +228,16 @@ namespace UI
             _optionsButton.RemoveFromClassList("selected");
             _aboutButton.RemoveFromClassList("selected");
             _quitButton.RemoveFromClassList("selected");
+            
+            button.AddToClassList("selected");
+        }
+        
+        private void SelectListButton(Button button)
+        {
+            foreach (var listButton in _buttonList.Query<Button>().ToList())
+            {
+                listButton.RemoveFromClassList("selected");
+            }
             
             button.AddToClassList("selected");
         }
