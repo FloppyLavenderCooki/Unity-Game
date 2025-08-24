@@ -97,6 +97,7 @@ namespace UI
             
             _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
+                element.Clear();
                 element.AddToClassList("list-item");
                 
                 var button = new Button();
@@ -121,6 +122,7 @@ namespace UI
             
             _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
+                element.Clear();
                 element.AddToClassList("list-item");
                 
                 var button = new Button();
@@ -142,6 +144,7 @@ namespace UI
             
             _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
+                element.Clear();
                 element.AddToClassList("list-item");
                 
                 var button = new Button();
@@ -164,13 +167,13 @@ namespace UI
             
             _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
+                element.Clear();
                 element.AddToClassList("list-item");
                 
                 var button = new Button();
                 element.Add(button);
                 button.text = buttonItems[i];
                 button.clicked += () => {
-                    SelectListButton(button);
                     if (button.text == "Yes")
                     {
 #if UNITY_EDITOR
