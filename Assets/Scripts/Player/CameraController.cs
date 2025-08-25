@@ -19,12 +19,15 @@ namespace Player {
 
         [Range(-90f, 90f)] private float _cameraY;
         private float _cameraX;
+
+        private GameObject _books;
         
         private void Start() {
             ToggleCursor(true);
             _lookAction = InputSystem.actions.FindAction("Look");
             _cursorToggleAction = InputSystem.actions.FindAction("CursorToggle");
             _clickAction = InputSystem.actions.FindAction("ClickAction");
+            _books = GameObject.Find("Books");
         }
 
         private void Update() {
@@ -58,6 +61,17 @@ namespace Player {
             }
 
             transform.rotation = Quaternion.Euler(_cameraY, _cameraX, 0f);
+            
+            // Book frustum culling
+            if (!_books || _books.transform.childCount <= 0) return;
+            Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(playerCam);
+            foreach (var rend in _books.GetComponentsInChildren<Renderer>())
+            {
+                if (rend)
+                {
+                    rend.enabled = GeometryUtility.TestPlanesAABB(frustumPlanes, rend.bounds);
+                }
+            }
         }
 
         public void ToggleCursor(bool locked) {
