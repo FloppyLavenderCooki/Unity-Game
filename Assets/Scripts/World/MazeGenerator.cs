@@ -216,6 +216,7 @@ namespace World
 
                         bool outerShelves = (y == 0);
                         _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize, outerShelves);
+                        Resources.UnloadUnusedAssets();
                     }
                 }
             }

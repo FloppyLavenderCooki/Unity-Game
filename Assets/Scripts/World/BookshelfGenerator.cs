@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -68,7 +69,6 @@ namespace World
                 2 => Instantiate(thinStapledBook, bookshelf.transform),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            Renderer bookRenderer = book.GetComponentInChildren<Renderer>();
             
             _bookSize = bookType switch
             {
@@ -78,8 +78,21 @@ namespace World
                 _ => throw new ArgumentOutOfRangeException()
             };
             
-            bookRenderer.material = new Material(bookRenderer.sharedMaterial)
-                { color = Random.ColorHSV() };
+            Renderer[] bookRenderers = book.GetComponentsInChildren<Renderer>();
+            Color bookColor = Random.ColorHSV();
+
+            foreach (var bookRenderer in bookRenderers)
+            {
+                Material[] mats = bookRenderer.materials;
+
+                foreach (var mat in mats)
+                {
+                    if (mat.name.StartsWith("Orange"))
+                    {
+                        mat.color = bookColor;
+                    }
+                }
+            }
 
             if (flip)
             {

@@ -66,9 +66,7 @@ public class PickupController : MonoBehaviour {
                         
                         heldObject.layer = LayerMask.NameToLayer("OutlineTarget");
                         foreach (Transform child in heldObject.transform) {
-                            if (child.gameObject.name.StartsWith("Canvas")) {
-                                child.gameObject.layer = LayerMask.NameToLayer("OutlineTarget");
-                            }
+                            child.gameObject.layer = LayerMask.NameToLayer("OutlineTarget");
                         }
                     }
                 }
@@ -122,10 +120,10 @@ public class PickupController : MonoBehaviour {
         StartCoroutine(ResetFOV());
         
         obj.layer = LayerMask.NameToLayer("Default");
-        foreach (Transform child in obj.transform) {
-            if (child.gameObject.name.StartsWith("Canvas")) {
-                child.gameObject.layer = LayerMask.NameToLayer("UI");
-            }
+        foreach (Transform child in obj.transform)
+        {
+            child.gameObject.layer =
+                LayerMask.NameToLayer(child.gameObject.name.StartsWith("Canvas") ? "UI" : "Default");
         }
 
         heldObject = null;
