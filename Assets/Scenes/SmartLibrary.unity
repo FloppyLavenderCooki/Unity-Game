@@ -455,7 +455,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 128
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1416552554}
+  m_TargetTexture: {fileID: 1360076314}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -1240,6 +1240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8066e0468cde41b4a3e4810aca4d1d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pmm: {fileID: 0}
   mouseSensitivity: 1
   playerCam: {fileID: 1189888314}
   gamePaused: 0
@@ -1536,7 +1537,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324686806}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!84 &1416552554
+--- !u!84 &1360076314
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
