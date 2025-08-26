@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 namespace UI
 {
@@ -22,6 +23,7 @@ namespace UI
         public static void LoadScene(string sceneName)
         {
             if (root == null) return;
+            Cursor.visible = true;
 
             root.Q<VisualElement>("container").style.visibility = Visibility.Visible;
             loadingCover = root.Q<VisualElement>("loading-cover");

@@ -93,7 +93,7 @@ namespace UI
         {
             ClearList();
             
-            var buttonItems = new List<string> { "Normal Library", "Smart Library" };
+            var buttonItems = new List<string> { "Email", "Normal Library", "Smart Library" };
             
             _buttonList.makeItem = () => new VisualElement();
             _buttonList.bindItem = (element, i) => {
@@ -106,9 +106,7 @@ namespace UI
                 button.clicked += () =>
                 {
                     SelectListButton(button);
-                    LoadingUI.LoadScene(button.text == "Normal Library"
-                        ? "Scenes/NormalLibrary"
-                        : "Scenes/SmartLibrary");
+                    LoadingUI.LoadScene($"Scenes/{buttonItems[i].Replace(" ","")}");
                 };
             };
             _buttonList.itemsSource = buttonItems;
