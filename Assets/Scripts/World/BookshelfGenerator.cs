@@ -21,6 +21,8 @@ namespace World
         public float xOffset;
         public float yOffset = 0.725f;
         public float zOffset = 0.12f;
+
+        private BookList _bookJson;
         
         public void Awake()
         {
@@ -28,6 +30,9 @@ namespace World
             _paperbackBookRenderer = paperbackBook.GetComponentInChildren<Renderer>();
             _thinStapledBookRenderer = thinStapledBook.GetComponentInChildren<Renderer>();
             _books = GameObject.Find("Books");
+            
+            string jsonData = Resources.Load<TextAsset>("names").text;
+            _bookJson = JsonUtility.FromJson<BookList>(jsonData);
         }
         
         public void GenerateBookshelf(GameObject bookshelf, Vector3 bookshelfSize, bool oneSided)
@@ -69,6 +74,9 @@ namespace World
                 2 => Instantiate(thinStapledBook, bookshelf.transform),
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+            Book bookName = _bookJson.books[Random.Range(0, _bookJson.books.Length)];
+            book.name = $"{bookName.name} - {bookName.author}";
             
             _bookSize = bookType switch
             {

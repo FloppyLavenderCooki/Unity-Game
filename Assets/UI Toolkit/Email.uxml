@@ -1,0 +1,44 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Email.uss?fileID=7433441132597879392&amp;guid=804a363e24276d14daf55995344bcb11&amp;type=3#Email" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(30, 30, 46); overflow: hidden;">
+        <ui:VisualElement style="flex-grow: 1; height: 24px; min-height: 24px; max-height: 24px; align-items: center; justify-content: center; flex-direction: row; margin-top: 8px;">
+            <ui:VisualElement class="icon-parent" style="flex-grow: 1; justify-content: center; align-items: center; -unity-text-align: upper-center;">
+                <ui:VisualElement class="icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=-1242057451&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_0&quot;);" />
+                <ui:Label text="Get Mail" />
+            </ui:VisualElement>
+            <ui:VisualElement class="icon-parent" style="flex-grow: 1; justify-content: center; align-items: center; -unity-text-align: upper-center;">
+                <ui:VisualElement class="icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=242912922&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_1&quot;);" />
+                <ui:Label text="Reply" />
+            </ui:VisualElement>
+            <ui:VisualElement class="icon-parent" style="flex-grow: 1; justify-content: center; align-items: center; -unity-text-align: upper-center;">
+                <ui:VisualElement class="icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=-566552122&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_2&quot;);" />
+                <ui:Label text="Forward" />
+            </ui:VisualElement>
+            <ui:VisualElement class="icon-parent" style="flex-grow: 1; justify-content: center; align-items: center; -unity-text-align: upper-center;">
+                <ui:VisualElement class="icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=886048477&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_3&quot;);" />
+                <ui:Label text="Trash" />
+            </ui:VisualElement>
+            <ui:VisualElement class="icon-parent" style="flex-grow: 1; justify-content: center; align-items: center; -unity-text-align: upper-center;">
+                <ui:VisualElement class="icon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=-293138057&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_4&quot;);" />
+                <ui:Label text="Spam" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:VisualElement style="flex-grow: 1; max-width: 60%; min-width: 60%; width: 60%; padding-top: 6px; padding-bottom: 0; translate: 0 0 3px;">
+                <ui:VisualElement name="attachment" style="flex-grow: 1; height: 16px; min-height: 16px; max-height: 16px; flex-direction: row; display: none;">
+                    <ui:VisualElement style="flex-grow: 1; width: 16px; min-width: 16px; max-width: 16px; height: 16px; min-height: 16px; max-height: 16px; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=1839185227&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_5&quot;);" />
+                    <ui:VisualElement style="flex-grow: 0; background-color: rgb(49, 50, 68); flex-direction: row; align-self: center; justify-content: flex-start; align-items: center;">
+                        <ui:VisualElement style="flex-grow: 1; width: 16px; min-width: 16px; max-width: 16px; height: 16px; min-height: 16px; max-height: 16px; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=1724671095&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_6&quot;);" />
+                        <ui:Label name="attachment-name" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 2px; padding-right: 2px; padding-bottom: 0; padding-left: 0; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&amp;guid=5bdd180d791545f49bae49ab370d38db&amp;type=3#Main Pixel Font&quot;); -unity-text-align: middle-left; height: 6px; min-height: 4px; max-height: 4px; font-size: 6px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="margin-top: 6px; padding-left: 4px; padding-right: 4px;">
+                    <ui:Label name="content" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&amp;guid=5bdd180d791545f49bae49ab370d38db&amp;type=3#Main Pixel Font&quot;); font-size: 6px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; white-space: pre-wrap;" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="cursor" style="flex-grow: 1; width: 8px; height: 8px; min-width: 8px; min-height: 8px; max-width: 8px; max-height: 8px; background-image: url(&quot;project://database/Assets/Images/Mail%20Icons.png?fileID=346652522&amp;guid=319ebd20bd1ea934c8b80d1412e1a2d7&amp;type=3#Mail Icons_7&quot;); position: absolute; visibility: hidden;" />
+    </ui:VisualElement>
+</ui:UXML>

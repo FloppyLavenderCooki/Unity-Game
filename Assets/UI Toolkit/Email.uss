@@ -1,0 +1,145 @@
+:root {
+    color: rgb(205, 214, 244);
+}
+
+.icon-parent {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    font-size: 6px;
+    -unity-font-definition: url("project://database/Assets/Fonts/Main%20Pixel%20Font.ttf?fileID=12800000&guid=5bdd180d791545f49bae49ab370d38db&type=3#Main Pixel Font");
+    color: rgb(186, 194, 222);
+    align-items: center;
+    justify-content: space-around;
+    align-self: flex-end;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.icon {
+    width: 12px;
+    height: 12px;
+    min-width: 12px;
+    min-height: 12px;
+    max-width: 12px;
+    max-height: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+    margin-bottom: 2px;
+    background-position-y: center;
+    background-position-x: center;
+    -unity-slice-scale: 0;
+}
+
+.icon-parent Label {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+RepeatButton {
+    display: none;
+}
+
+ScrollerSlider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 4px;
+}
+
+.unity-base-slider__dragger {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    left: 0;
+    background-color: rgb(108, 112, 134);
+}
+
+.unity-base-slider__tracker {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    visibility: hidden;
+}
+
+.unity-base-slider__drag-container {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+.unity-slider__input {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+.unity-base-slider--vertical {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+.unity-base-slider__dragger-border {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+.unity-base-slider__tracker {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+.unity-base-slider__dragger {
+    width: 8px;
+    min-width: 8px;
+    max-width: 8px;
+    padding-left: 1px;
+}
+
+Scroller {
+    width: 12px;
+    min-width: 12px;
+    max-width: 12px;
+}
+
+.unity-base-slider__dragger:hover {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    left: 0;
+    background-color: rgba(108, 112, 134, 0.9);
+}
+
+.unity-base-slider__dragger:active {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    left: 0;
+    background-color: rgba(108, 112, 134, 0.8);
+}
+
+ScrollSlider > VisualElement {
+    picking-mode: ignore;
+}
