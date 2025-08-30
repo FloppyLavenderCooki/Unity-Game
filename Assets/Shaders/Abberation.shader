@@ -11,10 +11,17 @@ Shader "CustomEffects/Aberration"
     
         float4 Aberration(Varyings input) : SV_Target
         {
+            _Aberration *= length(input.texcoord - 0.5) / length(2.5);
+            
+            float2 dir = -sign(input.texcoord - 0.5);
+
+            float2 rOffset = dir * _Aberration;
+            float2 bOffset = -dir * _Aberration;
+            
             float3 colour = float3(
-                SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord - _Aberration).r,
+                SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord + rOffset).r,
                 SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).g,
-                SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord + _Aberration).b);
+                SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord + bOffset).b);
 
             return float4(colour, SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord).a);
         }

@@ -14,6 +14,11 @@ namespace Rendering
             new BoolParameter(false);
         public ClampedFloatParameter aberration =
             new ClampedFloatParameter(0.0f, 0, 0.01f);
+        
+        public BoolParameter enableBlur =
+            new BoolParameter(false);
+        public ClampedFloatParameter blur =
+            new ClampedFloatParameter(0.0f, 0, 0.01f);
 
         public BoolParameter enableOutline =
             new BoolParameter(true);

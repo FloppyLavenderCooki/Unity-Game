@@ -14,13 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   aberrationSettings:
-    enableAberration: 0
-    aberration: 0
+    enableAberration: 1
+    aberration: 0.005
   aberrationShader: {fileID: 4800000, guid: ea398998dec71ce439013463fad96f56, type: 3}
   outlineSettings:
     enableOutline: 1
-    outline: 0.001
+    outline: 0.0025
+    outlineColor: {r: 1, g: 1, b: 1, a: 1}
+    includeObject: 1
   outlineShader: {fileID: 4800000, guid: 1f266986504b483892e9cc31b8f94c12, type: 3}
+  blurSettings:
+    enableBlur: 1
+    blur: 0.005
+  blurShader: {fileID: 4800000, guid: 433a33a1add146d2be04fa6d9c1c23e9, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +58,10 @@ MonoBehaviour:
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
-  m_AssetVersion: 2
+  m_AssetVersion: 3
+  m_PrepassLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_OpaqueLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295

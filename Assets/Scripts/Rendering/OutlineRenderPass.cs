@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.RenderGraphModule.Util;
@@ -71,7 +72,8 @@ namespace Rendering
             if (!srcCamColor.IsValid())
                 return;
             
-            var workTexture = renderGraph.CreateTexture(new TextureDesc(_outlineTextureDescriptor) { name = "WorkTexture" });
+            var workTexture = renderGraph.CreateTexture(new TextureDesc(_outlineTextureDescriptor)
+                { name = "WorkTexture", colorFormat = GraphicsFormat.R8G8B8A8_SRGB });
             
             renderGraph.AddBlitPass(
                 new RenderGraphUtils.BlitMaterialParameters(srcCamColor, workTexture, _material, 0),
