@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: e68f890213585bc49aa0f9f131d4850b
   - enabled: 1
+    path: Assets/Scenes/Email.unity
+    guid: 65b2a542d3d43a44b9012f8e1962c40b
+  - enabled: 1
     path: Assets/Scenes/NormalLibrary.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
