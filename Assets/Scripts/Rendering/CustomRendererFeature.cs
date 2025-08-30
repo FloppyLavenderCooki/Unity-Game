@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UIElements;
 
 namespace Rendering
 {
@@ -21,40 +20,9 @@ namespace Rendering
         private Material _outlineMaterial;
         private OutlineRenderPass _outlineRenderPass;
         private CustomVolumeComponent _volumeComponent;
-        private RenderTexture _outlineRT;
-        private Camera _outlineCamera;
-        private VisualElement _uiElement;
 
-        private void CreateRenderTexture()
+        public override void Create()
         {
-            if (Screen.width + Screen.height == 0) return;
-            _outlineRT = new RenderTexture(Screen.width, Screen.height, 24)
-            {
-                name = "OutlineRT",
-                filterMode = FilterMode.Point
-            };
-            _outlineRT.Create();
-
-            _outlineCamera.targetTexture = _outlineRT;
-            _uiElement.style.backgroundImage = Background.FromRenderTexture(_outlineRT);
-        }
-
-        private void InitialiseObjects()
-        {
-            if (GameObject.Find("Outline Camera")) _outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
-            if (GameObject.Find("Outline UI")) _uiElement = GameObject.Find("Outline UI").GetComponent<UIDocument>()?.rootVisualElement?.Q<VisualElement>("main");
-            CreateRenderTexture();
-            CreateMaterials();
-        }
-        
-        public void OnEnable() { InitialiseObjects(); }
-
-        public override void Create() {}
-
-        private void CreateMaterials()
-        {
-            if (!_outlineCamera) _outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
-            
             if (!_aberrationMaterial && aberrationShader)
             {
                 _aberrationMaterial = new Material(aberrationShader);
@@ -85,8 +53,6 @@ namespace Rendering
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            InitialiseObjects();
-            
             var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
             var enableInEditor = volumeComponent.enableInEditor.overrideState && volumeComponent.enableInEditor.value;
 
@@ -130,21 +96,6 @@ namespace Rendering
                 DestroyImmediate(_aberrationMaterial);
                 DestroyImmediate(_blurMaterial);
                 DestroyImmediate(_outlineMaterial);
-            }
-            
-            var textures = Resources.FindObjectsOfTypeAll<RenderTexture>();
-            foreach (var rt in textures)
-            {
-                if (!_outlineCamera || rt == _outlineCamera.targetTexture || rt.name != "OutlineRT" || rt == _outlineRT) continue;
-                rt.Release();
-                if (Application.isPlaying)
-                {
-                    Destroy(rt);
-                }
-                else
-                {
-                    DestroyImmediate(rt);
-                }
             }
         }
     }
