@@ -28,8 +28,6 @@ namespace Rendering
 
         private void UpdateAberrationSettings()
         {
-            if (!_material) return;
-
             var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
             var aberration = volumeComponent.aberration.overrideState ?
                 volumeComponent.aberration.value : _defaultSettings.aberration;
@@ -77,14 +75,15 @@ namespace Rendering
             _aberrationTextureDescriptor.colorFormat = RenderTextureFormat.ARGB32;
 
             var srcCamColor = resourceData.activeColorTexture;
-
+            
+            if (!_material) return;
             UpdateAberrationSettings();
 
             if (!srcCamColor.IsValid())
                 return;
             
             var workTexture = renderGraph.CreateTexture(new TextureDesc(_aberrationTextureDescriptor) { name = "WorkTexture" });
-
+            
             renderGraph.AddBlitPass(
                 new RenderGraphUtils.BlitMaterialParameters(srcCamColor, workTexture, _material, 0),
                 "Pre-Blit");

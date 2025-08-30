@@ -29,8 +29,6 @@ namespace Rendering
 
         private void UpdateOutlineSettings()
         {
-            if (!_material) return;
-
             var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
             var outline = volumeComponent.outline.overrideState ?
                 volumeComponent.outline.value : _defaultSettings.outline;
@@ -66,7 +64,8 @@ namespace Rendering
             _outlineTextureDescriptor.colorFormat = RenderTextureFormat.ARGB32;
 
             var srcCamColor = resourceData.activeColorTexture;
-
+            
+            if (!_material) return;
             UpdateOutlineSettings();
             
             if (!srcCamColor.IsValid())

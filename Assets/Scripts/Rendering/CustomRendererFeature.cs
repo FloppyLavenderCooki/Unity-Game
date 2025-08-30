@@ -18,6 +18,8 @@ namespace Rendering
         private OutlineRenderPass _outlineRenderPass;
         private CustomVolumeComponent _volumeComponent;
         private RenderTexture _outlineRT;
+        private Camera _outlineCamera;
+        private VisualElement _uiElement;
 
         private void CreateRenderTexture()
         {
@@ -28,29 +30,27 @@ namespace Rendering
             };
             _outlineRT.Create();
             
-            var textures = Resources.FindObjectsOfTypeAll<RenderTexture>();
-            foreach (var rt in textures)
-            {
-                if (rt == GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture || rt.name != "OutlineRT" || rt == _outlineRT) continue;
-                rt.Release();
-                if (Application.isPlaying)
-                {
-                    Destroy(rt);
-                }
-                else
-                {
-                    DestroyImmediate(rt);
-                }
-            }
-            
-            GameObject.Find("Outline Camera").GetComponent<Camera>().targetTexture = _outlineRT;
-            GameObject.Find("Outline UI").GetComponent<UIDocument>().rootVisualElement
-                .Q<VisualElement>("main").style.backgroundImage = Background.FromRenderTexture(_outlineRT);
+            _outlineCamera.targetTexture = _outlineRT;
+            _uiElement.style.backgroundImage = Background.FromRenderTexture(_outlineRT);
         }
 
-        public override void Create()
+        private void InitialiseObjects()
         {
-            if (aberrationShader)
+            if (GameObject.Find("Outline Camera")) _outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
+            _uiElement = GameObject.Find("Outline UI").GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("main");
+            CreateRenderTexture();
+            CreateMaterials();
+        }
+        
+        public void OnEnable() { InitialiseObjects(); }
+
+        public override void Create() {}
+
+        private void CreateMaterials()
+        {
+            if (!_outlineCamera) _outlineCamera = GameObject.Find("Outline Camera").GetComponent<Camera>();
+            
+            if (!_aberrationMaterial && aberrationShader)
             {
                 _aberrationMaterial = new Material(aberrationShader);
                 _aberrationRenderPass = new AberrationRenderPass(_aberrationMaterial, aberrationSettings)
@@ -59,7 +59,7 @@ namespace Rendering
                 };
             }
 
-            if (outlineShader)
+            if (!_outlineMaterial && outlineShader)
             {
                 _outlineMaterial = new Material(outlineShader);
                 _outlineRenderPass = new OutlineRenderPass(_outlineMaterial, outlineSettings)
@@ -71,14 +71,17 @@ namespace Rendering
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
+            InitialiseObjects();
+            
             var volumeComponent = VolumeManager.instance.stack.GetComponent<CustomVolumeComponent>();
             var enableInEditor = volumeComponent.enableInEditor.overrideState && volumeComponent.enableInEditor.value;
 
             if (_outlineRenderPass != null)
             {
-                if ((Screen.width + Screen.height != 0) && (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) && renderingData.cameraData.camera.name == "Outline Camera")
+                if ((Screen.width + Screen.height != 0) &&
+                    (enableInEditor || renderingData.cameraData.cameraType == CameraType.Game) &&
+                    renderingData.cameraData.camera.name == "Outline Camera")
                 {
-                    CreateRenderTexture();
                     renderer.EnqueuePass(_outlineRenderPass);
                 }
             }
@@ -103,6 +106,21 @@ namespace Rendering
             {
                 DestroyImmediate(_aberrationMaterial);
                 DestroyImmediate(_outlineMaterial);
+            }
+            
+            var textures = Resources.FindObjectsOfTypeAll<RenderTexture>();
+            foreach (var rt in textures)
+            {
+                if (!_outlineCamera || rt == _outlineCamera.targetTexture || rt.name != "OutlineRT" || rt == _outlineRT) continue;
+                rt.Release();
+                if (Application.isPlaying)
+                {
+                    Destroy(rt);
+                }
+                else
+                {
+                    DestroyImmediate(rt);
+                }
             }
         }
     }
