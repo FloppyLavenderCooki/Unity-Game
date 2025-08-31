@@ -50,13 +50,14 @@ namespace ECS
         public double ElapsedTime;
         public uint RandomSeed;
         
-        private void Execute([ChunkIndexInQuery] int chunkIndex, ref Spawner spawner)
+        private void Execute([ChunkIndexInQuery] int chunkIndex, ref Spawner spawner, DynamicBuffer<SpawnerPrefab> prefabs)
         {
             if (spawner.NextSpawnTime < ElapsedTime)
             {
                 var randomGenerator = new Random(RandomSeed + (uint)chunkIndex);
+                Entity prefab = prefabs[randomGenerator.NextInt(0, prefabs.Length)].Prefab;
 
-                Entity newEntity = Ecb.Instantiate(chunkIndex, spawner.Prefab);
+                Entity newEntity = Ecb.Instantiate(chunkIndex, prefab);
 
                 float3 randomOffset = (randomGenerator.NextFloat3() - 0.5f) * 10f;
                 randomOffset.y = 0;

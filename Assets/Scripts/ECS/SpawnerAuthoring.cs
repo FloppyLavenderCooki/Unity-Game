@@ -6,7 +6,7 @@ namespace ECS
 {
     class SpawnerAuthoring : MonoBehaviour
     {
-        public GameObject prefab;
+        public GameObject[] bookPrefabs;
         public float spawnRate;
     }
 
@@ -15,9 +15,16 @@ namespace ECS
         public override void Bake(SpawnerAuthoring authoring)
         {
             var entity = GetEntity(TransformUsageFlags.None);
+
+            var buffer = AddBuffer<SpawnerPrefab>(entity);
+            foreach (var bookPrefab in authoring.bookPrefabs)
+            {
+                var prefabEntity = GetEntity(bookPrefab, TransformUsageFlags.Dynamic);
+                buffer.Add(new SpawnerPrefab { Prefab = prefabEntity });
+            }
+
             AddComponent(entity, new Spawner
             {
-                Prefab = GetEntity(authoring.prefab, TransformUsageFlags.Dynamic),
                 SpawnPosition = authoring.transform.position,
                 SpawnRate = authoring.spawnRate,
                 NextSpawnTime = 0f
@@ -27,9 +34,13 @@ namespace ECS
 
     public struct Spawner : IComponentData
     {
-        public Entity Prefab;
         public float3 SpawnPosition;
         public float SpawnRate;
         public float NextSpawnTime;
+    }
+    
+    public struct SpawnerPrefab : IBufferElementData
+    {
+        public Entity Prefab;
     }
 }

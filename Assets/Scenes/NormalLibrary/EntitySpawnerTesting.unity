@@ -163,7 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc48d9c5fa686247a0f1327c084e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ECS.SpawnerAuthoring
-  prefab: {fileID: 5246199647185430555, guid: cd2eb534bcdd4564dac425dec45318c4, type: 3}
+  bookPrefabs:
+  - {fileID: 1204049040239472098, guid: f6b41f3a820594943a3e78dae2aa108e, type: 3}
+  - {fileID: 2548487733289057818, guid: 67f3ce8723550cc459d0549dbb3438bc, type: 3}
+  - {fileID: 3538867720146569401, guid: 7e0662769a658d9498e9a1e1e9a8448e, type: 3}
   spawnRate: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
