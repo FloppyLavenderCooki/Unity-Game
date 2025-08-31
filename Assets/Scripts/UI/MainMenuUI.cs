@@ -77,7 +77,7 @@ namespace UI
 
         private IEnumerator AnimateOn()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
             _root.Q<VisualElement>("main").style.translate = new StyleTranslate(new Translate(0f, 0f));
             _kioskRoot.Q<VisualElement>("main").style.scale = new StyleScale(new Scale(new Vector3(1f, 1f, 1f)));
             yield return null;

@@ -6,9 +6,9 @@ Button {
     height: 1px;
     min-height: 1px;
     max-height: 1px;
-    padding-top: 15px;
+    padding-top: 17px;
     padding-right: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 13px;
     padding-left: 15px;
     -unity-font-definition: url("project://database/Assets/Fonts/Main%20Pixel%20Font%20SDF%201.asset?fileID=11400000&guid=d048a25d2392aab43a0774303d14cf31&type=2#Main Pixel Font SDF 1");
     -unity-font-style: bold;
@@ -39,9 +39,9 @@ Button.selected {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
-    padding-top: 14px;
+    padding-top: 16px;
     padding-right: 14px;
-    padding-bottom: 14px;
+    padding-bottom: 12px;
     padding-left: 14px;
 }
 
