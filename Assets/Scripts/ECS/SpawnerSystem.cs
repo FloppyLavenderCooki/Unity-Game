@@ -5,20 +5,14 @@ using Unity.Transforms;
 
 namespace ECS
 {
-    public partial struct SpawnerSystem : ISystem
+    [BurstCompile]
+    public partial struct SpawnerSystemMultithreaded : ISystem
     {
-        private float _nextSpawn;
-
-        // The Random struct is from the Unity Mathematics package, which provides types
-        // and functions optimized for Burst.
         private Random _random;
 
         public void OnCreate(ref SystemState state)
         {
-            // This call prevents the system from updating unless at least one entity with
-            // the Spawner component exists in the ECS world.
-            // This also prevents GetSingleton from throwing an exception if it doesn't find
-            // an object of type Spawner.
+            state.RequireForUpdate<BeginSimulationEntityCommandBufferSystem.Singleton>();
             state.RequireForUpdate<Spawner>();
 
             _random = new Random((uint)System.DateTime.Now.Ticks);
@@ -27,25 +21,52 @@ namespace ECS
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            // Use the GetSingleton method when there is only one entity of a 
-            // specific type in the ECS world.
-            Spawner spawner = SystemAPI.GetSingleton<Spawner>();
+            EntityCommandBuffer.ParallelWriter ecb = GetEntityCommandBuffer(ref state);
 
-            if (_nextSpawn < SystemAPI.Time.ElapsedTime)
+            new ProcessSpawnerJob
             {
-                // The Prefab field of the spawner variable contains a reference to 
-                // the entity prefab which ECS converts during the baking stage.
-                Entity newEntity = state.EntityManager.Instantiate(spawner.Prefab);
+                ElapsedTime = SystemAPI.Time.ElapsedTime,
+                Ecb = ecb,
+                RandomSeed = _random.NextUInt()
+            }.ScheduleParallel();
 
-                float3 randomOffset = (_random.NextFloat3() - 0.5f) * 10f;
+            _random.InitState(_random.NextUInt());
+        }
+
+        private EntityCommandBuffer.ParallelWriter 
+            GetEntityCommandBuffer(ref SystemState state)
+        {
+            var ecbSingleton = SystemAPI.GetSingleton
+                <BeginSimulationEntityCommandBufferSystem.Singleton>();
+            var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
+            return ecb.AsParallelWriter();
+        }
+    }
+
+    [BurstCompile]
+    public partial struct ProcessSpawnerJob : IJobEntity
+    {
+        public EntityCommandBuffer.ParallelWriter Ecb;
+        public double ElapsedTime;
+        public uint RandomSeed;
+        
+        private void Execute([ChunkIndexInQuery] int chunkIndex, ref Spawner spawner)
+        {
+            if (spawner.NextSpawnTime < ElapsedTime)
+            {
+                var randomGenerator = new Random(RandomSeed + (uint)chunkIndex);
+
+                Entity newEntity = Ecb.Instantiate(chunkIndex, spawner.Prefab);
+
+                float3 randomOffset = (randomGenerator.NextFloat3() - 0.5f) * 10f;
                 randomOffset.y = 0;
 
                 float3 newPosition = spawner.SpawnPosition + randomOffset;
 
-                state.EntityManager.SetComponentData(newEntity,
+                Ecb.SetComponent(chunkIndex, newEntity,
                     LocalTransform.FromPosition(newPosition));
 
-                _nextSpawn = (float)SystemAPI.Time.ElapsedTime + spawner.SpawnRate;
+                spawner.NextSpawnTime = (float)ElapsedTime + spawner.SpawnRate;
             }
         }
     }

@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ECS.SpawnerAuthoring
   prefab: {fileID: 5246199647185430555, guid: cd2eb534bcdd4564dac425dec45318c4, type: 3}
-  spawnRate: 0.2
+  spawnRate: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
