@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6012323790902128989}
   - component: {fileID: 7209393519694701859}
   - component: {fileID: 6778150557218733134}
+  - component: {fileID: -8237562277102048051}
   m_Layer: 0
   m_Name: Book_Hardback
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2652dce46892f44638d32db6291d3e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8237562277102048051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204049040239472098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e16196a414b44cf8b6ebcb88623d850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.RotationSpeedAuthoring
+  color: {r: 1, g: 0.6470588, b: 0, a: 1}
 --- !u!1001 &1756309990687520373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,22 +117,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 524939910857233688, guid: 0a8e27f32260f8943a0fb5e025dc9770, type: 3}

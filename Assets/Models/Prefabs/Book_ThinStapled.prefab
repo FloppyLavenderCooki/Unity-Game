@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2113609888685102319}
   - component: {fileID: -8888259204800119195}
   - component: {fileID: -4191794371205911507}
+  - component: {fileID: -2997896920758774295}
   m_Layer: 0
   m_Name: Book_ThinStapled
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2652dce46892f44638d32db6291d3e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2997896920758774295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538867720146569401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e16196a414b44cf8b6ebcb88623d850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.RotationSpeedAuthoring
+  color: {r: 1, g: 0.6470588, b: 0, a: 1}
 --- !u!1001 &4811188035630334286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,24 +124,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6911864745902220047, guid: 01eada7765d748744b7a2822f200dcbb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

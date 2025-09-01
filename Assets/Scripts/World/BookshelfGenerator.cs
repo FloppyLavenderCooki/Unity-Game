@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using Unity.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,13 +6,10 @@ namespace World
 {
     public class BookshelfGenerator : MonoBehaviour
     {
-        public GameObject hardbackBook;
-        public GameObject paperbackBook;
-        public GameObject thinStapledBook;
+        public GameObject[] bookPrefabs;
+        private Renderer[] _bookPrefabRenderers;
         
-        private Renderer _hardbackBookRenderer;
-        private Renderer _paperbackBookRenderer;
-        private Renderer _thinStapledBookRenderer;
+        private EntityManager _entityManager;
         
         private Vector3 _bookSize;
         private GameObject _books;
@@ -26,9 +22,12 @@ namespace World
         
         public void Awake()
         {
-            _hardbackBookRenderer = hardbackBook.GetComponentInChildren<Renderer>();
-            _paperbackBookRenderer = paperbackBook.GetComponentInChildren<Renderer>();
-            _thinStapledBookRenderer = thinStapledBook.GetComponentInChildren<Renderer>();
+            _bookPrefabRenderers = new Renderer[bookPrefabs.Length];
+            for (int i = 0; i < bookPrefabs.Length; i++)
+            {
+                Debug.Log(bookPrefabs[i].GetComponentInChildren<Renderer>());
+                _bookPrefabRenderers[i] = bookPrefabs[i].GetComponentInChildren<Renderer>();
+            }
             _books = GameObject.Find("Books");
             
             string jsonData = Resources.Load<TextAsset>("names").text;
@@ -66,25 +65,13 @@ namespace World
 
         private void GenerateBook(GameObject bookshelf, Vector3 bookshelfSize, bool flip = false)
         {
-            int bookType = Random.Range(0, 3);
-            GameObject book = bookType switch
-            {
-                0 => Instantiate(hardbackBook, bookshelf.transform),
-                1 => Instantiate(paperbackBook, bookshelf.transform),
-                2 => Instantiate(thinStapledBook, bookshelf.transform),
-                _ => throw new ArgumentOutOfRangeException()
-            };
+            int bookType = Random.Range(0, bookPrefabs.Length);
+            GameObject book = Instantiate(bookPrefabs[bookType], _books.transform, true);
 
             Book bookName = _bookJson.books[Random.Range(0, _bookJson.books.Length)];
             book.name = $"{bookName.name} - {bookName.author}";
             
-            _bookSize = bookType switch
-            {
-                0 => _hardbackBookRenderer.bounds.size,
-                1 => _paperbackBookRenderer.bounds.size,
-                2 => _thinStapledBookRenderer.bounds.size,
-                _ => throw new ArgumentOutOfRangeException()
-            };
+            _bookSize = _bookPrefabRenderers[bookType].bounds.size;
             
             Renderer[] bookRenderers = book.GetComponentsInChildren<Renderer>();
             Color bookColor = Random.ColorHSV();
@@ -102,20 +89,21 @@ namespace World
                 }
             }
 
+            if (Random.Range(0, 1) > 0.95) flip = !flip;
             if (flip)
             {
-                book.transform.localRotation = Quaternion.Euler(
-                    bookshelf.transform.rotation.x,
-                    bookshelf.transform.rotation.y + 90.0f,
-                    bookshelf.transform.rotation.z + 90.0f
+                book.transform.rotation = Quaternion.Euler(
+                    bookshelf.transform.eulerAngles.x - 90.0f,
+                    bookshelf.transform.eulerAngles.y - 90.0f,
+                    bookshelf.transform.eulerAngles.z
                 );
             }
             else
             {
-                book.transform.localRotation = Quaternion.Euler(
-                    bookshelf.transform.rotation.x,
-                    bookshelf.transform.rotation.y - 90.0f,
-                    bookshelf.transform.rotation.z - 90.0f
+                book.transform.rotation = Quaternion.Euler(
+                    bookshelf.transform.eulerAngles.x - 90.0f,
+                    bookshelf.transform.eulerAngles.y + 90.0f,
+                    bookshelf.transform.eulerAngles.z
                 );
             }
 
@@ -125,17 +113,20 @@ namespace World
                 bookshelf.transform.position.z
             );
             
-            if (bookType == 0)
+            switch (bookType)
             {
-                book.transform.position -= new Vector3(0, 0.01305f, 0);
+                case 0:
+                    book.transform.position -= new Vector3(0, 0.0261f, 0);
+                    break;
+                case 2:
+                    book.transform.position -= new Vector3(0, 0.01305f, 0);
+                    break;
             }
 
             book.transform.position += bookshelf.transform.up * (bookshelfSize.x - xOffset);
             book.transform.position += bookshelf.transform.right * zOffset;
             
-            book.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
-            
-            book.transform.SetParent(_books.transform);
+            book.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
             xOffset += _bookSize.x/2 + 0.05f;
         }

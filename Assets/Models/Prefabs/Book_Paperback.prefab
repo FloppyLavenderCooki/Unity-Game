@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3047934534959567940}
   - component: {fileID: 4140261667341397697}
   - component: {fileID: -2994924825190325880}
+  - component: {fileID: -875807493763851513}
   m_Layer: 0
   m_Name: Book_Paperback
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2652dce46892f44638d32db6291d3e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-875807493763851513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2548487733289057818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e16196a414b44cf8b6ebcb88623d850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.RotationSpeedAuthoring
+  color: {r: 1, g: 0.6470588, b: 0, a: 1}
 --- !u!1001 &4405649321556111099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,22 +133,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 970165158865868673, guid: a395e719a57871c4289725956db7fd3d, type: 3}
