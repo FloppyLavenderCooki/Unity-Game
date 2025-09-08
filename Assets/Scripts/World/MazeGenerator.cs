@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,7 @@ namespace World
         private HilbertCurve _hilbert;
         private BookshelfGenerator _bookshelfGenerator;
         // private GameObject _books;
+        private SaveSystem _saveSystem;
         
         private readonly Dictionary<Vector2Int, string> _bookshelfMap = new()
         {
@@ -34,6 +36,7 @@ namespace World
         private void Start()
         {
             // _books = GameObject.Find("Books");
+            _saveSystem = GameObject.Find("Save System").GetComponent<SaveSystem>();
             
             _bookshelfGenerator = gameObject.GetComponent<BookshelfGenerator>();
             
@@ -215,6 +218,7 @@ namespace World
                             bookshelfInstance.transform.rotation = Quaternion.Euler(270, 180, 0);
 
                         bool outerShelves = (y == 0);
+                        // _saveSystem.DeleteFile("normalBookData.grp2");
                         _bookshelfGenerator.GenerateBookshelf(bookshelfInstance, _bookshelfSize, outerShelves);
                         Resources.UnloadUnusedAssets();
                     }

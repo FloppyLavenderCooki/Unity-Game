@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Books;
+using Player;
 using Unity.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,6 +13,8 @@ namespace World
         private Renderer[] _bookPrefabRenderers;
         
         private EntityManager _entityManager;
+        private SaveSystem _saveSystem;
+        private readonly List<BookAttributes> _bookData = new();
         
         private Vector3 _bookSize;
         private GameObject _books;
@@ -29,6 +34,7 @@ namespace World
                 _bookPrefabRenderers[i] = bookPrefabs[i].GetComponentInChildren<Renderer>();
             }
             _books = GameObject.Find("Books");
+            _saveSystem = GameObject.Find("Save System").GetComponent<SaveSystem>();
             
             string jsonData = Resources.Load<TextAsset>("names").text;
             _bookJson = JsonUtility.FromJson<BookList>(jsonData);
@@ -61,38 +67,42 @@ namespace World
 
                 yOffset += bookshelfSize.y / 2;
             }
+            
+            _saveSystem.SaveBooks(_bookData);
         }
 
         private void GenerateBook(GameObject bookshelf, Vector3 bookshelfSize, bool flip = false)
         {
             int bookType = Random.Range(0, bookPrefabs.Length);
-            GameObject book = Instantiate(bookPrefabs[bookType], _books.transform, true);
+            // GameObject book = Instantiate(bookPrefabs[bookType], _books.transform, true);
+            BookAttributes book = new BookAttributes();
+            book.position = _books.transform.position + bookPrefabs[bookType].transform.position;
 
-            Book bookName = _bookJson.books[Random.Range(0, _bookJson.books.Length)];
-            book.name = $"{bookName.name} - {bookName.author}";
+            // Book bookName = _bookJson.books[Random.Range(0, _bookJson.books.Length)];
+            // book.name = $"{bookName.name} - {bookName.author}";
             
             _bookSize = _bookPrefabRenderers[bookType].bounds.size;
             
-            Renderer[] bookRenderers = book.GetComponentsInChildren<Renderer>();
+            // Renderer[] bookRenderers = bookPrefabs[bookType].GetComponentsInChildren<Renderer>();
             Color bookColor = Random.ColorHSV();
 
-            foreach (var bookRenderer in bookRenderers)
-            {
-                Material[] mats = bookRenderer.materials;
-
-                foreach (var mat in mats)
-                {
-                    if (mat.name.StartsWith("Orange"))
-                    {
-                        mat.color = bookColor;
-                    }
-                }
-            }
+            // foreach (var bookRenderer in bookRenderers)
+            // {
+            //     Material[] mats = bookRenderer.materials;
+            //
+            //     foreach (var mat in mats)
+            //     {
+            //         if (mat.name.StartsWith("Orange"))
+            //         {
+            //             mat.color = bookColor;
+            //         }
+            //     }
+            // }
 
             if (Random.Range(0, 1) > 0.95) flip = !flip;
             if (flip)
             {
-                book.transform.rotation = Quaternion.Euler(
+                book.rotation = Quaternion.Euler(
                     bookshelf.transform.eulerAngles.x - 90.0f,
                     bookshelf.transform.eulerAngles.y - 90.0f,
                     bookshelf.transform.eulerAngles.z
@@ -100,14 +110,14 @@ namespace World
             }
             else
             {
-                book.transform.rotation = Quaternion.Euler(
+                book.rotation = Quaternion.Euler(
                     bookshelf.transform.eulerAngles.x - 90.0f,
                     bookshelf.transform.eulerAngles.y + 90.0f,
                     bookshelf.transform.eulerAngles.z
                 );
             }
 
-            book.transform.position = new Vector3(
+            book.position = new Vector3(
                 bookshelf.transform.position.x,
                 bookshelf.transform.position.y + (bookshelfSize.y - (_bookSize.y * yOffset)),
                 bookshelf.transform.position.z
@@ -116,17 +126,19 @@ namespace World
             switch (bookType)
             {
                 case 0:
-                    book.transform.position -= new Vector3(0, 0.0261f, 0);
+                    book.position -= new Vector3(0, 0.0261f, 0);
                     break;
                 case 2:
-                    book.transform.position -= new Vector3(0, 0.01305f, 0);
+                    book.position -= new Vector3(0, 0.01305f, 0);
                     break;
             }
 
-            book.transform.position += bookshelf.transform.up * (bookshelfSize.x - xOffset);
-            book.transform.position += bookshelf.transform.right * zOffset;
+            book.position += bookshelf.transform.up * (bookshelfSize.x - xOffset);
+            book.position += bookshelf.transform.right * zOffset;
             
-            book.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+            book.scale = new Vector3(0.8f, 0.8f, 0.8f);
+
+            _bookData.Add(book);
 
             xOffset += _bookSize.x/2 + 0.05f;
         }
